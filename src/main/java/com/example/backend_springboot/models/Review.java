@@ -6,8 +6,13 @@ import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
@@ -17,13 +22,15 @@ import java.util.Date;
 public class Review implements Serializable {
     @Id
     @Column(name = "id_review")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idReview;
+    @GeneratedValue
+    @UuidGenerator
+    @JdbcTypeCode(SqlTypes.UUID)
+    private UUID idReview;
 
    // @Column(name = "id_user")
     //private int idUser;
 
-   // @Column(name = "id_apartment")
+   // @Column(name = "id_rental")
     //private int idApartment;
 
     @Column(name = "comment")
@@ -41,9 +48,9 @@ public class Review implements Serializable {
    @JoinColumn(name = "id_user")
    private User user;
 
-   @ManyToOne
-   @JoinColumn(name = "id_apartment")
-   private Apartment apartment;
+   @OneToOne
+   @JoinColumn(name = "id_rental")
+   private Rental rental;
 
-    public Review() {}
+   public Review() {}
 }

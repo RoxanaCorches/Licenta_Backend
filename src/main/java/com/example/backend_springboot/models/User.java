@@ -1,12 +1,17 @@
 package com.example.backend_springboot.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,8 +21,10 @@ import java.util.List;
 public class User implements Serializable {
     @Id
     @Column(name = "id_user")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUser;
+    @GeneratedValue
+    @UuidGenerator
+    @JdbcTypeCode(SqlTypes.UUID)
+    private UUID idUser;
 
     @Column(name = "username")
     private String username;
@@ -34,10 +41,14 @@ public class User implements Serializable {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "age")
+    private Integer age;
+
     @Column(name = "blockchain_address")
     private String blockchainAddress;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"user"})
     private List<Apartment> apartments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -45,8 +56,6 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
-
-
 
     public User() {}
 
