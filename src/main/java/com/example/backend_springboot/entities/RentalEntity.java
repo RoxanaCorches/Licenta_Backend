@@ -1,4 +1,4 @@
-package com.example.backend_springboot.models;
+package com.example.backend_springboot.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,6 @@ import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -18,7 +17,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name ="rentals")
-public class Rental implements Serializable {
+public class RentalEntity implements Serializable {
     @Id
     @Column(name = "id_rental")
     @GeneratedValue
@@ -46,16 +45,16 @@ public class Rental implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_renter", nullable = false)
-    private User user;
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "id_apartment", nullable = false)
-    private Apartment apartment;
+    private ApartmentEntity apartment;
 
     @OneToOne(mappedBy = "rental", cascade = CascadeType.ALL)
-    private Review review;
+    private ReviewEntity review;
 
 
-    public Rental(){}
+    public RentalEntity(){}
 
 }

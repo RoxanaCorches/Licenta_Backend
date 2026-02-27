@@ -1,12 +1,11 @@
 package com.example.backend_springboot.services;
 
-import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
 import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
-import com.example.backend_springboot.models.Apartment;
-import com.example.backend_springboot.models.User;
+import com.example.backend_springboot.entities.ApartmentEntity;
+import com.example.backend_springboot.entities.UserEntity;
 import com.example.backend_springboot.repositories.ApartmentRepository;
 import com.example.backend_springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,16 +29,16 @@ public class ApartmentService {
     }
 
     public List<ResponseApartmentDTO> getAllApartments() {
-        List<Apartment> apartments = apartmentRepository.findAll();
+        List<ApartmentEntity> apartments = apartmentRepository.findAll();
         List<ResponseApartmentDTO> apartmentDTOS = new ArrayList<>();
-        for (Apartment apartment : apartments) {
+        for (ApartmentEntity apartment : apartments) {
             apartmentDTOS.add(ApartmentBuilder.toResponseDTO(apartment));
         }
         return apartmentDTOS;
     }
 
     public ResponseApartmentDTO getApartmentById(UUID id) {
-        Optional<Apartment> apartment = apartmentRepository.findById(id);
+        Optional<ApartmentEntity> apartment = apartmentRepository.findById(id);
         if (apartment.isPresent()) {
             System.out.println("Apartment with id:" + id + " found in database");
             return apartment.stream().map(ApartmentBuilder::toResponseDTO).collect(Collectors.toList()).get(0);
@@ -49,11 +48,11 @@ public class ApartmentService {
         }
     }
 
-    public Apartment createApartment(PostApartmentDTO apartmentDTO) {
-        User user = userRepository.findById(apartmentDTO.getIdOwner()).orElseThrow(() ->
+    public ApartmentEntity createApartment(PostApartmentDTO apartmentDTO) {
+        UserEntity user = userRepository.findById(apartmentDTO.getIdOwner()).orElseThrow(() ->
         new RuntimeException("User with id:" + apartmentDTO.getIdOwner() + " not found"));
 
-        Apartment apartment = new Apartment();
+        ApartmentEntity apartment = new ApartmentEntity();
         apartment.setName(apartmentDTO.getName());
         apartment.setLocation(apartmentDTO.getLocation());
         apartment.setDescription(apartmentDTO.getDescription());
@@ -62,18 +61,18 @@ public class ApartmentService {
         apartment.setImage(apartmentDTO.getImage());
         apartment.setUser(user);
 
-        Apartment savedApartment = apartmentRepository.save(apartment);
+        ApartmentEntity savedApartment = apartmentRepository.save(apartment);
         return savedApartment;
     }
 
     public UpdateApartmentDTO updateApartment(UUID id, UpdateApartmentDTO updateApartmentDTO) {
-        Apartment apartment = apartmentRepository.findById(id)
+        ApartmentEntity apartment = apartmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Apartment not found with id: " + id));
         if (updateApartmentDTO.getDescription() != null) apartment.setDescription(updateApartmentDTO.getDescription());
         if (updateApartmentDTO.getPricePerNight() != null) apartment.setPricePerNight(updateApartmentDTO.getPricePerNight());
         if (updateApartmentDTO.getImage() != null) apartment.setImage(updateApartmentDTO.getImage());
 
-        Apartment updatedApartment = apartmentRepository.save(apartment);
+        ApartmentEntity updatedApartment = apartmentRepository.save(apartment);
 
         UpdateApartmentDTO update = new UpdateApartmentDTO();
         update.setDescription(updatedApartment.getDescription());
@@ -84,7 +83,7 @@ public class ApartmentService {
     }
 
     public boolean deleteApartment(UUID id) {
-        Optional<Apartment> apartment = apartmentRepository.findById(id);
+        Optional<ApartmentEntity> apartment = apartmentRepository.findById(id);
         if (apartment.isPresent()) {
             apartmentRepository.delete(apartment.get());
             System.out.println("Apartment with id:" + id + " deleted from database");

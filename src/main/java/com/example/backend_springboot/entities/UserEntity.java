@@ -1,4 +1,4 @@
-package com.example.backend_springboot.models;
+package com.example.backend_springboot.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -10,15 +10,17 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class UserEntity implements Serializable {
     @Id
     @Column(name = "id_user")
     @GeneratedValue
@@ -29,34 +31,42 @@ public class User implements Serializable {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "first_name")
+    private String firstName;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "birthday")
+    private Date birthday;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "nationality")
+    private String nationality;
+
+    @Column(name = "city")
+    private String city;
 
     @Column(name = "address")
     private String address;
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "age")
-    private Integer age;
+    @Column(name = "zipcode")
+    private String zipcode;
 
     @Column(name = "blockchain_address")
     private String blockchainAddress;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"user"})
-    private List<Apartment> apartments;
+    private List<ApartmentEntity> apartments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Rental> rentals;
+    private List<RentalEntity> rentals;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    private List<ReviewEntity> reviews;
 
-    public User() {}
-
+    public UserEntity() {}
 }

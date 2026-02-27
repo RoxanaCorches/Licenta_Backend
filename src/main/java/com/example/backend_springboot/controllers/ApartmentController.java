@@ -1,11 +1,10 @@
 package com.example.backend_springboot.controllers;
 
-import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
 import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
-import com.example.backend_springboot.models.Apartment;
+import com.example.backend_springboot.entities.ApartmentEntity;
 import com.example.backend_springboot.services.ApartmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +36,7 @@ public class ApartmentController {
 
     @PostMapping("/createApartment")
     public ResponseApartmentDTO createApartment(@RequestBody PostApartmentDTO apartment){
-        Apartment create = apartmentService.createApartment(apartment);
+        ApartmentEntity create = apartmentService.createApartment(apartment);
         ResponseApartmentDTO responseApartmentDTO = ApartmentBuilder.toResponseDTO(create);
         return responseApartmentDTO;
     }

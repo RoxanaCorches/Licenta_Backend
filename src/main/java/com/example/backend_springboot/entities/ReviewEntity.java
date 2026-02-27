@@ -1,4 +1,4 @@
-package com.example.backend_springboot.models;
+package com.example.backend_springboot.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "reviews")
-public class Review implements Serializable {
+public class ReviewEntity implements Serializable {
     @Id
     @Column(name = "id_review")
     @GeneratedValue
@@ -46,11 +46,11 @@ public class Review implements Serializable {
 
    @ManyToOne
    @JoinColumn(name = "id_user")
-   private User user;
+   private UserEntity user;
 
    @OneToOne
    @JoinColumn(name = "id_rental")
-   private Rental rental;
+   private RentalEntity rental;
 
-   public Review() {}
+   public ReviewEntity() {}
 }

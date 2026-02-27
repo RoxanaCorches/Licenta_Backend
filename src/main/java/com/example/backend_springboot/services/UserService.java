@@ -3,7 +3,7 @@ package com.example.backend_springboot.services;
 import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
 import com.example.backend_springboot.dtos.userDTO.UpdateUserDTO;
 import com.example.backend_springboot.dtos.builders.UserBuilder;
-import com.example.backend_springboot.models.User;
+import com.example.backend_springboot.entities.UserEntity;
 import com.example.backend_springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +25,9 @@ public class UserService {
 
 
     public List<GetUserDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
+        List<UserEntity> users = userRepository.findAll();
         List<GetUserDTO> userDTOS = new ArrayList<>();
-        for (User user : users) {
+        for (UserEntity user : users) {
             userDTOS.add(UserBuilder.toGetUserDTO(user));
         }
         return userDTOS;
@@ -35,7 +35,7 @@ public class UserService {
 
 
     public GetUserDTO getUserById(UUID id) {
-        Optional<User> user = userRepository.findById(id);
+        Optional<UserEntity> user = userRepository.findById(id);
         //List<GetUserDTO> userDTOS = new ArrayList<>();
         if (user.isPresent()) {
             System.out.println("User with id:" + id + " found in database");
@@ -48,14 +48,14 @@ public class UserService {
 
 
 
-    public User createUser(User user) {
-        User createdUser = userRepository.save(user);
+    public UserEntity createUser(UserEntity user) {
+        UserEntity createdUser = userRepository.save(user);
         return createdUser;
     }
 
     public UpdateUserDTO updateUser(UUID id, UpdateUserDTO updateUserDTO) {
         //Optional<User> user = userRepository.findById(id);
-        User user = userRepository.findById(id)
+        UserEntity user = userRepository.findById(id)
                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
             if (updateUserDTO.getUsername() != null) user.setUsername(updateUserDTO.getUsername());
             if (updateUserDTO.getName() != null) user.setName(updateUserDTO.getName());
@@ -63,7 +63,7 @@ public class UserService {
             if (updateUserDTO.getEmail() != null) user.setEmail(updateUserDTO.getEmail());
             if (updateUserDTO.getPassword() != null) user.setPassword(updateUserDTO.getPassword());
 
-            User updatedUser = userRepository.save(user);
+            UserEntity updatedUser = userRepository.save(user);
 
             UpdateUserDTO update = new UpdateUserDTO();
             update.setUsername(updatedUser.getUsername());
@@ -76,7 +76,7 @@ public class UserService {
     }
 
     public boolean deleteUser(UUID id) {
-        Optional<User> user = userRepository.findById(id);
+        Optional<UserEntity> user = userRepository.findById(id);
         if (user.isPresent()) {
             userRepository.delete(user.get());
             System.out.println("User with id:" + id + " deleted from database");

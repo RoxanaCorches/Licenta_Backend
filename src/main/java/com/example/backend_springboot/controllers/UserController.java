@@ -2,7 +2,7 @@ package com.example.backend_springboot.controllers;
 
 import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
 import com.example.backend_springboot.dtos.userDTO.UpdateUserDTO;
-import com.example.backend_springboot.models.User;
+import com.example.backend_springboot.entities.UserEntity;
 import com.example.backend_springboot.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,8 +41,8 @@ public class UserController {
     }
 
     @PostMapping("/createUser")
-    public User createUser(@RequestBody User user){
-        User createUser = userService.createUser(user);
+    public UserEntity createUser(@RequestBody UserEntity user){
+        UserEntity createUser = userService.createUser(user);
         return createUser;
     }
 

@@ -3,13 +3,13 @@ package com.example.backend_springboot.dtos.builders;
 import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
-import com.example.backend_springboot.models.Apartment;
+import com.example.backend_springboot.entities.ApartmentEntity;
 
 public class ApartmentBuilder {
 
     private ApartmentBuilder() {}
 
-    public static GetApartmentDTO toGetApartmentDTO(Apartment apartment) {
+    public static GetApartmentDTO toGetApartmentDTO(ApartmentEntity apartment) {
         GetApartmentDTO getApartmentDTO = new GetApartmentDTO(
                 apartment.getIdApartment(),
                 apartment.getName(),
@@ -22,7 +22,7 @@ public class ApartmentBuilder {
         return getApartmentDTO;
     }
 
-    public static UpdateApartmentDTO toUpdateApartmentDTO(Apartment apartment) {
+    public static UpdateApartmentDTO toUpdateApartmentDTO(ApartmentEntity apartment) {
         UpdateApartmentDTO updateApartmentDTO = new UpdateApartmentDTO(
                 apartment.getDescription(),
                 apartment.getPricePerNight(),
@@ -31,7 +31,7 @@ public class ApartmentBuilder {
         return updateApartmentDTO;
     }
 
-    public static ResponseApartmentDTO toResponseDTO(Apartment apartment) {
+    public static ResponseApartmentDTO toResponseDTO(ApartmentEntity apartment) {
         ResponseApartmentDTO responseApartmentDTO = new ResponseApartmentDTO();
         responseApartmentDTO.setIdApartment(apartment.getIdApartment());
         responseApartmentDTO.setName(apartment.getName());
