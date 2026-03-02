@@ -1,3 +1,4 @@
+/*
 package com.example.backend_springboot.controllers;
 
 import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
@@ -25,14 +26,14 @@ public class UserController {
         return users;
     }
 
-    /*
+
     @GetMapping("/getUserById/{id}")
     public GetUserDTO getUserById(@PathVariable UUID id){
         GetUserDTO user = userService.getUserById(id);
         return user;
     }
 
-     */
+
 
     @GetMapping("/getUserById/{id}")
     public GetUserDTO getUserById(@PathVariable UUID id){
@@ -62,3 +63,4 @@ public class UserController {
         }
     }
 }
+*/

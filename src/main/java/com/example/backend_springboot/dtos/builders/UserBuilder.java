@@ -1,3 +1,4 @@
+/*
 package com.example.backend_springboot.dtos.builders;
 
 import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
@@ -30,3 +31,4 @@ public class UserBuilder {
         return updateUserDTO;
     }
 }
+*/

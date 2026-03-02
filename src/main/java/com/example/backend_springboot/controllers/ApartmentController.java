@@ -3,7 +3,7 @@ package com.example.backend_springboot.controllers;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
-import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
+//import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
 import com.example.backend_springboot.entities.ApartmentEntity;
 import com.example.backend_springboot.services.ApartmentService;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-
+/*
 @RestController
 @RequestMapping("/apartments")
 public class ApartmentController {
@@ -34,6 +34,7 @@ public class ApartmentController {
         return apartments;
     }
 
+    /*
     @PostMapping("/createApartment")
     public ResponseApartmentDTO createApartment(@RequestBody PostApartmentDTO apartment){
         ApartmentEntity create = apartmentService.createApartment(apartment);
@@ -46,7 +47,8 @@ public class ApartmentController {
         UpdateApartmentDTO update = apartmentService.updateApartment(id, updateApartmentDTO);
         return update;
     }
-
+*/
+/*
     @DeleteMapping("/deleteApartment/{id}")
     public ResponseEntity<Void> deleteApartment(@PathVariable UUID id){
         boolean delete = apartmentService.deleteApartment(id);
@@ -57,3 +59,4 @@ public class ApartmentController {
         }
     }
 }
+*/

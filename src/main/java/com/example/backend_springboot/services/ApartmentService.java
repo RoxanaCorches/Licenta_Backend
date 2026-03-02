@@ -3,7 +3,7 @@ package com.example.backend_springboot.services;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
-import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
+//import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
 import com.example.backend_springboot.entities.ApartmentEntity;
 import com.example.backend_springboot.entities.UserEntity;
 import com.example.backend_springboot.repositories.ApartmentRepository;
@@ -27,7 +27,7 @@ public class ApartmentService {
         this.apartmentRepository = apartmentRepository;
         this.userRepository = userRepository;
     }
-
+/*
     public List<ResponseApartmentDTO> getAllApartments() {
         List<ApartmentEntity> apartments = apartmentRepository.findAll();
         List<ResponseApartmentDTO> apartmentDTOS = new ArrayList<>();
@@ -47,13 +47,14 @@ public class ApartmentService {
             return null;
         }
     }
-
+*/
+    /*
     public ApartmentEntity createApartment(PostApartmentDTO apartmentDTO) {
         UserEntity user = userRepository.findById(apartmentDTO.getIdOwner()).orElseThrow(() ->
         new RuntimeException("User with id:" + apartmentDTO.getIdOwner() + " not found"));
 
         ApartmentEntity apartment = new ApartmentEntity();
-        apartment.setName(apartmentDTO.getName());
+        apartment.setTitle(apartmentDTO.getName());
         apartment.setLocation(apartmentDTO.getLocation());
         apartment.setDescription(apartmentDTO.getDescription());
         apartment.setPricePerNight(apartmentDTO.getPricePerNight());
@@ -81,7 +82,7 @@ public class ApartmentService {
 
         return update;
     }
-
+*/
     public boolean deleteApartment(UUID id) {
         Optional<ApartmentEntity> apartment = apartmentRepository.findById(id);
         if (apartment.isPresent()) {

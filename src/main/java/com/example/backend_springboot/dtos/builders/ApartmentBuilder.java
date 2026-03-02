@@ -4,7 +4,7 @@ import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
 import com.example.backend_springboot.entities.ApartmentEntity;
-
+/*
 public class ApartmentBuilder {
 
     private ApartmentBuilder() {}
@@ -50,3 +50,4 @@ public class ApartmentBuilder {
 
 
 }
+*/
