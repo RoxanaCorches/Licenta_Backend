@@ -7,13 +7,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-
 public class UpdateUserDTO {
     private String username;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    private String nationality;
+    private String city;
     private String address;
-    private String email;
-    private String password;
-
+    private String zipcode;
     public UpdateUserDTO() {}
 }

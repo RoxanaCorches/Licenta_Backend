@@ -1,4 +1,3 @@
-/*
 package com.example.backend_springboot.dtos.builders;
 
 import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
@@ -12,15 +11,20 @@ public class UserBuilder {
         GetUserDTO getUserDTO = new GetUserDTO(
                 user.getIdUser(),
                 user.getUsername(),
-                user.getName(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getBirthday(),
+                user.getPhoneNumber(),
+                user.getNationality(),
+                user.getCity(),
                 user.getAddress(),
-                user.getEmail(),
-                user.getAge(),
-                user.getApartments());
-
+                user.getZipcode(),
+                user.getBlockchainAddress()
+        );
         return getUserDTO;
     }
 
+    /*
     public static UpdateUserDTO toUpdateUserDTO(UserEntity user) {
         UpdateUserDTO updateUserDTO = new UpdateUserDTO(
                 user.getUsername(),
@@ -30,5 +34,6 @@ public class UserBuilder {
                 user.getPassword());
         return updateUserDTO;
     }
+
+     */
 }
-*/

@@ -1,4 +1,3 @@
-/*
 package com.example.backend_springboot.controllers;
 
 import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
@@ -26,20 +25,13 @@ public class UserController {
         return users;
     }
 
-
+/*
     @GetMapping("/getUserById/{id}")
     public GetUserDTO getUserById(@PathVariable UUID id){
         GetUserDTO user = userService.getUserById(id);
         return user;
     }
-
-
-
-    @GetMapping("/getUserById/{id}")
-    public GetUserDTO getUserById(@PathVariable UUID id){
-        GetUserDTO user = userService.getUserById(id);
-        return user;
-    }
+*/
 
     @PostMapping("/createUser")
     public UserEntity createUser(@RequestBody UserEntity user){
@@ -47,12 +39,14 @@ public class UserController {
         return createUser;
     }
 
+
     @PutMapping("/updateUser/{id}")
     public UpdateUserDTO updateUser(@PathVariable UUID id, @RequestBody UpdateUserDTO updateUserDTO){
         UpdateUserDTO updateUser = userService.updateUser(id, updateUserDTO);
         return updateUser;
     }
 
+/*
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity <Void> deleteUser(@PathVariable UUID id){
         boolean delete = userService.deleteUser(id);
@@ -62,5 +56,5 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+ */
 }
-*/

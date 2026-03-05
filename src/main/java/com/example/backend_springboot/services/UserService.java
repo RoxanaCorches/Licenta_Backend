@@ -1,9 +1,8 @@
-/*
 package com.example.backend_springboot.services;
 
 import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
-import com.example.backend_springboot.dtos.userDTO.UpdateUserDTO;
 import com.example.backend_springboot.dtos.builders.UserBuilder;
+import com.example.backend_springboot.dtos.userDTO.UpdateUserDTO;
 import com.example.backend_springboot.entities.UserEntity;
 import com.example.backend_springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -24,7 +21,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-
     public List<GetUserDTO> getAllUsers() {
         List<UserEntity> users = userRepository.findAll();
         List<GetUserDTO> userDTOS = new ArrayList<>();
@@ -34,7 +30,7 @@ public class UserService {
         return userDTOS;
     }
 
-
+/*
     public GetUserDTO getUserById(UUID id) {
         Optional<UserEntity> user = userRepository.findById(id);
         //List<GetUserDTO> userDTOS = new ArrayList<>();
@@ -46,8 +42,7 @@ public class UserService {
             return null;
         }
     }
-
-
+*/
 
     public UserEntity createUser(UserEntity user) {
         UserEntity createdUser = userRepository.save(user);
@@ -59,23 +54,28 @@ public class UserService {
         UserEntity user = userRepository.findById(id)
                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
             if (updateUserDTO.getUsername() != null) user.setUsername(updateUserDTO.getUsername());
-            if (updateUserDTO.getName() != null) user.setName(updateUserDTO.getName());
+            if (updateUserDTO.getFirstName() != null) user.setFirstName(updateUserDTO.getFirstName());
+            if (updateUserDTO.getLastName() != null) user.setLastName(updateUserDTO.getLastName());
+            if (updateUserDTO.getPhoneNumber() != null) user.setPhoneNumber(updateUserDTO.getPhoneNumber());
+            if (updateUserDTO.getNationality() != null) user.setNationality(updateUserDTO.getNationality());
+            if (updateUserDTO.getCity() != null) user.setCity(updateUserDTO.getCity());
             if (updateUserDTO.getAddress() != null) user.setAddress(updateUserDTO.getAddress());
-            if (updateUserDTO.getEmail() != null) user.setEmail(updateUserDTO.getEmail());
-            if (updateUserDTO.getPassword() != null) user.setPassword(updateUserDTO.getPassword());
+            if (updateUserDTO.getZipcode() != null) user.setZipcode(updateUserDTO.getZipcode());
 
             UserEntity updatedUser = userRepository.save(user);
 
             UpdateUserDTO update = new UpdateUserDTO();
             update.setUsername(updatedUser.getUsername());
-            update.setName(updatedUser.getName());
+            update.setFirstName(updatedUser.getFirstName());
+            update.setLastName(updatedUser.getLastName());
+            update.setPhoneNumber(updatedUser.getPhoneNumber());
+            update.setNationality(updatedUser.getNationality());
+            update.setCity(updatedUser.getCity());
             update.setAddress(updatedUser.getAddress());
-            update.setEmail(updatedUser.getEmail());
-            update.setPassword(updatedUser.getPassword());
-
+            update.setZipcode(updatedUser.getZipcode());
             return update;
     }
-
+/*
     public boolean deleteUser(UUID id) {
         Optional<UserEntity> user = userRepository.findById(id);
         if (user.isPresent()) {
@@ -88,5 +88,6 @@ public class UserService {
         }
 
     }
+
+     */
 }
-*/

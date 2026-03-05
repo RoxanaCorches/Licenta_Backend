@@ -100,7 +100,7 @@
 							<packageName>com.example.backend_springboot.blockchain.contracts</packageName>
 							<sourceDestination>src/main/java</sourceDestination>
 							<abiSourceFiles>
-								<directory>src/main/resources/contracts</directory>
+								<directory>src/main/resources/abi</directory>
 								<includes>
 									<include>KYCNFT.abi</include>
 								</includes>
