@@ -58,6 +58,11 @@ public class UserEntity implements Serializable {
     @Column(name = "blockchain_address")
     private String blockchainAddress;
 
+    /*
+    @Column(name = "status_kyc")
+    private boolean StatusKyc;
+
+     */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"user"})
     private List<ApartmentEntity> apartments;

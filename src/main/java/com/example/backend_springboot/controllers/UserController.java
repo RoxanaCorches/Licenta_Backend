@@ -39,7 +39,6 @@ public class UserController {
         return createUser;
     }
 
-
     @PutMapping("/updateUser/{id}")
     public UpdateUserDTO updateUser(@PathVariable UUID id, @RequestBody UpdateUserDTO updateUserDTO){
         UpdateUserDTO updateUser = userService.updateUser(id, updateUserDTO);

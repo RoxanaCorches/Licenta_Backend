@@ -4,6 +4,8 @@ import com.example.backend_springboot.blockchain.contracts.KYCNFT;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+
 @Service
 public class KycNftService {
      private KYCNFT kycNft;
@@ -12,10 +14,29 @@ public class KycNftService {
          this.kycNft = kycNft;
      }
 
-    public String mint(String to) throws Exception {
+    public boolean hasKycNft(String walletAddress) throws Exception {
+        if(kycNft.hasMinted(walletAddress).send()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+     /*
+     public boolean hasKYCNFT(String walletAddress) throws Exception {
+         if(kycNft.balanceOf(walletAddress).send().compareTo(BigInteger.ZERO) > 0) {
+            return true;
+         }
+         else {
+             return false;
+         }
+     }
+      */
+    public String mintKycNft(String to) throws Exception {
         boolean alreadyMinted = kycNft.hasMinted(to).send();
         if (alreadyMinted) {
-            throw new IllegalStateException("A fost mintat deja la adresa:" + to);
+            throw new IllegalStateException("It has already been minted at the address:" + to);
         }
         var resp = kycNft.mint(to).send();
         return resp.getTransactionHash();
