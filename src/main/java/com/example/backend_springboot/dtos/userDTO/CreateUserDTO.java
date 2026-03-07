@@ -10,8 +10,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetUserDTO {
-        private UUID idUser;
+public class CreateUserDTO {
+        private UUID userId;
         private String username;
         private String firstName;
         private String lastName;
@@ -22,7 +22,6 @@ public class GetUserDTO {
         private String address;
         private String zipcode;
         private String blockchainAddress;
-        //private List<ApartmentEntity> apartmentList;
 
-        public GetUserDTO() {}
+        public CreateUserDTO() {}
 }

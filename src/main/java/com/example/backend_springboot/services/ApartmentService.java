@@ -4,6 +4,7 @@ import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
 //import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
+import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
 import com.example.backend_springboot.entities.ApartmentEntity;
 import com.example.backend_springboot.entities.UserEntity;
 import com.example.backend_springboot.repositories.ApartmentRepository;
@@ -27,6 +28,47 @@ public class ApartmentService {
         this.apartmentRepository = apartmentRepository;
         this.userRepository = userRepository;
     }
+
+    public PostApartmentDTO createApartment(PostApartmentDTO apartmentDTO) {
+        UserEntity user = userRepository.findById(apartmentDTO.getIdOwner()).orElseThrow(() ->
+                new RuntimeException("User with id:" + apartmentDTO.getIdOwner() + " not found"));
+
+        ApartmentEntity apartment = ApartmentBuilder.toApartmentEntity(apartmentDTO);
+        ApartmentEntity savedApartment = apartmentRepository.save(apartment);
+        return ApartmentBuilder.topostApartmentDTO(savedApartment);
+    }
+
+
+    /*
+    public UpdateApartmentDTO updateApartment(UUID id, UpdateApartmentDTO updateApartmentDTO) {
+        ApartmentEntity apartment = apartmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Apartment not found with id: " + id));
+        if (updateApartmentDTO.getDescription() != null) apartment.setDescription(updateApartmentDTO.getDescription());
+        if (updateApartmentDTO.getPricePerNight() != null) apartment.setPricePerNight(updateApartmentDTO.getPricePerNight());
+        if (updateApartmentDTO.getImage() != null) apartment.setImage(updateApartmentDTO.getImage());
+
+        ApartmentEntity updatedApartment = apartmentRepository.save(apartment);
+
+        UpdateApartmentDTO update = new UpdateApartmentDTO();
+        update.setDescription(updatedApartment.getDescription());
+        update.setPricePerNight(updatedApartment.getPricePerNight());
+        update.setImage(updatedApartment.getImage());
+
+        return update;
+    }
+    */
+
+
+
+
+
+
+
+
+
+
+
+
 /*
     public List<ResponseApartmentDTO> getAllApartments() {
         List<ApartmentEntity> apartments = apartmentRepository.findAll();
@@ -83,6 +125,7 @@ public class ApartmentService {
         return update;
     }
 */
+/*
     public boolean deleteApartment(UUID id) {
         Optional<ApartmentEntity> apartment = apartmentRepository.findById(id);
         if (apartment.isPresent()) {
@@ -95,4 +138,5 @@ public class ApartmentService {
         }
 
     }
+    */
 }

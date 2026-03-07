@@ -3,7 +3,8 @@ package com.example.backend_springboot.controllers;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
-//import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
+import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
+import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
 import com.example.backend_springboot.entities.ApartmentEntity;
 import com.example.backend_springboot.services.ApartmentService;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-/*
+
 @RestController
 @RequestMapping("/apartments")
 public class ApartmentController {
@@ -21,7 +22,15 @@ public class ApartmentController {
         this.apartmentService = apartmentService;
     }
 
+    @PostMapping("/createApartment")
+    public PostApartmentDTO createApartment(@RequestBody PostApartmentDTO apartment) throws Exception {
+        ApartmentEntity create =  ApartmentBuilder.toApartmentEntity(apartment);
+        return apartmentService.createApartment(apartment);
+    }
+}
 
+
+/*
     @GetMapping("/getAllApartments")
     public List<ResponseApartmentDTO> getAllApartments(){
         List<ResponseApartmentDTO> apartments = apartmentService.getAllApartments();
@@ -33,7 +42,7 @@ public class ApartmentController {
         ResponseApartmentDTO apartments = apartmentService.getApartmentById(id);
         return apartments;
     }
-
+*/
     /*
     @PostMapping("/createApartment")
     public ResponseApartmentDTO createApartment(@RequestBody PostApartmentDTO apartment){
@@ -59,4 +68,5 @@ public class ApartmentController {
         }
     }
 }
-*/
+
+ */

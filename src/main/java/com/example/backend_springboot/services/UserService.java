@@ -1,5 +1,7 @@
 package com.example.backend_springboot.services;
 
+import com.example.backend_springboot.blockchain.services.KycNftService;
+import com.example.backend_springboot.dtos.userDTO.CreateUserDTO;
 import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
 import com.example.backend_springboot.dtos.builders.UserBuilder;
 import com.example.backend_springboot.dtos.userDTO.UpdateUserDTO;
@@ -10,15 +12,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final KycNftService kycNftService;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, KycNftService kycNftService) {
         this.userRepository = userRepository;
+        this.kycNftService = kycNftService;
     }
 
     public List<GetUserDTO> getAllUsers() {
@@ -30,24 +36,75 @@ public class UserService {
         return userDTOS;
     }
 
-/*
+
     public GetUserDTO getUserById(UUID id) {
         Optional<UserEntity> user = userRepository.findById(id);
-        //List<GetUserDTO> userDTOS = new ArrayList<>();
         if (user.isPresent()) {
             System.out.println("User with id:" + id + " found in database");
-            return user.stream().map(UserBuilder::toGetUserDTO).collect(Collectors.toList()).get(0);
+            return UserBuilder.toGetUserDTO(user.get());
         } else {
             System.out.println("User with id:" + id + " not found in database");
             return null;
         }
     }
-*/
 
-    public UserEntity createUser(UserEntity user) {
+
+    public CreateUserDTO mintKycForUser(UserEntity user) throws Exception {
+        Optional<UserEntity> userExist = userRepository.findByBlockchainAddress(user.getBlockchainAddress());
+        if(userExist.isPresent()) {
+            throw new IllegalStateException("User already exists in database!");
+        }
+
+        boolean hasKyc = kycNftService.hasKycNft(user.getBlockchainAddress());
+
+        if (hasKyc) {
+            throw new IllegalStateException("KYC NFT already exists for this wallet!");
+        }
+        user.setStatusKyc(false);
         UserEntity createdUser = userRepository.save(user);
-        return createdUser;
+
+        String transactionHash = kycNftService.mintKycNft(user.getBlockchainAddress());
+        System.out.println("Transaction Hash: " + transactionHash);
+        createdUser.setStatusKyc(true);
+
+        UserEntity updatedUser = userRepository.save(createdUser);
+
+        return UserBuilder.toCreateUserDTO(updatedUser);
     }
+
+    /*
+    public CreateUserDTO mintKycForUser(UserEntity user) throws Exception {
+
+        Optional<UserEntity> existingUser =
+                userRepository.findByBlockchainAddress(user.getBlockchainAddress());
+
+        if (existingUser.isPresent()) {
+            throw new IllegalStateException("User already exists for this wallet");
+        }
+
+        boolean hasKyc = kycNftService.hasKycNft(user.getBlockchainAddress());
+
+        if (hasKyc) {
+            throw new IllegalStateException("KYC NFT already exists for this wallet");
+        }
+
+        user.setStatusKyc(false);
+
+        UserEntity createdUser = userRepository.save(user);
+
+        String transactionHash = kycNftService.mintKycNft(user.getBlockchainAddress());
+        System.out.println("Transaction Hash: " + transactionHash);
+
+        createdUser.setStatusKyc(true);
+
+        UserEntity updatedUser = userRepository.save(createdUser);
+
+        return UserBuilder.toCreateUserDTO(updatedUser);
+    }
+
+     */
+
+
 
     public UpdateUserDTO updateUser(UUID id, UpdateUserDTO updateUserDTO) {
         //Optional<User> user = userRepository.findById(id);

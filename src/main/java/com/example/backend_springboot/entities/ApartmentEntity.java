@@ -39,6 +39,9 @@ public class ApartmentEntity implements Serializable {
     @Column(name = "area")
     private Integer area;
 
+    @Column(name = "price_per_night")
+    private Double pricePerNight;
+
     @Column(name = "country")
     private String country;
 
@@ -52,7 +55,7 @@ public class ApartmentEntity implements Serializable {
     private String city;
 
     @Column(name = "zipcode")
-    private String zipcode;
+    private Integer zipcode;
 
     @Column(name = "guests")
     private Integer guests;
@@ -63,23 +66,71 @@ public class ApartmentEntity implements Serializable {
     @Column(name = "bathrooms")
     private Integer bathrooms;
 
-    @Column(name = "pets_allowed")
-    private Boolean petsAllowed;
+    @Column(name = "tv", nullable = false)
+    private boolean tv = false;
 
-    @Column(name = "smoking_allowed")
-    private Boolean smokingAllowed;
+    @Column(name = "wifi", nullable = false)
+    private boolean wifi = false;
 
-    @Column(name = "parties_allowed")
-    private Boolean partiesAllowed;
+    @Column(name = "kitchen", nullable = false)
+    private boolean kitchen =  false;
+
+    @Column(name = "washer", nullable = false)
+    private boolean washer =  false;
+
+    @Column(name = "airConditioning", nullable = false)
+    private boolean air_conditioning =  false;
+
+    @Column(name = "pool", nullable = false)
+    private boolean pool =  false;
+
+    @Column(name = "hotTub", nullable = false)
+    private boolean hot_tub =  false;
+
+    @Column(name = "bbqGrill", nullable = false)
+    private boolean BBQ_grill =  false;
+
+    @Column(name = "poolTable", nullable = false)
+    private boolean pool_table =  false;
+
+    @Column(name = "indoorFireplace", nullable = false)
+    private boolean indoor_fireplace =  false;
+
+    @Column(name = "piano", nullable = false)
+    private boolean piano =  false;
+
+    @Column(name = "balcony", nullable = false)
+    private boolean balcony =  false;
+
+    @Column(name = "terrace", nullable = false)
+    private boolean terrace =  false;
+
+    @Column(name = "gardenView", nullable = false)
+    private boolean garden_view =  false;
+
+    @Column(name = "skiOut", nullable = false)
+    private boolean ski_out =  false;
+
+    @Column(name = "lakeAccess", nullable = false)
+    private boolean lake_access =  false;
+
+    @Column(name = "beachAccess", nullable = false)
+    private boolean beach_access =  false;
+
+    @Column(name = "pets_allowed", nullable = false)
+    private boolean petsAllowed =  false;
+
+    @Column(name = "smoking_allowed", nullable = false)
+    private boolean smokingAllowed =  false;
+
+    @Column(name = "parties_allowed", nullable = false)
+    private boolean partiesAllowed =  false;
 
     @Column(name = "checkIn")
     private LocalDate checkIn;
 
     @Column(name = "checkOut")
     private LocalDate checkOut;
-
-    @Column(name = "price_per_night")
-    private Double pricePerNight;
 
     @Column(name = "availability")
     private boolean availability;

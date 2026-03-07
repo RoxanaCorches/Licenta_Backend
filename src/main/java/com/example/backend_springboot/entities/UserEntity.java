@@ -10,10 +10,10 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
 
 @AllArgsConstructor
 @Getter
@@ -38,7 +38,7 @@ public class UserEntity implements Serializable {
     private String lastName;
 
     @Column(name = "birthday")
-    private Date birthday;
+    private LocalDate birthday;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -58,11 +58,10 @@ public class UserEntity implements Serializable {
     @Column(name = "blockchain_address")
     private String blockchainAddress;
 
-    /*
-    @Column(name = "status_kyc")
-    private boolean StatusKyc;
+    @Column(name = "status_kyc", nullable = false)
+    private boolean statusKyc = false;
 
-     */
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"user"})
     private List<ApartmentEntity> apartments;

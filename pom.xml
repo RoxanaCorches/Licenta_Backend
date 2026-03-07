@@ -103,6 +103,7 @@
 								<directory>src/main/resources/abi</directory>
 								<includes>
 									<include>KYCNFT.abi</include>
+									<include>PropertyNFT.abi</include>
 								</includes>
 							</abiSourceFiles>
 						</configuration>
