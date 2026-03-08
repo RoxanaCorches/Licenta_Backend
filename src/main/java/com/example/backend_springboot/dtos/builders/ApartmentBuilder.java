@@ -1,16 +1,18 @@
 package com.example.backend_springboot.dtos.builders;
 
+import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
+import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
 import com.example.backend_springboot.entities.ApartmentEntity;
 
 
 public class ApartmentBuilder {
 
-    private ApartmentBuilder() {
-    }
+    private ApartmentBuilder() {}
 
-    public static PostApartmentDTO topostApartmentDTO(ApartmentEntity apartment) {
-        PostApartmentDTO postApartmentDTO = new PostApartmentDTO(
+    public static GetApartmentDTO toGetApartmentDTO(ApartmentEntity apartment) {
+        GetApartmentDTO getApartmentDTO = new GetApartmentDTO(
+                apartment.getUser().getBlockchainAddress(),
                 apartment.getIdApartment(),
                 apartment.getTitle(),
                 apartment.getDescription(),
@@ -47,6 +49,69 @@ public class ApartmentBuilder {
                 apartment.getCheckIn(),
                 apartment.getCheckOut(),
                 apartment.isAvailability(),
+                apartment.getImagesFolderUrl()
+        );
+        return getApartmentDTO;
+    }
+
+    public static ResponseApartmentDTO toResponseApartmentDTO(ApartmentEntity apartment) {
+        ResponseApartmentDTO responseApartmentDTO = new ResponseApartmentDTO(
+                apartment.getTitle(),
+                apartment.getDescription(),
+                apartment.getArea(),
+                apartment.getPricePerNight(),
+                apartment.getCountry(),
+                apartment.getFloor(),
+                apartment.getStreet(),
+                apartment.getCity(),
+                apartment.getGuests(),
+                apartment.getBedrooms(),
+                apartment.getBathrooms(),
+                apartment.getCheckIn(),
+                apartment.getCheckOut(),
+                apartment.getImagesFolderUrl()
+        );
+        return responseApartmentDTO;
+    }
+
+    public static PostApartmentDTO topostApartmentDTO(ApartmentEntity apartment) {
+        PostApartmentDTO postApartmentDTO = new PostApartmentDTO(
+                apartment.getUser().getBlockchainAddress(),
+                apartment.getTitle(),
+                apartment.getDescription(),
+                apartment.getArea(),
+                apartment.getPricePerNight(),
+                apartment.getCountry(),
+                apartment.getFloor(),
+                apartment.getStreet(),
+                apartment.getCity(),
+                apartment.getZipcode(),
+                apartment.getGuests(),
+                apartment.getBedrooms(),
+                apartment.getBathrooms(),
+                apartment.isTv(),
+                apartment.isWifi(),
+                apartment.isKitchen(),
+                apartment.isWasher(),
+                apartment.isAir_conditioning(),
+                apartment.isPool(),
+                apartment.isHot_tub(),
+                apartment.isBBQ_grill(),
+                apartment.isPool_table(),
+                apartment.isIndoor_fireplace(),
+                apartment.isPiano(),
+                apartment.isBalcony(),
+                apartment.isTerrace(),
+                apartment.isGarden_view(),
+                apartment.isSki_out(),
+                apartment.isLake_access(),
+                apartment.isBeach_access(),
+                apartment.isPetsAllowed(),
+                apartment.isSmokingAllowed(),
+                apartment.isPartiesAllowed(),
+                apartment.getCheckIn(),
+                apartment.getCheckOut(),
+
                 apartment.getImagesFolderUrl()
         );
         return postApartmentDTO;
@@ -88,7 +153,7 @@ public class ApartmentBuilder {
         apartment.setPartiesAllowed(postApartmentDTO.isPartiesAllowed());
         apartment.setCheckIn(postApartmentDTO.getCheckIn());
         apartment.setCheckOut(postApartmentDTO.getCheckOut());
-        apartment.setAvailability(postApartmentDTO.isAvailability());
+
         apartment.setImagesFolderUrl(postApartmentDTO.getImagesFolderUrl());
         return apartment;
     }

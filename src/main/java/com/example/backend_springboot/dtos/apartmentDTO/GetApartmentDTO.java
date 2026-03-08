@@ -17,24 +17,42 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 public class GetApartmentDTO {
+    private String blockchainAddress;
     private UUID idApartment;
     private String title;
     private String description;
     private Integer area;
+    private Double pricePerNight;
     private String country;
     private String floor;
     private String street;
     private String city;
-    private String zipcode;
+    private Integer zipcode;
     private Integer guests;
     private Integer bedrooms;
     private Integer bathrooms;
-    private Boolean petsAllowed;
-    private Boolean smokingAllowed;
-    private Boolean partiesAllowed;
+    private boolean tv;
+    private boolean wifi;
+    private boolean kitchen;
+    private boolean washer;
+    private boolean air_conditioning;
+    private boolean pool;
+    private boolean hot_tub;
+    private boolean BBQ_grill;
+    private boolean pool_table;
+    private boolean indoor_fireplace;
+    private boolean piano;
+    private boolean balcony;
+    private boolean terrace;
+    private boolean garden_view;
+    private boolean ski_out;
+    private boolean lake_access;
+    private boolean beach_access;
+    private boolean petsAllowed;
+    private boolean smokingAllowed;
+    private boolean partiesAllowed;
     private LocalDate checkIn;
     private LocalDate checkOut;
-    private Double pricePerNight;
     private boolean availability;
     private String imagesFolderUrl;
 

@@ -1,9 +1,7 @@
 package com.example.backend_springboot.services;
 
+import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
-import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
-import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
-//import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
 import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
 import com.example.backend_springboot.entities.ApartmentEntity;
 import com.example.backend_springboot.entities.UserEntity;
@@ -16,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class ApartmentService {
@@ -29,15 +26,38 @@ public class ApartmentService {
         this.userRepository = userRepository;
     }
 
+    public List<GetApartmentDTO> getAllApartments() {
+        List<ApartmentEntity> apartments = apartmentRepository.findAll();
+        List<GetApartmentDTO> apartmentDTOS = new ArrayList<>();
+        for (ApartmentEntity apartment : apartments) {
+            apartmentDTOS.add(ApartmentBuilder.toGetApartmentDTO(apartment));
+        }
+        return apartmentDTOS;
+    }
+
+    public GetApartmentDTO getApartmentById(UUID id) {
+        Optional<ApartmentEntity> apartment = apartmentRepository.findById(id);
+        if (apartment.isPresent()) {
+            System.out.println("Apartment with id:" + id + " found in database");
+            return ApartmentBuilder.toGetApartmentDTO(apartment.get());
+        } else {
+            System.out.println("Apartment with id:" + id + " not found in database");
+            return null;
+        }
+    }
+
     public PostApartmentDTO createApartment(PostApartmentDTO apartmentDTO) {
-        UserEntity user = userRepository.findById(apartmentDTO.getIdOwner()).orElseThrow(() ->
-                new RuntimeException("User with id:" + apartmentDTO.getIdOwner() + " not found"));
+        UserEntity user = userRepository.findByBlockchainAddress(apartmentDTO.getBlockchainAddress()).orElseThrow(() ->
+                new RuntimeException("User with id:" + apartmentDTO.getBlockchainAddress() + " not found"));
+        System.out.println("User with id:" + apartmentDTO.getBlockchainAddress());
 
         ApartmentEntity apartment = ApartmentBuilder.toApartmentEntity(apartmentDTO);
+        apartment.setUser(user);
+        System.out.println(apartment);
+
         ApartmentEntity savedApartment = apartmentRepository.save(apartment);
         return ApartmentBuilder.topostApartmentDTO(savedApartment);
     }
-
 
     /*
     public UpdateApartmentDTO updateApartment(UUID id, UpdateApartmentDTO updateApartmentDTO) {

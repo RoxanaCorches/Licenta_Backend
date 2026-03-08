@@ -1,10 +1,12 @@
 package com.example.backend_springboot.dtos.userDTO;
 
+import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -22,7 +24,9 @@ public class GetUserDTO {
         private String address;
         private String zipcode;
         private String blockchainAddress;
-        //private List<ApartmentEntity> apartmentList;
+        private List<ResponseApartmentDTO> apartmentList;
 
         public GetUserDTO() {}
+
+
 }

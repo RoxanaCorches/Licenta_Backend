@@ -8,12 +8,11 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 public class PostApartmentDTO {
-    private UUID idOwner;
-    private UUID idApartment;
+    private String blockchainAddress;
     private String title;
     private String description;
     private Integer area;
@@ -48,13 +47,13 @@ public class PostApartmentDTO {
     private boolean partiesAllowed;
     private LocalDate checkIn;
     private LocalDate checkOut;
-    private boolean availability;
+
     private String imagesFolderUrl;
 
     public PostApartmentDTO() {}
 
     public PostApartmentDTO(UUID idApartment, String title, String description, Integer area, Double pricePerNight, String country, String floor, String street, String city, Integer zipcode, Integer guests, Integer bedrooms, Integer bathrooms, boolean tv, boolean wifi, boolean kitchen, boolean washer, boolean air_conditioning, boolean pool, boolean hot_tub, boolean BBQ_grill, boolean pool_table, boolean indoor_fireplace, boolean piano, boolean balcony, boolean terrace, boolean garden_view, boolean ski_out, boolean lake_access, boolean beach_access, boolean petsAllowed, boolean smokingAllowed, boolean partiesAllowed, LocalDate checkIn, LocalDate checkOut, boolean availability, String imagesFolderUrl) {
-        this.idApartment = idApartment;
+
         this.title = title;
         this.description = description;
         this.area = area;
@@ -89,7 +88,7 @@ public class PostApartmentDTO {
         this.partiesAllowed = partiesAllowed;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.availability = availability;
+
         this.imagesFolderUrl = imagesFolderUrl;
     }
 }

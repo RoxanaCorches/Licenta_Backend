@@ -1,13 +1,9 @@
 package com.example.backend_springboot.controllers;
 
+import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
-import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
-import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
-import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
-import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
-import com.example.backend_springboot.entities.ApartmentEntity;
 import com.example.backend_springboot.services.ApartmentService;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +18,21 @@ public class ApartmentController {
         this.apartmentService = apartmentService;
     }
 
+    @GetMapping("/getAllApartments")
+    public List<GetApartmentDTO> getAllApartments(){
+        List<GetApartmentDTO> apartments = apartmentService.getAllApartments();
+        return apartments;
+    }
+
+    @GetMapping("/getApartmentById/{id}")
+    public GetApartmentDTO getUserById(@PathVariable UUID id){
+        GetApartmentDTO apartment = apartmentService.getApartmentById(id);
+        return apartment;
+    }
+
     @PostMapping("/createApartment")
     public PostApartmentDTO createApartment(@RequestBody PostApartmentDTO apartment) throws Exception {
-        ApartmentEntity create =  ApartmentBuilder.toApartmentEntity(apartment);
+        //ApartmentEntity createApartment =  ApartmentBuilder.toApartmentEntity(apartment);
         return apartmentService.createApartment(apartment);
     }
 }
