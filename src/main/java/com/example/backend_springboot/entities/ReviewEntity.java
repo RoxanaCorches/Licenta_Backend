@@ -11,7 +11,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -27,17 +27,11 @@ public class ReviewEntity implements Serializable {
     @JdbcTypeCode(SqlTypes.UUID)
     private UUID idReview;
 
-   // @Column(name = "id_user")
-    //private int idUser;
-
-   // @Column(name = "id_rental")
-    //private int idApartment;
-
     @Column(name = "comment")
     private String comment;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
     @Min(1)
     @Max(5)

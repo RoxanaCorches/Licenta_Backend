@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -132,19 +131,18 @@ public class UserService {
             update.setZipcode(updatedUser.getZipcode());
             return update;
     }
-/*
+
+
     public boolean deleteUser(UUID id) {
-        Optional<UserEntity> user = userRepository.findById(id);
+        Optional<UserEntity> user = userRepository.findByIdUser(id);
+        System.out.println("User found in database:" + user.isPresent());
         if (user.isPresent()) {
             userRepository.delete(user.get());
             System.out.println("User with id:" + id + " deleted from database");
             return true;
-        }else{
+        }else {
             System.out.println("User with id:" + id + " not found in database");
             return false;
         }
-
     }
-
-     */
 }

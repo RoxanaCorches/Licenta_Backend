@@ -1,6 +1,5 @@
 package com.example.backend_springboot.dtos.apartmentDTO;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,8 +51,7 @@ public class PostApartmentDTO {
 
     public PostApartmentDTO() {}
 
-    public PostApartmentDTO(UUID idApartment, String title, String description, Integer area, Double pricePerNight, String country, String floor, String street, String city, Integer zipcode, Integer guests, Integer bedrooms, Integer bathrooms, boolean tv, boolean wifi, boolean kitchen, boolean washer, boolean air_conditioning, boolean pool, boolean hot_tub, boolean BBQ_grill, boolean pool_table, boolean indoor_fireplace, boolean piano, boolean balcony, boolean terrace, boolean garden_view, boolean ski_out, boolean lake_access, boolean beach_access, boolean petsAllowed, boolean smokingAllowed, boolean partiesAllowed, LocalDate checkIn, LocalDate checkOut, boolean availability, String imagesFolderUrl) {
-
+    public PostApartmentDTO(String title, String description, Integer area, Double pricePerNight, String country, String floor, String street, String city, Integer zipcode, Integer guests, Integer bedrooms, Integer bathrooms, boolean tv, boolean wifi, boolean kitchen, boolean washer, boolean air_conditioning, boolean pool, boolean hot_tub, boolean BBQ_grill, boolean pool_table, boolean indoor_fireplace, boolean piano, boolean balcony, boolean terrace, boolean garden_view, boolean ski_out, boolean lake_access, boolean beach_access, boolean petsAllowed, boolean smokingAllowed, boolean partiesAllowed, LocalDate checkIn, LocalDate checkOut, boolean availability, String imagesFolderUrl) {
         this.title = title;
         this.description = description;
         this.area = area;

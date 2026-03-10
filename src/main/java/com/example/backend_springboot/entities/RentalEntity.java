@@ -41,7 +41,12 @@ public class RentalEntity implements Serializable {
     private Double totalPrice;
 
     @Column(name = "transaction_hash")
-    private Double transactionHash;
+    private String transactionHash;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private RentalStatus status;
+
 
     @ManyToOne
     @JoinColumn(name = "id_renter", nullable = false)

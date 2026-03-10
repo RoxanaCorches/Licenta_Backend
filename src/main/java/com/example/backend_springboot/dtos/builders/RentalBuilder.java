@@ -1,0 +1,73 @@
+package com.example.backend_springboot.dtos.builders;
+
+import com.example.backend_springboot.dtos.rentalDTO.CreateRentalDTO;
+import com.example.backend_springboot.dtos.rentalDTO.GetRentalDTO;
+import com.example.backend_springboot.entities.RentalEntity;
+
+
+public class RentalBuilder {
+
+    public RentalBuilder() {}
+
+    public static CreateRentalDTO toCreateRentalDTO(RentalEntity rental) {
+        //UserEntity userEntity = RentalBuilder.toCreateRentalDTO(rental).getUser();
+        //ApartmentEntity apartmentEntity = RentalBuilder.toCreateRentalDTO(rental).getApartment();
+
+        CreateRentalDTO createRentalDTO = new CreateRentalDTO(
+                rental.getStartDate(),
+                rental.getEndDate(),
+                rental.getTotalPrice(),
+                rental.getTransactionHash(),
+                rental.getUser().getIdUser(),
+                rental.getUser().getFirstName(),
+                rental.getUser().getLastName(),
+                rental.getUser().getPhoneNumber(),
+                rental.getApartment().getIdApartment()
+        );
+        return createRentalDTO;
+    }
+
+    public static GetRentalDTO toGetRentalDTO(RentalEntity rental) {
+        //UserEntity userEntity = RentalBuilder.toCreateRentalDTO(rental).getUser();
+        //ApartmentEntity apartmentEntity = RentalBuilder.toCreateRentalDTO(rental).getApartment();
+
+        GetRentalDTO getRentalDTO = new GetRentalDTO(
+                rental.getIdRental(),
+                rental.getStartDate(),
+                rental.getEndDate(),
+                rental.getTotalPrice(),
+                rental.getApartment().getTitle(),
+                rental.getApartment().getCity(),
+                rental.getApartment().getCountry(),
+                rental.getStatus()
+        );
+        return getRentalDTO;
+    }
+
+    /*
+    public static CreateRentalDTO toCreateRentalDTO(RentalEntity rental) {
+        UserEntity userEntity = RentalBuilder.toCreateRentalDTO(rental).getUser();
+        ApartmentEntity apartmentEntity = RentalBuilder.toCreateRentalDTO(rental).getApartment();
+
+        CreateRentalDTO createRentalDTO = new CreateRentalDTO(
+                rental.getStartDate(),
+                rental.getEndDate(),
+                rental.getTotalPrice(),
+                rental.getTransactionHash(),
+                userEntity,
+                apartmentEntity
+        );
+        return createRentalDTO;
+    }
+
+     */
+
+    public static RentalEntity toRentalEntity(CreateRentalDTO createRentalDTO) {
+        RentalEntity rentalEntity = new RentalEntity();
+        rentalEntity.setStartDate(createRentalDTO.getStartDate());
+        rentalEntity.setEndDate(createRentalDTO.getEndDate());
+        rentalEntity.setTotalPrice(createRentalDTO.getTotalPrice());
+        rentalEntity.setTransactionHash(createRentalDTO.getTransactionHash());
+        return rentalEntity;
+    }
+}

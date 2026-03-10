@@ -6,6 +6,7 @@ import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
 import com.example.backend_springboot.dtos.userDTO.UpdateUserDTO;
 import com.example.backend_springboot.entities.UserEntity;
 import com.example.backend_springboot.services.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,15 +55,13 @@ public class UserController {
         return updateUser;
     }
 
-/*
     @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity <Void> deleteUser(@PathVariable UUID id){
-        boolean delete = userService.deleteUser(id);
-        if(delete){
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+        boolean deleted = userService.deleteUser(id);
+        if(deleted) {
             return ResponseEntity.noContent().build();
-        }else{
+        }else {
             return ResponseEntity.notFound().build();
         }
     }
- */
 }

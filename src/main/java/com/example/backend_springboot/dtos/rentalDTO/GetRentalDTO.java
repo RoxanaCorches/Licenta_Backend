@@ -1,0 +1,27 @@
+package com.example.backend_springboot.dtos.rentalDTO;
+
+import com.example.backend_springboot.entities.RentalStatus;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+@Getter
+@Setter
+@AllArgsConstructor
+public class GetRentalDTO {
+    private UUID rentalId;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private Double totalPrice;
+    private String title;
+    private String city;
+    private String country;
+    private RentalStatus status;
+
+    public GetRentalDTO() {}
+}
+
+
