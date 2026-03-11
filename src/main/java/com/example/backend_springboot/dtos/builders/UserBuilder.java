@@ -1,6 +1,8 @@
 package com.example.backend_springboot.dtos.builders;
 
 import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
+import com.example.backend_springboot.dtos.rentalDTO.GetRentalDTO;
+import com.example.backend_springboot.dtos.reviewDTO.GetReviewForPropertiesUserDTO;
 import com.example.backend_springboot.dtos.userDTO.CreateUserDTO;
 import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
 import com.example.backend_springboot.dtos.userDTO.UpdateUserDTO;
@@ -14,6 +16,8 @@ public class UserBuilder {
 
     public static GetUserDTO toGetUserDTO(UserEntity user) {
         List<ResponseApartmentDTO> apartments = user.getApartments().stream().map(ApartmentBuilder::toResponseApartmentDTO).collect(Collectors.toList());
+        List<GetRentalDTO> rentals = user.getRentals().stream().map(RentalBuilder::toGetRentalDTO).collect(Collectors.toList());
+        List<GetReviewForPropertiesUserDTO> reviews = user.getReviews().stream().map(ReviewBuilder::toGetReviewForPropertiesUserDTO).collect(Collectors.toList());
 
         GetUserDTO getUserDTO = new GetUserDTO(
                 user.getIdUser(),
@@ -27,7 +31,9 @@ public class UserBuilder {
                 user.getAddress(),
                 user.getZipcode(),
                 user.getBlockchainAddress(),
-                apartments
+                apartments,
+                rentals,
+                reviews
 
         );
         return getUserDTO;

@@ -45,8 +45,6 @@ public class RentalService {
         }else {
             rentals = rentalRepository.findAll();
         }
-
-
         return rentals.stream().map(RentalBuilder::toGetRentalDTO).collect(Collectors.toList());
     }
 

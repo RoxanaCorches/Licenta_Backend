@@ -1,9 +1,9 @@
 package com.example.backend_springboot.dtos.builders;
 
-import com.example.backend_springboot.dtos.rentalDTO.CreateRentalDTO;
-import com.example.backend_springboot.dtos.reviewDTO.GetReviewDTO;
+import com.example.backend_springboot.dtos.reviewDTO.GetReviewForApartmentDTO;
+import com.example.backend_springboot.dtos.reviewDTO.GetReviewForPropertiesUserDTO;
+import com.example.backend_springboot.dtos.reviewDTO.GetReviewForUserDTO;
 import com.example.backend_springboot.dtos.reviewDTO.PostReviewDTO;
-import com.example.backend_springboot.entities.RentalEntity;
 import com.example.backend_springboot.entities.ReviewEntity;
 
 public class ReviewBuilder {
@@ -20,8 +20,32 @@ public class ReviewBuilder {
         return postReviewDTO;
     }
 
-    public static GetReviewDTO toGetReviewDTO(ReviewEntity review) {
-        GetReviewDTO getReviewDTO = new GetReviewDTO(
+    public static GetReviewForUserDTO toGetReviewForUserDTO(ReviewEntity review) {
+        GetReviewForUserDTO getReviewDTO = new GetReviewForUserDTO(
+                review.getIdReview(),
+                review.getDate(),
+                review.getComment(),
+                review.getRating()
+        );
+        return getReviewDTO;
+    }
+
+    public static GetReviewForPropertiesUserDTO toGetReviewForPropertiesUserDTO(ReviewEntity review) {
+        GetReviewForPropertiesUserDTO getReviewDTO = new GetReviewForPropertiesUserDTO(
+                review.getIdReview(),
+                review.getRental().getApartment().getTitle(),
+                review.getRental().getApartment().getCity(),
+                review.getRental().getApartment().getCountry(),
+                review.getDate(),
+                review.getComment(),
+                review.getRating()
+        );
+        return getReviewDTO;
+    }
+
+    public static GetReviewForApartmentDTO toGetReviewForApartmentDTO(ReviewEntity review) {
+        GetReviewForApartmentDTO getReviewDTO = new GetReviewForApartmentDTO(
+                review.getIdReview(),
                 review.getUser().getFirstName(),
                 review.getUser().getLastName(),
                 review.getDate(),

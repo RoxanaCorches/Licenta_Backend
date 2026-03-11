@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class GetReviewDTO {
+public class GetReviewForApartmentDTO {
+    private UUID idReview;
     private String firstName;
     private String lastName;
     private LocalDate date;

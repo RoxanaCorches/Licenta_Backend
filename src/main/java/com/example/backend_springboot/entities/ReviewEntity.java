@@ -39,11 +39,11 @@ public class ReviewEntity implements Serializable {
     private Double rating;
 
    @ManyToOne
-   @JoinColumn(name = "id_user")
+   @JoinColumn(name = "id_user", nullable = false)
    private UserEntity user;
 
    @OneToOne
-   @JoinColumn(name = "id_rental")
+   @JoinColumn(name = "id_rental", nullable = false)
    private RentalEntity rental;
 
    public ReviewEntity() {}

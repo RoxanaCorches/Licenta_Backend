@@ -56,7 +56,7 @@ public class RentalEntity implements Serializable {
     @JoinColumn(name = "id_apartment", nullable = false)
     private ApartmentEntity apartment;
 
-    @OneToOne(mappedBy = "rental", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true)
     private ReviewEntity review;
 
 

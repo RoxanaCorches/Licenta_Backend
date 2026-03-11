@@ -1,6 +1,8 @@
 package com.example.backend_springboot.dtos.userDTO;
 
 import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
+import com.example.backend_springboot.dtos.rentalDTO.GetRentalDTO;
+import com.example.backend_springboot.dtos.reviewDTO.GetReviewForPropertiesUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +27,8 @@ public class GetUserDTO {
         private String zipcode;
         private String blockchainAddress;
         private List<ResponseApartmentDTO> apartmentList;
+        private List<GetRentalDTO> rentalList;
+        private List<GetReviewForPropertiesUserDTO> reviewList;
 
         public GetUserDTO() {}
 
