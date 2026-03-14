@@ -5,8 +5,10 @@ import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
 import com.example.backend_springboot.services.ApartmentService;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,11 +34,19 @@ public class ApartmentController {
         return apartment;
     }
 
+    @PostMapping(value = "/createApartment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public PostApartmentDTO createApartment(@RequestPart("information") PostApartmentDTO apartment, @RequestPart("images") List<MultipartFile> images) throws Exception {
+        //ApartmentEntity createApartment =  ApartmentBuilder.toApartmentEntity(apartment);
+        return apartmentService.createApartment(apartment, images);
+    }
+
+    /*
     @PostMapping("/createApartment")
     public PostApartmentDTO createApartment(@RequestBody PostApartmentDTO apartment) throws Exception {
         //ApartmentEntity createApartment =  ApartmentBuilder.toApartmentEntity(apartment);
         return apartmentService.createApartment(apartment);
     }
+     */
 
     @PutMapping("/updateApartment/{id}")
     public UpdateApartmentDTO updateApartment(@PathVariable UUID id, @RequestBody UpdateApartmentDTO updateApartmentDTO){

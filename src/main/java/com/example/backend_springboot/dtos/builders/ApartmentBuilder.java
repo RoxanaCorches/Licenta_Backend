@@ -47,10 +47,17 @@ public class ApartmentBuilder {
                 apartment.isPetsAllowed(),
                 apartment.isSmokingAllowed(),
                 apartment.isPartiesAllowed(),
-                apartment.getCheckIn(),
-                apartment.getCheckOut(),
+                apartment.getCheckInFrom(),
+                apartment.getCheckInUntil(),
+                apartment.getCheckOutFrom(),
+                apartment.getCheckOutUntil(),
                 apartment.isAvailability(),
-                apartment.getImagesFolderUrl()
+                apartment.getImageMain(),
+                apartment.getImage1(),
+                apartment.getImage2(),
+                apartment.getImage3(),
+                apartment.getImage4()
+
         );
         return getApartmentDTO;
     }
@@ -68,9 +75,15 @@ public class ApartmentBuilder {
                 apartment.getGuests(),
                 apartment.getBedrooms(),
                 apartment.getBathrooms(),
-                apartment.getCheckIn(),
-                apartment.getCheckOut(),
-                apartment.getImagesFolderUrl()
+                apartment.getCheckInFrom(),
+                apartment.getCheckInUntil(),
+                apartment.getCheckOutFrom(),
+                apartment.getCheckOutUntil(),
+                apartment.getImageMain(),
+                apartment.getImage1(),
+                apartment.getImage2(),
+                apartment.getImage3(),
+                apartment.getImage4()
         );
         return responseApartmentDTO;
     }
@@ -110,10 +123,15 @@ public class ApartmentBuilder {
                 apartment.isPetsAllowed(),
                 apartment.isSmokingAllowed(),
                 apartment.isPartiesAllowed(),
-                apartment.getCheckIn(),
-                apartment.getCheckOut(),
-
-                apartment.getImagesFolderUrl()
+                apartment.getCheckInFrom(),
+                apartment.getCheckInUntil(),
+                apartment.getCheckOutFrom(),
+                apartment.getCheckOutUntil(),
+                apartment.getImageMain(),
+                apartment.getImage1(),
+                apartment.getImage2(),
+                apartment.getImage3(),
+                apartment.getImage4()
         );
         return postApartmentDTO;
     }
@@ -121,8 +139,10 @@ public class ApartmentBuilder {
     public static UpdateApartmentDTO toUpdateApartmentDTO(ApartmentEntity apartment) {
         UpdateApartmentDTO updateApartmentDTO = new UpdateApartmentDTO(
                 apartment.getPricePerNight(),
-                apartment.getCheckIn(),
-                apartment.getCheckOut()
+                apartment.getCheckInFrom(),
+                apartment.getCheckInUntil(),
+                apartment.getCheckOutFrom(),
+                apartment.getCheckOutUntil()
         );
         return updateApartmentDTO;
     }
@@ -161,10 +181,16 @@ public class ApartmentBuilder {
         apartment.setPetsAllowed(postApartmentDTO.isPetsAllowed());
         apartment.setSmokingAllowed(postApartmentDTO.isSmokingAllowed());
         apartment.setPartiesAllowed(postApartmentDTO.isPartiesAllowed());
-        apartment.setCheckIn(postApartmentDTO.getCheckIn());
-        apartment.setCheckOut(postApartmentDTO.getCheckOut());
+        apartment.setCheckInFrom(postApartmentDTO.getCheckInFrom());
+        apartment.setCheckInUntil(postApartmentDTO.getCheckInUntil());
+        apartment.setCheckOutFrom(postApartmentDTO.getCheckOutFrom());
+        apartment.setCheckOutUntil(postApartmentDTO.getCheckOutUntil());
 
-        apartment.setImagesFolderUrl(postApartmentDTO.getImagesFolderUrl());
+        apartment.setImageMain(postApartmentDTO.getImageMain());
+        apartment.setImage1(postApartmentDTO.getImage1());
+        apartment.setImage2(postApartmentDTO.getImage2());
+        apartment.setImage3(postApartmentDTO.getImage3());
+        apartment.setImage4(postApartmentDTO.getImage4());
         return apartment;
     }
 }

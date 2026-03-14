@@ -5,14 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class UpdateApartmentDTO {
     private Double pricePerNight;
-    private LocalDate checkIn;
-    private LocalDate checkOut;
+    private LocalTime checkInFrom;
+    private LocalTime checkInUntil;
+    private LocalTime checkOutFrom;
+    private LocalTime checkOutUntil;
     //private boolean availability;
 
     public UpdateApartmentDTO() {}

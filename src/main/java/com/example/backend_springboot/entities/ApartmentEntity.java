@@ -11,6 +11,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -126,17 +127,35 @@ public class ApartmentEntity implements Serializable {
     @Column(name = "parties_allowed", nullable = false)
     private boolean partiesAllowed =  false;
 
-    @Column(name = "checkIn")
-    private LocalDate checkIn;
+    @Column(name = "check_in_from")
+    private LocalTime checkInFrom;
 
-    @Column(name = "checkOut")
-    private LocalDate checkOut;
+    @Column(name = "check_in_until")
+    private LocalTime checkInUntil;
+
+    @Column(name = "check_out_from")
+    private LocalTime checkOutFrom;
+
+    @Column(name = "check_out_until")
+    private LocalTime checkOutUntil;
 
     @Column(name = "availability")
     private boolean availability;
 
-    @Column(name = "images_folder_url")
-    private String imagesFolderUrl;
+    @Column(name = "image_main")
+    private String imageMain;
+
+    @Column(name = "image_1")
+    private String image1;
+
+    @Column(name = "image_2")
+    private String image2;
+
+    @Column(name = "image_3")
+    private String image3;
+
+    @Column(name = "image_4")
+    private String image4;;
 /*
     @Column(name = "amenities")
     private List<String> amenities;

@@ -1,16 +1,11 @@
 package com.example.backend_springboot.dtos.apartmentDTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Getter
@@ -51,10 +46,17 @@ public class GetApartmentDTO {
     private boolean petsAllowed;
     private boolean smokingAllowed;
     private boolean partiesAllowed;
-    private LocalDate checkIn;
-    private LocalDate checkOut;
+    private LocalTime checkInFrom;
+    private LocalTime checkInUntil;
+    private LocalTime checkOutFrom;
+    private LocalTime checkOutUntil;
     private boolean availability;
-    private String imagesFolderUrl;
+
+    private String imageMain;
+    private String image1;
+    private String image2;
+    private String image3;
+    private String image4;
 
     public GetApartmentDTO() {}
 }

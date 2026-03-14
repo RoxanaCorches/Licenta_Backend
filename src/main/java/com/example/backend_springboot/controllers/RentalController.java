@@ -1,6 +1,5 @@
 package com.example.backend_springboot.controllers;
 
-import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.rentalDTO.CreateRentalDTO;
 import com.example.backend_springboot.dtos.rentalDTO.GetRentalDTO;
 import com.example.backend_springboot.entities.RentalStatus;

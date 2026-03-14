@@ -1,5 +1,6 @@
 package com.example.backend_springboot.services;
 
+import ch.qos.logback.core.testUtil.MockInitialContext;
 import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
@@ -10,21 +11,23 @@ import com.example.backend_springboot.repositories.ApartmentRepository;
 import com.example.backend_springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import tools.jackson.databind.ObjectMapper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 @Service
 public class ApartmentService {
     private final ApartmentRepository apartmentRepository;
     private final UserRepository userRepository;
+    private final PinataService pinataService;
 
     @Autowired
-    public ApartmentService(ApartmentRepository apartmentRepository, UserRepository userRepository) {
+    public ApartmentService(ApartmentRepository apartmentRepository, UserRepository userRepository, PinataService pinataService) {
         this.apartmentRepository = apartmentRepository;
         this.userRepository = userRepository;
+        this.pinataService = pinataService;
     }
 
     public List<GetApartmentDTO> getAllApartments() {
@@ -47,17 +50,38 @@ public class ApartmentService {
         }
     }
 
-    public PostApartmentDTO createApartment(PostApartmentDTO apartmentDTO) {
+    public PostApartmentDTO createApartment(PostApartmentDTO apartmentDTO, List<MultipartFile> images) throws Exception {
         UserEntity user = userRepository.findByBlockchainAddress(apartmentDTO.getBlockchainAddress()).orElseThrow(() ->
-                new RuntimeException("User with id:" + apartmentDTO.getBlockchainAddress() + " not found"));
+                new RuntimeException("User with blockchain address:" + apartmentDTO.getBlockchainAddress() + " not found"));
         System.out.println("User with id:" + apartmentDTO.getBlockchainAddress());
 
         ApartmentEntity apartment = ApartmentBuilder.toApartmentEntity(apartmentDTO);
         apartment.setUser(user);
-        System.out.println(apartment);
-
         ApartmentEntity savedApartment = apartmentRepository.save(apartment);
-        return ApartmentBuilder.topostApartmentDTO(savedApartment);
+
+        //upload imagine principala pe pinata
+        MultipartFile mainImage = images.get(0);
+        String nameImageOnPinata = savedApartment.getIdApartment() + "_" +
+                savedApartment.getTitle().replaceAll("\\s+","_") + "_" +
+                mainImage.getOriginalFilename();
+
+        String cidMainImage = pinataService.uploadFile(mainImage, nameImageOnPinata);
+        savedApartment.setImageMain("ipfs://" + cidMainImage);
+
+        //upload fisier metadata pe pinata
+        String metadataJson = generateMetadataFile(savedApartment);
+
+        String metadataFileOnPinata = savedApartment.getIdApartment() + "_" +
+                savedApartment.getTitle().replaceAll("\\s+","_") + "_metadata.json";
+
+
+
+
+        String cidMetadata = pinataService.uploadMetadata(metadataJson.getBytes(StandardCharsets.UTF_8), metadataFileOnPinata);
+        //savedApartment.setImageMain("ipfs://" + cidMainImage);
+
+        ApartmentEntity savedApartmentFinal = apartmentRepository.save(savedApartment);
+        return ApartmentBuilder.topostApartmentDTO(savedApartmentFinal);
     }
 
 
@@ -65,15 +89,19 @@ public class ApartmentService {
         ApartmentEntity apartment = apartmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Apartment not found with id: " + id));
         if (updateApartmentDTO.getPricePerNight() != null) apartment.setPricePerNight(updateApartmentDTO.getPricePerNight());
-        if (updateApartmentDTO.getCheckIn() != null) apartment.setCheckIn(updateApartmentDTO.getCheckIn());
-        if (updateApartmentDTO.getCheckOut() != null) apartment.setCheckOut(updateApartmentDTO.getCheckOut());
+        if (updateApartmentDTO.getCheckInFrom() != null) apartment.setCheckInFrom(updateApartmentDTO.getCheckInFrom());
+        if (updateApartmentDTO.getCheckInUntil() != null) apartment.setCheckInUntil(updateApartmentDTO.getCheckInUntil());
+        if (updateApartmentDTO.getCheckOutFrom() != null) apartment.setCheckOutFrom(updateApartmentDTO.getCheckOutFrom());
+        if (updateApartmentDTO.getCheckOutUntil() != null) apartment.setCheckOutUntil(updateApartmentDTO.getCheckOutUntil());
 
         ApartmentEntity updatedApartment = apartmentRepository.save(apartment);
 
         UpdateApartmentDTO update = new UpdateApartmentDTO();
         update.setPricePerNight(updatedApartment.getPricePerNight());
-        update.setCheckIn(updatedApartment.getCheckIn());
-        update.setCheckOut(updatedApartment.getCheckOut());
+        update.setCheckInFrom(updatedApartment.getCheckInFrom());
+        update.setCheckInUntil(updatedApartment.getCheckInUntil());
+        update.setCheckOutFrom(updatedApartment.getCheckOutFrom());
+        update.setCheckOutUntil(updatedApartment.getCheckOutUntil());
 
         return update;
     }
@@ -88,6 +116,57 @@ public class ApartmentService {
             System.out.println("Apartment with id:" + id + " not found in database");
             return false;
         }
+    }
+
+    public String generateMetadataFile(ApartmentEntity apartment) {
+        Map<String, Object> metadataFile = new HashMap<>();
+        metadataFile.put("name", apartment.getTitle());
+        metadataFile.put("description", apartment.getDescription());
+        metadataFile.put("image", apartment.getImageMain());
+
+        List<Map<String, Object>> attributes = new ArrayList<>();
+        attributes.add(Map.of("trait_type", "Area", "value", apartment.getArea()));
+        attributes.add(Map.of("trait_type", "Price per night", "value", apartment.getPricePerNight()));
+        attributes.add(Map.of("trait_type", "Country", "value", apartment.getCountry()));
+        attributes.add(Map.of("trait_type", "Floor", "value", apartment.getFloor()));
+        attributes.add(Map.of("trait_type", "Street", "value", apartment.getStreet()));
+        attributes.add(Map.of("trait_type", "City", "value", apartment.getCity()));
+        attributes.add(Map.of("trait_type", "Zipcode", "value", apartment.getZipcode()));
+        attributes.add(Map.of("trait_type", "Guests", "value", apartment.getGuests()));
+        attributes.add(Map.of("trait_type", "Bedrooms", "value", apartment.getBedrooms()));
+        attributes.add(Map.of("trait_type", "Bathrooms", "value", apartment.getBathrooms()));
+
+        attributes.add(Map.of("trait_type", "TV", "value", apartment.isTv()));
+        attributes.add(Map.of("trait_type", "Wifi", "value", apartment.isWifi()));
+        attributes.add(Map.of("trait_type", "Kitchen", "value", apartment.isKitchen()));
+        attributes.add(Map.of("trait_type", "Kitchen", "value", apartment.isWasher()));
+        attributes.add(Map.of("trait_type", "Air Conditioning", "value", apartment.isAir_conditioning()));
+        attributes.add(Map.of("trait_type", "Pool", "value", apartment.isPool()));
+        attributes.add(Map.of("trait_type", "Hot Tub", "value", apartment.isHot_tub()));
+        attributes.add(Map.of("trait_type", "BBQ Grill", "value", apartment.isBBQ_grill()));
+        attributes.add(Map.of("trait_type", "Pool Table", "value", apartment.isPool_table()));
+        attributes.add(Map.of("trait_type", "Indoor Fireplace", "value", apartment.isIndoor_fireplace()));
+        attributes.add(Map.of("trait_type", "Piano", "value", apartment.isPiano()));
+        attributes.add(Map.of("trait_type", "Balcony", "value", apartment.isBalcony()));
+        attributes.add(Map.of("trait_type", "Terrace", "value", apartment.isTerrace()));
+        attributes.add(Map.of("trait_type", "Garden View", "value", apartment.isGarden_view()));
+        attributes.add(Map.of("trait_type", "Ski-Out", "value", apartment.isSki_out()));
+        attributes.add(Map.of("trait_type", "Lake Access", "value", apartment.isLake_access()));
+        attributes.add(Map.of("trait_type", "Beach Access", "value", apartment.isBeach_access()));
+
+        attributes.add(Map.of("trait_type", "Pets allowed?", "value", apartment.isPetsAllowed()));
+        attributes.add(Map.of("trait_type", "Smoking allowed?", "value", apartment.isSmokingAllowed()));
+        attributes.add(Map.of("trait_type", "Parties or events allowed?", "value", apartment.isPartiesAllowed()));
+
+        attributes.add(Map.of("trait_type", "Check-in From", "value", apartment.getCheckInFrom()));
+        attributes.add(Map.of("trait_type", "Check-in Until", "value", apartment.getCheckInUntil()));
+        attributes.add(Map.of("trait_type", "Check-out From", "value", apartment.getCheckOutFrom()));
+        attributes.add(Map.of("trait_type", "Check-out Until", "value", apartment.getCheckOutUntil()));
+
+        metadataFile.put("attributes", attributes);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(metadataFile);
+        return json;
     }
 }
 

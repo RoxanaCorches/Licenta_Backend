@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.util.UUID;
+import java.time.LocalTime;
+
 
 @Getter
 @Setter
@@ -22,9 +22,17 @@ public class ResponseApartmentDTO {
         private Integer guests;
         private Integer bedrooms;
         private Integer bathrooms;
-        private LocalDate checkIn;
-        private LocalDate checkOut;
-        private String imagesFolderUrl;
+
+        private LocalTime checkInFrom;
+        private LocalTime checkInUntil;
+        private LocalTime checkOutFrom;
+        private LocalTime checkOutUntil;
+
+        private String imageMain;
+        private String image1;
+        private String image2;
+        private String image3;
+        private String image4;
 
         public ResponseApartmentDTO() {}
     }
