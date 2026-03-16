@@ -13,10 +13,12 @@ public class PropertyNftController {
     public PropertyNftController(PropertyNFTService propertyNFTService) {
         this.propertyNFTService = propertyNFTService;
     }
-
+/*
     @PostMapping("/mint")
     public String mint(@RequestBody MintNftProperty tokenURI) throws Exception {
         String txHash = propertyNFTService.mint(tokenURI.getTokenUri());
         return "Token minted! Transaction Hash: " + txHash;
     }
+
+ */
 }

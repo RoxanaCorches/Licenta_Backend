@@ -1,6 +1,7 @@
 package com.example.backend_springboot.blockchain.config;
 
 import com.example.backend_springboot.blockchain.contracts.KYCNFT;
+import com.example.backend_springboot.blockchain.contracts.Marketplace;
 import com.example.backend_springboot.blockchain.contracts.PropertyNFT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,7 @@ public class BlockchainConfiguration {
 
     private KYCNFT kycNft;
     private PropertyNFT propertyNft;
+    private Marketplace marketplace;
 
     @Bean
     public Web3j web3j() {
@@ -50,6 +52,16 @@ public class BlockchainConfiguration {
     @Bean
     public PropertyNFT propertyNFT(Web3j web3j, Credentials credentials) {
         return PropertyNFT.load(
+                propertyNftAddress,
+                web3j,
+                credentials,
+                new DefaultGasProvider()
+        );
+    }
+
+    @Bean
+    public Marketplace marketplace(Web3j web3j, Credentials credentials) {
+        return Marketplace.load(
                 propertyNftAddress,
                 web3j,
                 credentials,

@@ -1,6 +1,6 @@
 package com.example.backend_springboot.services;
 
-import ch.qos.logback.core.testUtil.MockInitialContext;
+import com.example.backend_springboot.blockchain.contracts.PropertyNFT;
 import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
@@ -12,9 +12,14 @@ import com.example.backend_springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import tools.jackson.databind.ObjectMapper;
 
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -22,12 +27,14 @@ public class ApartmentService {
     private final ApartmentRepository apartmentRepository;
     private final UserRepository userRepository;
     private final PinataService pinataService;
+    private final PropertyNFT propertyNFT;
 
     @Autowired
-    public ApartmentService(ApartmentRepository apartmentRepository, UserRepository userRepository, PinataService pinataService) {
+    public ApartmentService(ApartmentRepository apartmentRepository, UserRepository userRepository, PinataService pinataService, PropertyNFT propertyNFT) {
         this.apartmentRepository = apartmentRepository;
         this.userRepository = userRepository;
         this.pinataService = pinataService;
+        this.propertyNFT = propertyNFT;
     }
 
     public List<GetApartmentDTO> getAllApartments() {
@@ -66,7 +73,23 @@ public class ApartmentService {
                 mainImage.getOriginalFilename();
 
         String cidMainImage = pinataService.uploadFile(mainImage, nameImageOnPinata);
-        savedApartment.setImageMain("ipfs://" + cidMainImage);
+        savedApartment.setImageMain("https://gateway.pinata.cloud/ipfs/" + cidMainImage);
+
+        //salvare imagini in folder(imaginile secundare ale apartamentului)
+        for(int i = 1; i < images.size(); i++) {
+            MultipartFile image = images.get(i);
+            String nameImage = savedApartment.getIdApartment() + "_" +
+                    savedApartment.getTitle().replaceAll("\\s+","_") + "_" +
+                    image.getOriginalFilename();
+            String pathFile = Paths.get("images/" + nameImage).toString();
+
+            if(i == 1) {  savedApartment.setImage1("/images/" + nameImage);}
+            if(i == 2) {  savedApartment.setImage2("/images/" + nameImage);}
+            if(i == 3) {  savedApartment.setImage3("/images/" + nameImage);}
+            if(i == 4) {  savedApartment.setImage4("/images/" + nameImage);}
+            Files.write(Path.of(pathFile), image.getBytes());
+
+        }
 
         //upload fisier metadata pe pinata
         String metadataJson = generateMetadataFile(savedApartment);
@@ -74,15 +97,74 @@ public class ApartmentService {
         String metadataFileOnPinata = savedApartment.getIdApartment() + "_" +
                 savedApartment.getTitle().replaceAll("\\s+","_") + "_metadata.json";
 
-
-
-
         String cidMetadata = pinataService.uploadMetadata(metadataJson.getBytes(StandardCharsets.UTF_8), metadataFileOnPinata);
-        //savedApartment.setImageMain("ipfs://" + cidMainImage);
+        String metadataIpfsUrl = "https://gateway.pinata.cloud/ipfs/" + cidMetadata;
+        savedApartment.setMetadataUrl(metadataIpfsUrl);
+
+        String walletAddress = apartment.getUser().getBlockchainAddress();
+        System.out.println("Wallet Address:" + walletAddress);
+
+        TransactionReceipt receipt = propertyNFT.mint(walletAddress, metadataIpfsUrl).send();
+        BigInteger tokenId = propertyNFT.tokenIdCounter().send();
+        savedApartment.setTokenId(tokenId.toString());
+
+
+
+
+
+        System.out.println(cidMainImage);
+        System.out.println(cidMetadata);
+
 
         ApartmentEntity savedApartmentFinal = apartmentRepository.save(savedApartment);
         return ApartmentBuilder.topostApartmentDTO(savedApartmentFinal);
     }
+
+    /*
+    public PostApartmentDTO createApartment(PostApartmentDTO apartmentDTO, List<MultipartFile> images) throws Exception {
+        UserEntity user = userRepository.findByBlockchainAddress(apartmentDTO.getBlockchainAddress()).orElseThrow(() ->
+                new RuntimeException("User with blockchain address:" + apartmentDTO.getBlockchainAddress() + " not found"));
+        System.out.println("User with id:" + apartmentDTO.getBlockchainAddress());
+
+        ApartmentEntity apartment = ApartmentBuilder.toApartmentEntity(apartmentDTO);
+        apartment.setUser(user);
+        ApartmentEntity savedApartment = apartmentRepository.save(apartment);
+
+        //upload imagine principala pe pinata
+        MultipartFile mainImage = images.get(0);
+        String nameImageOnPinata = savedApartment.getIdApartment() + "_" +
+                savedApartment.getTitle().replaceAll("\\s+","_") + "_" +
+                mainImage.getOriginalFilename();
+
+        String cidMainImage = pinataService.uploadFile(mainImage, nameImageOnPinata);
+        savedApartment.setImageMain("https://gateway.pinata.cloud/ipfs/" + cidMainImage);
+
+        //upload fisier metadata pe pinata
+        String metadataJson = generateMetadataFile(savedApartment);
+
+        String metadataFileOnPinata = savedApartment.getIdApartment() + "_" +
+                savedApartment.getTitle().replaceAll("\\s+","_") + "_metadata.json";
+
+        String cidMetadata = pinataService.uploadMetadata(metadataJson.getBytes(StandardCharsets.UTF_8), metadataFileOnPinata);
+        String metadataIpfsUrl = "https://gateway.pinata.cloud/ipfs/" + cidMetadata;
+        savedApartment.setMetadataUrl(metadataIpfsUrl);
+
+        String walletAddress = apartment.getUser().getBlockchainAddress();
+        System.out.println("Wallet Address:" + walletAddress);
+
+        TransactionReceipt receipt = propertyNFT.mint(walletAddress, metadataIpfsUrl).send();
+        BigInteger tokenId = propertyNFT.tokenIdCounter().send();
+        savedApartment.setTokenId(tokenId.toString());
+
+        System.out.println(cidMainImage);
+        System.out.println(cidMetadata);
+
+
+        ApartmentEntity savedApartmentFinal = apartmentRepository.save(savedApartment);
+        return ApartmentBuilder.topostApartmentDTO(savedApartmentFinal);
+    }
+
+     */
 
 
     public UpdateApartmentDTO updateApartment(UUID id, UpdateApartmentDTO updateApartmentDTO) {

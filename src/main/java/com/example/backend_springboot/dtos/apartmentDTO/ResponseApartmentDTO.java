@@ -33,6 +33,9 @@ public class ResponseApartmentDTO {
         private String image2;
         private String image3;
         private String image4;
+        private String metadataUrl;
+        private String tokenId;
+
 
         public ResponseApartmentDTO() {}
     }

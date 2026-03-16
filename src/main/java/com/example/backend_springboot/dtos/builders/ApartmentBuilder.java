@@ -56,7 +56,9 @@ public class ApartmentBuilder {
                 apartment.getImage1(),
                 apartment.getImage2(),
                 apartment.getImage3(),
-                apartment.getImage4()
+                apartment.getImage4(),
+                apartment.getMetadataUrl(),
+                apartment.getTokenId()
 
         );
         return getApartmentDTO;
@@ -83,7 +85,9 @@ public class ApartmentBuilder {
                 apartment.getImage1(),
                 apartment.getImage2(),
                 apartment.getImage3(),
-                apartment.getImage4()
+                apartment.getImage4(),
+                apartment.getMetadataUrl(),
+                apartment.getTokenId()
         );
         return responseApartmentDTO;
     }
@@ -131,7 +135,9 @@ public class ApartmentBuilder {
                 apartment.getImage1(),
                 apartment.getImage2(),
                 apartment.getImage3(),
-                apartment.getImage4()
+                apartment.getImage4(),
+                apartment.getMetadataUrl(),
+                apartment.getTokenId()
         );
         return postApartmentDTO;
     }
@@ -191,6 +197,8 @@ public class ApartmentBuilder {
         apartment.setImage2(postApartmentDTO.getImage2());
         apartment.setImage3(postApartmentDTO.getImage3());
         apartment.setImage4(postApartmentDTO.getImage4());
+        apartment.setMetadataUrl(postApartmentDTO.getMetadataUrl());
+        apartment.setTokenId(postApartmentDTO.getTokenId());
         return apartment;
     }
 }

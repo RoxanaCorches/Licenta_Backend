@@ -156,6 +156,14 @@ public class ApartmentEntity implements Serializable {
 
     @Column(name = "image_4")
     private String image4;;
+
+    @Column(name = "metadata_url")
+    private String metadataUrl;
+
+    @Column(name = "token_id")
+    private String tokenId;
+
+
 /*
     @Column(name = "amenities")
     private List<String> amenities;
