@@ -25,6 +25,11 @@ public class BlockchainConfiguration {
     @Value("${propertyNftAddress}")
     private String propertyNftAddress;
 
+    @Value("${marketplaceAddress}")
+    private String marketplaceAddress;
+
+
+
     private KYCNFT kycNft;
     private PropertyNFT propertyNft;
     private Marketplace marketplace;
@@ -62,7 +67,7 @@ public class BlockchainConfiguration {
     @Bean
     public Marketplace marketplace(Web3j web3j, Credentials credentials) {
         return Marketplace.load(
-                propertyNftAddress,
+                marketplaceAddress,
                 web3j,
                 credentials,
                 new DefaultGasProvider()
