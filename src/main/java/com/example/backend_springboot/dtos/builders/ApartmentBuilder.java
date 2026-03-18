@@ -87,13 +87,15 @@ public class ApartmentBuilder {
                 apartment.getImage3(),
                 apartment.getImage4(),
                 apartment.getMetadataUrl(),
-                apartment.getTokenId()
+                apartment.getTokenId(),
+                apartment.getIdApartment()
         );
         return responseApartmentDTO;
     }
 
     public static PostApartmentDTO topostApartmentDTO(ApartmentEntity apartment) {
         PostApartmentDTO postApartmentDTO = new PostApartmentDTO(
+                apartment.getIdApartment(),
                 apartment.getUser().getBlockchainAddress(),
                 apartment.getTitle(),
                 apartment.getDescription(),
@@ -155,6 +157,7 @@ public class ApartmentBuilder {
 
     public static ApartmentEntity toApartmentEntity(PostApartmentDTO postApartmentDTO) {
         ApartmentEntity apartment = new ApartmentEntity();
+        apartment.setIdApartment(postApartmentDTO.getIdApartment());
         apartment.setTitle(postApartmentDTO.getTitle());
         apartment.setDescription(postApartmentDTO.getDescription());
         apartment.setArea(postApartmentDTO.getArea());

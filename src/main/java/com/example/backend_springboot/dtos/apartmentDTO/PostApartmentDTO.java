@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalTime;
+import java.util.UUID;
 
 @Setter
 @Getter
 @AllArgsConstructor
 public class PostApartmentDTO {
+    private UUID idApartment;
     private String blockchainAddress;
     private String title;
     private String description;
@@ -59,4 +61,7 @@ public class PostApartmentDTO {
 
 
     public PostApartmentDTO() {}
+
+
+
 }

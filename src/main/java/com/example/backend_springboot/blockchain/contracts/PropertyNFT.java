@@ -105,6 +105,10 @@ public class PropertyNFT extends Contract {
             Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
     ;
 
+    public static final Event MINTED_EVENT = new Event("Minted", 
+            Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {}, new TypeReference<Uint256>(true) {}));
+    ;
+
     public static final Event OWNERSHIPTRANSFERRED_EVENT = new Event("OwnershipTransferred", 
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {}, new TypeReference<Address>(true) {}));
     ;
@@ -133,236 +137,6 @@ public class PropertyNFT extends Contract {
 
     protected PropertyNFT(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
-    }
-
-    public static List<ApprovalEventResponse> getApprovalEvents(TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(APPROVAL_EVENT, transactionReceipt);
-        ArrayList<ApprovalEventResponse> responses = new ArrayList<ApprovalEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
-            ApprovalEventResponse typedResponse = new ApprovalEventResponse();
-            typedResponse.log = eventValues.getLog();
-            typedResponse.owner = (String) eventValues.getIndexedValues().get(0).getValue();
-            typedResponse.approved = (String) eventValues.getIndexedValues().get(1).getValue();
-            typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(2).getValue();
-            responses.add(typedResponse);
-        }
-        return responses;
-    }
-
-    public static ApprovalEventResponse getApprovalEventFromLog(Log log) {
-        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(APPROVAL_EVENT, log);
-        ApprovalEventResponse typedResponse = new ApprovalEventResponse();
-        typedResponse.log = log;
-        typedResponse.owner = (String) eventValues.getIndexedValues().get(0).getValue();
-        typedResponse.approved = (String) eventValues.getIndexedValues().get(1).getValue();
-        typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(2).getValue();
-        return typedResponse;
-    }
-
-    public Flowable<ApprovalEventResponse> approvalEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(log -> getApprovalEventFromLog(log));
-    }
-
-    public Flowable<ApprovalEventResponse> approvalEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
-        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
-        filter.addSingleTopic(EventEncoder.encode(APPROVAL_EVENT));
-        return approvalEventFlowable(filter);
-    }
-
-    public static List<ApprovalForAllEventResponse> getApprovalForAllEvents(TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(APPROVALFORALL_EVENT, transactionReceipt);
-        ArrayList<ApprovalForAllEventResponse> responses = new ArrayList<ApprovalForAllEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
-            ApprovalForAllEventResponse typedResponse = new ApprovalForAllEventResponse();
-            typedResponse.log = eventValues.getLog();
-            typedResponse.owner = (String) eventValues.getIndexedValues().get(0).getValue();
-            typedResponse.operator = (String) eventValues.getIndexedValues().get(1).getValue();
-            typedResponse.approved = (Boolean) eventValues.getNonIndexedValues().get(0).getValue();
-            responses.add(typedResponse);
-        }
-        return responses;
-    }
-
-    public static ApprovalForAllEventResponse getApprovalForAllEventFromLog(Log log) {
-        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(APPROVALFORALL_EVENT, log);
-        ApprovalForAllEventResponse typedResponse = new ApprovalForAllEventResponse();
-        typedResponse.log = log;
-        typedResponse.owner = (String) eventValues.getIndexedValues().get(0).getValue();
-        typedResponse.operator = (String) eventValues.getIndexedValues().get(1).getValue();
-        typedResponse.approved = (Boolean) eventValues.getNonIndexedValues().get(0).getValue();
-        return typedResponse;
-    }
-
-    public Flowable<ApprovalForAllEventResponse> approvalForAllEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(log -> getApprovalForAllEventFromLog(log));
-    }
-
-    public Flowable<ApprovalForAllEventResponse> approvalForAllEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
-        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
-        filter.addSingleTopic(EventEncoder.encode(APPROVALFORALL_EVENT));
-        return approvalForAllEventFlowable(filter);
-    }
-
-    public static List<BatchMetadataUpdateEventResponse> getBatchMetadataUpdateEvents(TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(BATCHMETADATAUPDATE_EVENT, transactionReceipt);
-        ArrayList<BatchMetadataUpdateEventResponse> responses = new ArrayList<BatchMetadataUpdateEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
-            BatchMetadataUpdateEventResponse typedResponse = new BatchMetadataUpdateEventResponse();
-            typedResponse.log = eventValues.getLog();
-            typedResponse._fromTokenId = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
-            typedResponse._toTokenId = (BigInteger) eventValues.getNonIndexedValues().get(1).getValue();
-            responses.add(typedResponse);
-        }
-        return responses;
-    }
-
-    public static BatchMetadataUpdateEventResponse getBatchMetadataUpdateEventFromLog(Log log) {
-        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(BATCHMETADATAUPDATE_EVENT, log);
-        BatchMetadataUpdateEventResponse typedResponse = new BatchMetadataUpdateEventResponse();
-        typedResponse.log = log;
-        typedResponse._fromTokenId = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
-        typedResponse._toTokenId = (BigInteger) eventValues.getNonIndexedValues().get(1).getValue();
-        return typedResponse;
-    }
-
-    public Flowable<BatchMetadataUpdateEventResponse> batchMetadataUpdateEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(log -> getBatchMetadataUpdateEventFromLog(log));
-    }
-
-    public Flowable<BatchMetadataUpdateEventResponse> batchMetadataUpdateEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
-        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
-        filter.addSingleTopic(EventEncoder.encode(BATCHMETADATAUPDATE_EVENT));
-        return batchMetadataUpdateEventFlowable(filter);
-    }
-
-    public static List<MetadataUpdateEventResponse> getMetadataUpdateEvents(TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(METADATAUPDATE_EVENT, transactionReceipt);
-        ArrayList<MetadataUpdateEventResponse> responses = new ArrayList<MetadataUpdateEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
-            MetadataUpdateEventResponse typedResponse = new MetadataUpdateEventResponse();
-            typedResponse.log = eventValues.getLog();
-            typedResponse._tokenId = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
-            responses.add(typedResponse);
-        }
-        return responses;
-    }
-
-    public static MetadataUpdateEventResponse getMetadataUpdateEventFromLog(Log log) {
-        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(METADATAUPDATE_EVENT, log);
-        MetadataUpdateEventResponse typedResponse = new MetadataUpdateEventResponse();
-        typedResponse.log = log;
-        typedResponse._tokenId = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
-        return typedResponse;
-    }
-
-    public Flowable<MetadataUpdateEventResponse> metadataUpdateEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(log -> getMetadataUpdateEventFromLog(log));
-    }
-
-    public Flowable<MetadataUpdateEventResponse> metadataUpdateEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
-        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
-        filter.addSingleTopic(EventEncoder.encode(METADATAUPDATE_EVENT));
-        return metadataUpdateEventFlowable(filter);
-    }
-
-    public static List<OwnershipTransferredEventResponse> getOwnershipTransferredEvents(TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(OWNERSHIPTRANSFERRED_EVENT, transactionReceipt);
-        ArrayList<OwnershipTransferredEventResponse> responses = new ArrayList<OwnershipTransferredEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
-            OwnershipTransferredEventResponse typedResponse = new OwnershipTransferredEventResponse();
-            typedResponse.log = eventValues.getLog();
-            typedResponse.previousOwner = (String) eventValues.getIndexedValues().get(0).getValue();
-            typedResponse.newOwner = (String) eventValues.getIndexedValues().get(1).getValue();
-            responses.add(typedResponse);
-        }
-        return responses;
-    }
-
-    public static OwnershipTransferredEventResponse getOwnershipTransferredEventFromLog(Log log) {
-        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(OWNERSHIPTRANSFERRED_EVENT, log);
-        OwnershipTransferredEventResponse typedResponse = new OwnershipTransferredEventResponse();
-        typedResponse.log = log;
-        typedResponse.previousOwner = (String) eventValues.getIndexedValues().get(0).getValue();
-        typedResponse.newOwner = (String) eventValues.getIndexedValues().get(1).getValue();
-        return typedResponse;
-    }
-
-    public Flowable<OwnershipTransferredEventResponse> ownershipTransferredEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(log -> getOwnershipTransferredEventFromLog(log));
-    }
-
-    public Flowable<OwnershipTransferredEventResponse> ownershipTransferredEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
-        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
-        filter.addSingleTopic(EventEncoder.encode(OWNERSHIPTRANSFERRED_EVENT));
-        return ownershipTransferredEventFlowable(filter);
-    }
-
-    public static List<TransferEventResponse> getTransferEvents(TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(TRANSFER_EVENT, transactionReceipt);
-        ArrayList<TransferEventResponse> responses = new ArrayList<TransferEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
-            TransferEventResponse typedResponse = new TransferEventResponse();
-            typedResponse.log = eventValues.getLog();
-            typedResponse.from = (String) eventValues.getIndexedValues().get(0).getValue();
-            typedResponse.to = (String) eventValues.getIndexedValues().get(1).getValue();
-            typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(2).getValue();
-            responses.add(typedResponse);
-        }
-        return responses;
-    }
-
-    public static TransferEventResponse getTransferEventFromLog(Log log) {
-        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(TRANSFER_EVENT, log);
-        TransferEventResponse typedResponse = new TransferEventResponse();
-        typedResponse.log = log;
-        typedResponse.from = (String) eventValues.getIndexedValues().get(0).getValue();
-        typedResponse.to = (String) eventValues.getIndexedValues().get(1).getValue();
-        typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(2).getValue();
-        return typedResponse;
-    }
-
-    public Flowable<TransferEventResponse> transferEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(log -> getTransferEventFromLog(log));
-    }
-
-    public Flowable<TransferEventResponse> transferEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
-        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
-        filter.addSingleTopic(EventEncoder.encode(TRANSFER_EVENT));
-        return transferEventFlowable(filter);
-    }
-
-    public static List<UpdateUserEventResponse> getUpdateUserEvents(TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(UPDATEUSER_EVENT, transactionReceipt);
-        ArrayList<UpdateUserEventResponse> responses = new ArrayList<UpdateUserEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
-            UpdateUserEventResponse typedResponse = new UpdateUserEventResponse();
-            typedResponse.log = eventValues.getLog();
-            typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(0).getValue();
-            typedResponse.user = (String) eventValues.getIndexedValues().get(1).getValue();
-            typedResponse.expires = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
-            responses.add(typedResponse);
-        }
-        return responses;
-    }
-
-    public static UpdateUserEventResponse getUpdateUserEventFromLog(Log log) {
-        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(UPDATEUSER_EVENT, log);
-        UpdateUserEventResponse typedResponse = new UpdateUserEventResponse();
-        typedResponse.log = log;
-        typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(0).getValue();
-        typedResponse.user = (String) eventValues.getIndexedValues().get(1).getValue();
-        typedResponse.expires = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
-        return typedResponse;
-    }
-
-    public Flowable<UpdateUserEventResponse> updateUserEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(log -> getUpdateUserEventFromLog(log));
-    }
-
-    public Flowable<UpdateUserEventResponse> updateUserEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
-        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
-        filter.addSingleTopic(EventEncoder.encode(UPDATEUSER_EVENT));
-        return updateUserEventFlowable(filter);
     }
 
     public RemoteFunctionCall<TransactionReceipt> approve(String to, BigInteger tokenId) {
@@ -564,6 +338,268 @@ public class PropertyNFT extends Contract {
         return executeRemoteCallSingleValueReturn(function, String.class);
     }
 
+    public static List<ApprovalEventResponse> getApprovalEvents(TransactionReceipt transactionReceipt) {
+        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(APPROVAL_EVENT, transactionReceipt);
+        ArrayList<ApprovalEventResponse> responses = new ArrayList<ApprovalEventResponse>(valueList.size());
+        for (Contract.EventValuesWithLog eventValues : valueList) {
+            ApprovalEventResponse typedResponse = new ApprovalEventResponse();
+            typedResponse.log = eventValues.getLog();
+            typedResponse.owner = (String) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.approved = (String) eventValues.getIndexedValues().get(1).getValue();
+            typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(2).getValue();
+            responses.add(typedResponse);
+        }
+        return responses;
+    }
+
+    public static ApprovalEventResponse getApprovalEventFromLog(Log log) {
+        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(APPROVAL_EVENT, log);
+        ApprovalEventResponse typedResponse = new ApprovalEventResponse();
+        typedResponse.log = log;
+        typedResponse.owner = (String) eventValues.getIndexedValues().get(0).getValue();
+        typedResponse.approved = (String) eventValues.getIndexedValues().get(1).getValue();
+        typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(2).getValue();
+        return typedResponse;
+    }
+
+    public Flowable<ApprovalEventResponse> approvalEventFlowable(EthFilter filter) {
+        return web3j.ethLogFlowable(filter).map(log -> getApprovalEventFromLog(log));
+    }
+
+    public Flowable<ApprovalEventResponse> approvalEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
+        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+        filter.addSingleTopic(EventEncoder.encode(APPROVAL_EVENT));
+        return approvalEventFlowable(filter);
+    }
+
+    public static List<ApprovalForAllEventResponse> getApprovalForAllEvents(TransactionReceipt transactionReceipt) {
+        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(APPROVALFORALL_EVENT, transactionReceipt);
+        ArrayList<ApprovalForAllEventResponse> responses = new ArrayList<ApprovalForAllEventResponse>(valueList.size());
+        for (Contract.EventValuesWithLog eventValues : valueList) {
+            ApprovalForAllEventResponse typedResponse = new ApprovalForAllEventResponse();
+            typedResponse.log = eventValues.getLog();
+            typedResponse.owner = (String) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.operator = (String) eventValues.getIndexedValues().get(1).getValue();
+            typedResponse.approved = (Boolean) eventValues.getNonIndexedValues().get(0).getValue();
+            responses.add(typedResponse);
+        }
+        return responses;
+    }
+
+    public static ApprovalForAllEventResponse getApprovalForAllEventFromLog(Log log) {
+        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(APPROVALFORALL_EVENT, log);
+        ApprovalForAllEventResponse typedResponse = new ApprovalForAllEventResponse();
+        typedResponse.log = log;
+        typedResponse.owner = (String) eventValues.getIndexedValues().get(0).getValue();
+        typedResponse.operator = (String) eventValues.getIndexedValues().get(1).getValue();
+        typedResponse.approved = (Boolean) eventValues.getNonIndexedValues().get(0).getValue();
+        return typedResponse;
+    }
+
+    public Flowable<ApprovalForAllEventResponse> approvalForAllEventFlowable(EthFilter filter) {
+        return web3j.ethLogFlowable(filter).map(log -> getApprovalForAllEventFromLog(log));
+    }
+
+    public Flowable<ApprovalForAllEventResponse> approvalForAllEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
+        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+        filter.addSingleTopic(EventEncoder.encode(APPROVALFORALL_EVENT));
+        return approvalForAllEventFlowable(filter);
+    }
+
+    public static List<BatchMetadataUpdateEventResponse> getBatchMetadataUpdateEvents(TransactionReceipt transactionReceipt) {
+        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(BATCHMETADATAUPDATE_EVENT, transactionReceipt);
+        ArrayList<BatchMetadataUpdateEventResponse> responses = new ArrayList<BatchMetadataUpdateEventResponse>(valueList.size());
+        for (Contract.EventValuesWithLog eventValues : valueList) {
+            BatchMetadataUpdateEventResponse typedResponse = new BatchMetadataUpdateEventResponse();
+            typedResponse.log = eventValues.getLog();
+            typedResponse._fromTokenId = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
+            typedResponse._toTokenId = (BigInteger) eventValues.getNonIndexedValues().get(1).getValue();
+            responses.add(typedResponse);
+        }
+        return responses;
+    }
+
+    public static BatchMetadataUpdateEventResponse getBatchMetadataUpdateEventFromLog(Log log) {
+        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(BATCHMETADATAUPDATE_EVENT, log);
+        BatchMetadataUpdateEventResponse typedResponse = new BatchMetadataUpdateEventResponse();
+        typedResponse.log = log;
+        typedResponse._fromTokenId = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
+        typedResponse._toTokenId = (BigInteger) eventValues.getNonIndexedValues().get(1).getValue();
+        return typedResponse;
+    }
+
+    public Flowable<BatchMetadataUpdateEventResponse> batchMetadataUpdateEventFlowable(EthFilter filter) {
+        return web3j.ethLogFlowable(filter).map(log -> getBatchMetadataUpdateEventFromLog(log));
+    }
+
+    public Flowable<BatchMetadataUpdateEventResponse> batchMetadataUpdateEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
+        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+        filter.addSingleTopic(EventEncoder.encode(BATCHMETADATAUPDATE_EVENT));
+        return batchMetadataUpdateEventFlowable(filter);
+    }
+
+    public static List<MetadataUpdateEventResponse> getMetadataUpdateEvents(TransactionReceipt transactionReceipt) {
+        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(METADATAUPDATE_EVENT, transactionReceipt);
+        ArrayList<MetadataUpdateEventResponse> responses = new ArrayList<MetadataUpdateEventResponse>(valueList.size());
+        for (Contract.EventValuesWithLog eventValues : valueList) {
+            MetadataUpdateEventResponse typedResponse = new MetadataUpdateEventResponse();
+            typedResponse.log = eventValues.getLog();
+            typedResponse._tokenId = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
+            responses.add(typedResponse);
+        }
+        return responses;
+    }
+
+    public static MetadataUpdateEventResponse getMetadataUpdateEventFromLog(Log log) {
+        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(METADATAUPDATE_EVENT, log);
+        MetadataUpdateEventResponse typedResponse = new MetadataUpdateEventResponse();
+        typedResponse.log = log;
+        typedResponse._tokenId = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
+        return typedResponse;
+    }
+
+    public Flowable<MetadataUpdateEventResponse> metadataUpdateEventFlowable(EthFilter filter) {
+        return web3j.ethLogFlowable(filter).map(log -> getMetadataUpdateEventFromLog(log));
+    }
+
+    public Flowable<MetadataUpdateEventResponse> metadataUpdateEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
+        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+        filter.addSingleTopic(EventEncoder.encode(METADATAUPDATE_EVENT));
+        return metadataUpdateEventFlowable(filter);
+    }
+
+    public static List<MintedEventResponse> getMintedEvents(TransactionReceipt transactionReceipt) {
+        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(MINTED_EVENT, transactionReceipt);
+        ArrayList<MintedEventResponse> responses = new ArrayList<MintedEventResponse>(valueList.size());
+        for (Contract.EventValuesWithLog eventValues : valueList) {
+            MintedEventResponse typedResponse = new MintedEventResponse();
+            typedResponse.log = eventValues.getLog();
+            typedResponse.to = (String) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(1).getValue();
+            responses.add(typedResponse);
+        }
+        return responses;
+    }
+
+    public static MintedEventResponse getMintedEventFromLog(Log log) {
+        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(MINTED_EVENT, log);
+        MintedEventResponse typedResponse = new MintedEventResponse();
+        typedResponse.log = log;
+        typedResponse.to = (String) eventValues.getIndexedValues().get(0).getValue();
+        typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(1).getValue();
+        return typedResponse;
+    }
+
+    public Flowable<MintedEventResponse> mintedEventFlowable(EthFilter filter) {
+        return web3j.ethLogFlowable(filter).map(log -> getMintedEventFromLog(log));
+    }
+
+    public Flowable<MintedEventResponse> mintedEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
+        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+        filter.addSingleTopic(EventEncoder.encode(MINTED_EVENT));
+        return mintedEventFlowable(filter);
+    }
+
+    public static List<OwnershipTransferredEventResponse> getOwnershipTransferredEvents(TransactionReceipt transactionReceipt) {
+        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(OWNERSHIPTRANSFERRED_EVENT, transactionReceipt);
+        ArrayList<OwnershipTransferredEventResponse> responses = new ArrayList<OwnershipTransferredEventResponse>(valueList.size());
+        for (Contract.EventValuesWithLog eventValues : valueList) {
+            OwnershipTransferredEventResponse typedResponse = new OwnershipTransferredEventResponse();
+            typedResponse.log = eventValues.getLog();
+            typedResponse.previousOwner = (String) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.newOwner = (String) eventValues.getIndexedValues().get(1).getValue();
+            responses.add(typedResponse);
+        }
+        return responses;
+    }
+
+    public static OwnershipTransferredEventResponse getOwnershipTransferredEventFromLog(Log log) {
+        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(OWNERSHIPTRANSFERRED_EVENT, log);
+        OwnershipTransferredEventResponse typedResponse = new OwnershipTransferredEventResponse();
+        typedResponse.log = log;
+        typedResponse.previousOwner = (String) eventValues.getIndexedValues().get(0).getValue();
+        typedResponse.newOwner = (String) eventValues.getIndexedValues().get(1).getValue();
+        return typedResponse;
+    }
+
+    public Flowable<OwnershipTransferredEventResponse> ownershipTransferredEventFlowable(EthFilter filter) {
+        return web3j.ethLogFlowable(filter).map(log -> getOwnershipTransferredEventFromLog(log));
+    }
+
+    public Flowable<OwnershipTransferredEventResponse> ownershipTransferredEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
+        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+        filter.addSingleTopic(EventEncoder.encode(OWNERSHIPTRANSFERRED_EVENT));
+        return ownershipTransferredEventFlowable(filter);
+    }
+
+    public static List<TransferEventResponse> getTransferEvents(TransactionReceipt transactionReceipt) {
+        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(TRANSFER_EVENT, transactionReceipt);
+        ArrayList<TransferEventResponse> responses = new ArrayList<TransferEventResponse>(valueList.size());
+        for (Contract.EventValuesWithLog eventValues : valueList) {
+            TransferEventResponse typedResponse = new TransferEventResponse();
+            typedResponse.log = eventValues.getLog();
+            typedResponse.from = (String) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.to = (String) eventValues.getIndexedValues().get(1).getValue();
+            typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(2).getValue();
+            responses.add(typedResponse);
+        }
+        return responses;
+    }
+
+    public static TransferEventResponse getTransferEventFromLog(Log log) {
+        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(TRANSFER_EVENT, log);
+        TransferEventResponse typedResponse = new TransferEventResponse();
+        typedResponse.log = log;
+        typedResponse.from = (String) eventValues.getIndexedValues().get(0).getValue();
+        typedResponse.to = (String) eventValues.getIndexedValues().get(1).getValue();
+        typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(2).getValue();
+        return typedResponse;
+    }
+
+    public Flowable<TransferEventResponse> transferEventFlowable(EthFilter filter) {
+        return web3j.ethLogFlowable(filter).map(log -> getTransferEventFromLog(log));
+    }
+
+    public Flowable<TransferEventResponse> transferEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
+        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+        filter.addSingleTopic(EventEncoder.encode(TRANSFER_EVENT));
+        return transferEventFlowable(filter);
+    }
+
+    public static List<UpdateUserEventResponse> getUpdateUserEvents(TransactionReceipt transactionReceipt) {
+        List<Contract.EventValuesWithLog> valueList = staticExtractEventParametersWithLog(UPDATEUSER_EVENT, transactionReceipt);
+        ArrayList<UpdateUserEventResponse> responses = new ArrayList<UpdateUserEventResponse>(valueList.size());
+        for (Contract.EventValuesWithLog eventValues : valueList) {
+            UpdateUserEventResponse typedResponse = new UpdateUserEventResponse();
+            typedResponse.log = eventValues.getLog();
+            typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.user = (String) eventValues.getIndexedValues().get(1).getValue();
+            typedResponse.expires = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
+            responses.add(typedResponse);
+        }
+        return responses;
+    }
+
+    public static UpdateUserEventResponse getUpdateUserEventFromLog(Log log) {
+        Contract.EventValuesWithLog eventValues = staticExtractEventParametersWithLog(UPDATEUSER_EVENT, log);
+        UpdateUserEventResponse typedResponse = new UpdateUserEventResponse();
+        typedResponse.log = log;
+        typedResponse.tokenId = (BigInteger) eventValues.getIndexedValues().get(0).getValue();
+        typedResponse.user = (String) eventValues.getIndexedValues().get(1).getValue();
+        typedResponse.expires = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
+        return typedResponse;
+    }
+
+    public Flowable<UpdateUserEventResponse> updateUserEventFlowable(EthFilter filter) {
+        return web3j.ethLogFlowable(filter).map(log -> getUpdateUserEventFromLog(log));
+    }
+
+    public Flowable<UpdateUserEventResponse> updateUserEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
+        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+        filter.addSingleTopic(EventEncoder.encode(UPDATEUSER_EVENT));
+        return updateUserEventFlowable(filter);
+    }
+
     @Deprecated
     public static PropertyNFT load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
         return new PropertyNFT(contractAddress, web3j, credentials, gasPrice, gasLimit);
@@ -606,6 +642,12 @@ public class PropertyNFT extends Contract {
 
     public static class MetadataUpdateEventResponse extends BaseEventResponse {
         public BigInteger _tokenId;
+    }
+
+    public static class MintedEventResponse extends BaseEventResponse {
+        public String to;
+
+        public BigInteger tokenId;
     }
 
     public static class OwnershipTransferredEventResponse extends BaseEventResponse {

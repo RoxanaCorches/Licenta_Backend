@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalTime;
+import java.util.UUID;
 
 
 @Getter
@@ -35,6 +36,7 @@ public class ResponseApartmentDTO {
         private String image4;
         private String metadataUrl;
         private String tokenId;
+        private UUID idApartment;
 
 
         public ResponseApartmentDTO() {}
