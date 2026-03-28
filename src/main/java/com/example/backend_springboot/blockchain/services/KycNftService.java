@@ -4,7 +4,6 @@ import com.example.backend_springboot.blockchain.contracts.KYCNFT;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 
 @Service
 public class KycNftService {

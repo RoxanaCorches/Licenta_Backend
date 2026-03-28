@@ -1,7 +1,5 @@
 package com.example.backend_springboot.dtos.rentalDTO;
 
-import com.example.backend_springboot.entities.ApartmentEntity;
-import com.example.backend_springboot.entities.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +15,7 @@ public class CreateRentalDTO {
     private LocalDate endDate;
     private Double totalPrice;
     private String transactionHash;
+    private LocalDate rentalDate;
     private UUID userId;
     private String firstName;
     private String lastName;

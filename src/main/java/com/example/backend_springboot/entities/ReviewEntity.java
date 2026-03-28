@@ -36,7 +36,7 @@ public class ReviewEntity implements Serializable {
     @Min(1)
     @Max(5)
     @Column(name = "rating")
-    private Double rating;
+    private Integer rating;
 
    @ManyToOne
    @JoinColumn(name = "id_user", nullable = false)

@@ -28,9 +28,9 @@ public class UserController {
     }
 
 
-    @GetMapping("/getUserById/{id}")
-    public GetUserDTO getUserById(@PathVariable UUID id){
-        GetUserDTO user = userService.getUserById(id);
+    @GetMapping("/getUserById/{walletAddress}")
+    public GetUserDTO getUserById(@PathVariable String walletAddress){
+        GetUserDTO user = userService.getUserByWalletAddress(walletAddress);
         return user;
     }
 

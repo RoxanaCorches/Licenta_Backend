@@ -25,12 +25,6 @@ public class RentalEntity implements Serializable {
     @JdbcTypeCode(SqlTypes.UUID)
     private UUID idRental;
 
-    //@Column(name = "id_renter")
-    //private int idRenter;
-
-    //@Column(name = "id_apartment")
-    //private UUID idApartment;
-
     @Column(name = "start_date")
     private LocalDate startDate;
 
@@ -42,6 +36,9 @@ public class RentalEntity implements Serializable {
 
     @Column(name = "transaction_hash")
     private String transactionHash;
+
+    @Column (name = "create_rental")
+    private LocalDate createRental;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -58,7 +55,6 @@ public class RentalEntity implements Serializable {
 
     @OneToOne(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true)
     private ReviewEntity review;
-
 
     public RentalEntity(){}
 

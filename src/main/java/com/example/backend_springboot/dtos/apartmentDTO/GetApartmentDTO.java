@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -26,26 +25,28 @@ public class GetApartmentDTO {
     private Integer guests;
     private Integer bedrooms;
     private Integer bathrooms;
+
     private boolean tv;
     private boolean wifi;
     private boolean kitchen;
     private boolean washer;
-    private boolean air_conditioning;
+    private boolean airConditioning;
     private boolean pool;
-    private boolean hot_tub;
-    private boolean BBQ_grill;
-    private boolean pool_table;
-    private boolean indoor_fireplace;
+    private boolean hotTub;
+    private boolean bbqGrill;
+    private boolean poolTable;
+    private boolean indoorFireplace;
     private boolean piano;
     private boolean balcony;
     private boolean terrace;
     private boolean garden_view;
-    private boolean ski_out;
-    private boolean lake_access;
-    private boolean beach_access;
+    private boolean skiOut;
+    private boolean lakeAccess;
+    private boolean beachAccess;
     private boolean petsAllowed;
     private boolean smokingAllowed;
     private boolean partiesAllowed;
+
     private LocalTime checkInFrom;
     private LocalTime checkInUntil;
     private LocalTime checkOutFrom;

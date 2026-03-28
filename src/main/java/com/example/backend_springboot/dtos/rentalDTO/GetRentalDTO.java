@@ -13,13 +13,18 @@ import java.util.UUID;
 @AllArgsConstructor
 public class GetRentalDTO {
     private UUID rentalId;
+    private UUID userId;
+    private UUID apartmentId;
+    private String tokenId;
     private LocalDate startDate;
     private LocalDate endDate;
+    private LocalDate rentalDate;
     private Double totalPrice;
     private String title;
     private String city;
     private String country;
     private RentalStatus status;
+    private String imageMainUrl;
 
     public GetRentalDTO() {}
 }

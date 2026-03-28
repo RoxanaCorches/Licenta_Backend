@@ -43,7 +43,7 @@ public class RentalController {
         return rentalService.createRental(rentalDTO);
     }
 
-    @GetMapping("/cancelRental/{id}")
+    @PutMapping("/cancelRental/{id}")
     public GetRentalDTO cancelRental(@PathVariable UUID id) throws Exception {
         return rentalService.cancelRental(id);
     }

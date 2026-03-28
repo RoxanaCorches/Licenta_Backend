@@ -15,7 +15,7 @@ public class PostReviewDTO {
     private UUID idRental;
     private String comment;
     private LocalDate date;
-    private Double rating;
+    private Integer rating;
 
     public PostReviewDTO(){}
 }

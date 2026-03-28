@@ -12,10 +12,15 @@ import java.util.UUID;
 @AllArgsConstructor
 public class GetReviewForPropertiesUserDTO {
     private UUID id;
+    private UUID rentalId;
+    private UUID userId;
+    private UUID ownerId;
+    private String lastNameOwner;
+    private String firstNameOwner;
     private String title;
     private String city;
     private String country;
     private LocalDate date;
     private String comment;
-    private Double rating;
+    private Integer rating;
 }

@@ -33,6 +33,11 @@ public class ReviewBuilder {
     public static GetReviewForPropertiesUserDTO toGetReviewForPropertiesUserDTO(ReviewEntity review) {
         GetReviewForPropertiesUserDTO getReviewDTO = new GetReviewForPropertiesUserDTO(
                 review.getIdReview(),
+                review.getRental().getIdRental(),
+                review.getUser().getIdUser(),
+                review.getRental().getApartment().getUser().getIdUser(),
+                review.getRental().getUser().getLastName(),
+                review.getRental().getUser().getFirstName(),
                 review.getRental().getApartment().getTitle(),
                 review.getRental().getApartment().getCity(),
                 review.getRental().getApartment().getCountry(),

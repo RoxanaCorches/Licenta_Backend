@@ -59,6 +59,7 @@ public class ReviewService {
 
         System.out.println("Id user care a facut rent:" + userIdForRental);
         System.out.println("Id user care vrea sa lase review:" + userIdForReview);
+        System.out.println(("Idul userului care are proprietatea pt care se lasa review:" + rental.getApartment().getUser().getIdUser()));
 
         if(!userIdForRental.equals(userIdForReview)){
             throw new RuntimeException("User cannot review this rental");

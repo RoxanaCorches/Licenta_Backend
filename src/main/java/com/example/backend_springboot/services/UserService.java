@@ -1,11 +1,14 @@
 package com.example.backend_springboot.services;
 
 import com.example.backend_springboot.blockchain.services.KycNftService;
+import com.example.backend_springboot.dtos.builders.ReviewBuilder;
+import com.example.backend_springboot.dtos.reviewDTO.GetReviewForPropertiesUserDTO;
 import com.example.backend_springboot.dtos.userDTO.CreateUserDTO;
 import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
 import com.example.backend_springboot.dtos.builders.UserBuilder;
 import com.example.backend_springboot.dtos.userDTO.UpdateUserDTO;
 import com.example.backend_springboot.entities.UserEntity;
+import com.example.backend_springboot.repositories.ReviewRepository;
 import com.example.backend_springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,16 +17,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final KycNftService kycNftService;
+    private final ReviewRepository reviewRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, KycNftService kycNftService) {
+    public UserService(UserRepository userRepository, KycNftService kycNftService, ReviewRepository reviewRepository) {
         this.userRepository = userRepository;
         this.kycNftService = kycNftService;
+        this.reviewRepository = reviewRepository;
     }
 
     public List<GetUserDTO> getAllUsers() {
@@ -35,7 +41,42 @@ public class UserService {
         return userDTOS;
     }
 
+    public GetUserDTO getUserByWalletAddress(String walletAddress) {
+        Optional<UserEntity> userOptional = userRepository.findByBlockchainAddress(walletAddress);
 
+        if (userOptional.isPresent()) {
+            UserEntity user = userOptional.get();
+            GetUserDTO userDTO = UserBuilder.toGetUserDTO(user);
+
+            // 1. Luăm review-urile pe care utilizatorul LE-A SCRIS (deja există în user.getReviewList())
+            List<GetReviewForPropertiesUserDTO> reviewsGiven = user.getReviews().stream()
+                    .map(ReviewBuilder::toGetReviewForPropertiesUserDTO)
+                    .collect(Collectors.toList());
+
+            System.out.println(reviewsGiven);
+
+            // 2. Luăm review-urile pe care utilizatorul LE-A PRIMIT (pentru proprietățile lui)
+            // Trebuie să apelezi o metodă nouă din ReviewRepository
+            List<GetReviewForPropertiesUserDTO> reviewsReceived = reviewRepository
+                    .findAllReceivedReviewsByOwnerId(user.getIdUser()).stream()
+                    .map(ReviewBuilder::toGetReviewForPropertiesUserDTO)
+                    .collect(Collectors.toList());
+
+            // 3. Combinăm cele două liste în DTO
+            List<GetReviewForPropertiesUserDTO> allReviews = new ArrayList<>();
+            allReviews.addAll(reviewsGiven);
+            allReviews.addAll(reviewsReceived);
+
+            userDTO.setReviewList(allReviews);
+
+            return userDTO;
+        }
+
+        return null;
+    }
+
+
+    /*
     public GetUserDTO getUserById(UUID id) {
         Optional<UserEntity> user = userRepository.findById(id);
         if (user.isPresent()) {
@@ -46,7 +87,7 @@ public class UserService {
             return null;
         }
     }
-
+     */
 
     public CreateUserDTO mintKycForUser(UserEntity user) throws Exception {
         Optional<UserEntity> userExist = userRepository.findByBlockchainAddress(user.getBlockchainAddress());

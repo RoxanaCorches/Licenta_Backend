@@ -10,7 +10,6 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
@@ -27,9 +26,6 @@ public class ApartmentEntity implements Serializable {
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.UUID)
     private UUID idApartment;
-
-    //@Column(name = "id_owner")
-    //private int idOwner;
 
     @Column(name = "title")
     private String title;
@@ -79,23 +75,23 @@ public class ApartmentEntity implements Serializable {
     @Column(name = "washer", nullable = false)
     private boolean washer =  false;
 
-    @Column(name = "airConditioning", nullable = false)
-    private boolean air_conditioning =  false;
+    @Column(name = "air_Conditioning", nullable = false)
+    private boolean airConditioning =  false;
 
     @Column(name = "pool", nullable = false)
     private boolean pool =  false;
 
     @Column(name = "hotTub", nullable = false)
-    private boolean hot_tub =  false;
+    private boolean hotTub =  false;
 
-    @Column(name = "bbqGrill", nullable = false)
-    private boolean BBQ_grill =  false;
+    @Column(name = "bbq_Grill", nullable = false)
+    private boolean bbqGrill =  false;
 
-    @Column(name = "poolTable", nullable = false)
-    private boolean pool_table =  false;
+    @Column(name = "pool_table", nullable = false)
+    private boolean poolTable =  false;
 
-    @Column(name = "indoorFireplace", nullable = false)
-    private boolean indoor_fireplace =  false;
+    @Column(name = "indoor_fireplace", nullable = false)
+    private boolean indoorFireplace =  false;
 
     @Column(name = "piano", nullable = false)
     private boolean piano =  false;
@@ -106,17 +102,17 @@ public class ApartmentEntity implements Serializable {
     @Column(name = "terrace", nullable = false)
     private boolean terrace =  false;
 
-    @Column(name = "gardenView", nullable = false)
-    private boolean garden_view =  false;
+    @Column(name = "garden_view", nullable = false)
+    private boolean gardenView =  false;
 
-    @Column(name = "skiOut", nullable = false)
-    private boolean ski_out =  false;
+    @Column(name = "ski_out", nullable = false)
+    private boolean skiOut =  false;
 
-    @Column(name = "lakeAccess", nullable = false)
-    private boolean lake_access =  false;
+    @Column(name = "lake_access", nullable = false)
+    private boolean lakeAccess =  false;
 
-    @Column(name = "beachAccess", nullable = false)
-    private boolean beach_access =  false;
+    @Column(name = "beach_access", nullable = false)
+    private boolean beachAccess =  false;
 
     @Column(name = "pets_allowed", nullable = false)
     private boolean petsAllowed =  false;
@@ -163,11 +159,6 @@ public class ApartmentEntity implements Serializable {
     @Column(name = "token_id")
     private String tokenId;
 
-
-/*
-    @Column(name = "amenities")
-    private List<String> amenities;
-*/
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "id_owner", nullable = false)
@@ -181,4 +172,6 @@ public class ApartmentEntity implements Serializable {
 
     public ApartmentEntity() {}
 
+    public void setHotTub(boolean hotTub) {
+    }
 }

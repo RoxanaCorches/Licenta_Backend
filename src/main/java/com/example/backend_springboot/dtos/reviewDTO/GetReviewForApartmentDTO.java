@@ -16,5 +16,5 @@ public class GetReviewForApartmentDTO {
     private String lastName;
     private LocalDate date;
     private String comment;
-    private Double rating;
+    private Integer rating;
 }

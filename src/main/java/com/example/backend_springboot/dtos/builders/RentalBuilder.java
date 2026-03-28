@@ -18,6 +18,7 @@ public class RentalBuilder {
                 rental.getEndDate(),
                 rental.getTotalPrice(),
                 rental.getTransactionHash(),
+                rental.getCreateRental(),
                 rental.getUser().getIdUser(),
                 rental.getUser().getFirstName(),
                 rental.getUser().getLastName(),
@@ -33,13 +34,18 @@ public class RentalBuilder {
 
         GetRentalDTO getRentalDTO = new GetRentalDTO(
                 rental.getIdRental(),
+                rental.getUser().getIdUser(),
+                rental.getApartment().getIdApartment(),
+                rental.getApartment().getTokenId(),
                 rental.getStartDate(),
                 rental.getEndDate(),
+                rental.getCreateRental(),
                 rental.getTotalPrice(),
                 rental.getApartment().getTitle(),
                 rental.getApartment().getCity(),
                 rental.getApartment().getCountry(),
-                rental.getStatus()
+                rental.getStatus(),
+                rental.getApartment().getImageMain()
         );
         return getRentalDTO;
     }
@@ -68,6 +74,8 @@ public class RentalBuilder {
         rentalEntity.setEndDate(createRentalDTO.getEndDate());
         rentalEntity.setTotalPrice(createRentalDTO.getTotalPrice());
         rentalEntity.setTransactionHash(createRentalDTO.getTransactionHash());
+        rentalEntity.setCreateRental(createRentalDTO.getRentalDate());
+
         return rentalEntity;
     }
 }

@@ -29,7 +29,6 @@ public class GetUserDTO {
         private List<ResponseApartmentDTO> apartmentList;
         private List<GetRentalDTO> rentalList;
         private List<GetReviewForPropertiesUserDTO> reviewList;
-
         public GetUserDTO() {}
 
 

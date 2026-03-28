@@ -31,19 +31,19 @@ public class ApartmentBuilder {
                 apartment.isWifi(),
                 apartment.isKitchen(),
                 apartment.isWasher(),
-                apartment.isAir_conditioning(),
+                apartment.isAirConditioning(),
                 apartment.isPool(),
-                apartment.isHot_tub(),
-                apartment.isBBQ_grill(),
-                apartment.isPool_table(),
-                apartment.isIndoor_fireplace(),
+                apartment.isHotTub(),
+                apartment.isBbqGrill(),
+                apartment.isPoolTable(),
+                apartment.isIndoorFireplace(),
                 apartment.isPiano(),
                 apartment.isBalcony(),
                 apartment.isTerrace(),
-                apartment.isGarden_view(),
-                apartment.isSki_out(),
-                apartment.isLake_access(),
-                apartment.isBeach_access(),
+                apartment.isGardenView(),
+                apartment.isSkiOut(),
+                apartment.isLakeAccess(),
+                apartment.isBeachAccess(),
                 apartment.isPetsAllowed(),
                 apartment.isSmokingAllowed(),
                 apartment.isPartiesAllowed(),
@@ -113,19 +113,19 @@ public class ApartmentBuilder {
                 apartment.isWifi(),
                 apartment.isKitchen(),
                 apartment.isWasher(),
-                apartment.isAir_conditioning(),
+                apartment.isAirConditioning(),
                 apartment.isPool(),
-                apartment.isHot_tub(),
-                apartment.isBBQ_grill(),
-                apartment.isPool_table(),
-                apartment.isIndoor_fireplace(),
+                apartment.isHotTub(),
+                apartment.isBbqGrill(),
+                apartment.isPoolTable(),
+                apartment.isIndoorFireplace(),
                 apartment.isPiano(),
                 apartment.isBalcony(),
                 apartment.isTerrace(),
-                apartment.isGarden_view(),
-                apartment.isSki_out(),
-                apartment.isLake_access(),
-                apartment.isBeach_access(),
+                apartment.isGardenView(),
+                apartment.isSkiOut(),
+                apartment.isLakeAccess(),
+                apartment.isBeachAccess(),
                 apartment.isPetsAllowed(),
                 apartment.isSmokingAllowed(),
                 apartment.isPartiesAllowed(),
@@ -174,19 +174,19 @@ public class ApartmentBuilder {
         apartment.setWifi(postApartmentDTO.isWifi());
         apartment.setKitchen(postApartmentDTO.isKitchen());
         apartment.setWasher(postApartmentDTO.isWasher());
-        apartment.setAir_conditioning(postApartmentDTO.isAir_conditioning());
+        apartment.setAirConditioning(postApartmentDTO.isAirConditioning());
         apartment.setPool(postApartmentDTO.isPool());
-        apartment.setHot_tub(postApartmentDTO.isHot_tub());
-        apartment.setBBQ_grill(postApartmentDTO.isBBQ_grill());
-        apartment.setPool_table(postApartmentDTO.isPool_table());
-        apartment.setIndoor_fireplace(postApartmentDTO.isIndoor_fireplace());
+        apartment.setHotTub(postApartmentDTO.isHotTub());
+        apartment.setBbqGrill(postApartmentDTO.isBbqGrill());
+        apartment.setPoolTable(postApartmentDTO.isPoolTable());
+        apartment.setIndoorFireplace(postApartmentDTO.isIndoorFireplace());
         apartment.setPiano(postApartmentDTO.isPiano());
         apartment.setBalcony(postApartmentDTO.isBalcony());
         apartment.setTerrace(postApartmentDTO.isTerrace());
-        apartment.setGarden_view(postApartmentDTO.isGarden_view());
-        apartment.setSki_out(postApartmentDTO.isSki_out());
-        apartment.setLake_access(postApartmentDTO.isLake_access());
-        apartment.setBeach_access(postApartmentDTO.isBeach_access());
+        apartment.setGardenView(postApartmentDTO.isGardenView());
+        apartment.setSkiOut(postApartmentDTO.isSkiOut());
+        apartment.setLakeAccess(postApartmentDTO.isLakeAccess());
+        apartment.setBeachAccess(postApartmentDTO.isBeachAccess());
         apartment.setPetsAllowed(postApartmentDTO.isPetsAllowed());
         apartment.setSmokingAllowed(postApartmentDTO.isSmokingAllowed());
         apartment.setPartiesAllowed(postApartmentDTO.isPartiesAllowed());
