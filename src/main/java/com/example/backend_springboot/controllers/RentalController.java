@@ -32,19 +32,29 @@ public class RentalController {
     }
 
     /*
-    @GetMapping("/getRentalById/{id}")
-    public GetRentalDTO getRentalById(@PathVariable UUID id){
-        GetRentalDTO rental = rentalService.getRentalById(id);
-        return rental;
-    }
-*/
+        @GetMapping("/getRentalById/{id}")
+        public GetRentalDTO getRentalById(@PathVariable UUID id){
+            GetRentalDTO rental = rentalService.getRentalById(id);
+            return rental;
+        }
+    */
     @PostMapping("/createRental")
     public CreateRentalDTO createRental(@RequestBody CreateRentalDTO rentalDTO) throws Exception {
         return rentalService.createRental(rentalDTO);
     }
 
-    @PutMapping("/cancelRental/{id}")
-    public GetRentalDTO cancelRental(@PathVariable UUID id) throws Exception {
-        return rentalService.cancelRental(id);
+    @PutMapping("/checkInRental/{idRental}")
+    public GetRentalDTO checkInRental(@PathVariable UUID idRental) throws Exception {
+        return rentalService.checkInRental(idRental);
+    }
+
+    @PutMapping("/checkOutRental/{idRental}")
+    public GetRentalDTO checkOutRental(@PathVariable UUID idRental) throws Exception {
+        return rentalService.checkOutRental(idRental);
+    }
+
+    @PutMapping("/cancelRental/{idRental}")
+    public GetRentalDTO cancelRental(@PathVariable UUID idRental) throws Exception {
+        return rentalService.cancelRental(idRental);
     }
 }

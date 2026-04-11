@@ -5,8 +5,10 @@ import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
 import com.example.backend_springboot.dtos.builders.ApartmentBuilder;
 import com.example.backend_springboot.entities.ApartmentEntity;
+import com.example.backend_springboot.entities.RentalEntity;
 import com.example.backend_springboot.entities.UserEntity;
 import com.example.backend_springboot.repositories.ApartmentRepository;
+import com.example.backend_springboot.repositories.RentalRepository;
 import com.example.backend_springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,18 +19,21 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
 public class ApartmentService {
     private final ApartmentRepository apartmentRepository;
     private final UserRepository userRepository;
+    private final RentalRepository rentalRepository;
     private final PinataService pinataService;
 
     @Autowired
-    public ApartmentService(ApartmentRepository apartmentRepository, UserRepository userRepository, PinataService pinataService) {
+    public ApartmentService(ApartmentRepository apartmentRepository, UserRepository userRepository, RentalRepository rentalRepository, PinataService pinataService) {
         this.apartmentRepository = apartmentRepository;
         this.userRepository = userRepository;
+        this.rentalRepository = rentalRepository;
         this.pinataService = pinataService;
     }
 
@@ -39,6 +44,27 @@ public class ApartmentService {
             apartmentDTOS.add(ApartmentBuilder.toGetApartmentDTO(apartment));
         }
         return apartmentDTOS;
+    }
+
+    public List <GetApartmentDTO> getFilteredApartments(String location, LocalDate checkIn, LocalDate checkOut, int guests, int rooms) {
+        List<ApartmentEntity> apartments = apartmentRepository.findByCityAndGuestsAndBedrooms(location, guests, rooms);
+        List<GetApartmentDTO> apartmentsAvailable = new ArrayList<>();
+
+        for(ApartmentEntity apartment : apartments) {
+            boolean isRented = false;
+
+            for(RentalEntity rental: apartment.getRentals()) {
+                if(rental.getStartDate().isBefore(checkOut) && rental.getEndDate().isAfter(checkIn)) {
+                    isRented = true;
+                    break;
+                }
+            }
+
+            if(!isRented) {
+                apartmentsAvailable.add(ApartmentBuilder.toGetApartmentDTO(apartment));
+            }
+        }
+        return apartmentsAvailable;
     }
 
     public GetApartmentDTO getApartmentById(UUID id) {
@@ -82,6 +108,13 @@ public class ApartmentService {
         String cidMainImage = pinataService.uploadFile(mainImage, nameImageOnPinata);
         apartment.setImageMain("https://gateway.pinata.cloud/ipfs/" + cidMainImage);
 
+
+        System.out.println("Number of images received: " + images.size());
+        for (MultipartFile file : images) {
+            System.out.println(file.getOriginalFilename());
+        }
+
+        /*
         //salvare imagini in folder(imaginile secundare ale apartamentului)
         for(int i = 1; i < images.size(); i++) {
             MultipartFile image = images.get(i);
@@ -96,7 +129,7 @@ public class ApartmentService {
             if(i == 4) {  apartment.setImage4("/images/" + nameImage);}
             Files.write(Path.of(pathFile), image.getBytes());
         }
-
+        */
         //upload fisier metadata pe pinata
         String metadataJson = generateMetadataFile(apartment);
 

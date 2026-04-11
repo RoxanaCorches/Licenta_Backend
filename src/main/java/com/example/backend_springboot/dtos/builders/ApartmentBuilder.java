@@ -134,10 +134,10 @@ public class ApartmentBuilder {
                 apartment.getCheckOutFrom(),
                 apartment.getCheckOutUntil(),
                 apartment.getImageMain(),
-                apartment.getImage1(),
-                apartment.getImage2(),
-                apartment.getImage3(),
-                apartment.getImage4(),
+                //apartment.getImage1(),
+                //apartment.getImage2(),
+                //apartment.getImage3(),
+                //apartment.getImage4(),
                 apartment.getMetadataUrl(),
                 apartment.getTokenId()
         );
@@ -196,10 +196,10 @@ public class ApartmentBuilder {
         apartment.setCheckOutUntil(postApartmentDTO.getCheckOutUntil());
 
         apartment.setImageMain(postApartmentDTO.getImageMain());
-        apartment.setImage1(postApartmentDTO.getImage1());
-        apartment.setImage2(postApartmentDTO.getImage2());
-        apartment.setImage3(postApartmentDTO.getImage3());
-        apartment.setImage4(postApartmentDTO.getImage4());
+        //apartment.setImage1(postApartmentDTO.getImage1());
+       // apartment.setImage2(postApartmentDTO.getImage2());
+        //apartment.setImage3(postApartmentDTO.getImage3());
+       // apartment.setImage4(postApartmentDTO.getImage4());
         apartment.setMetadataUrl(postApartmentDTO.getMetadataUrl());
         apartment.setTokenId(postApartmentDTO.getTokenId());
         return apartment;

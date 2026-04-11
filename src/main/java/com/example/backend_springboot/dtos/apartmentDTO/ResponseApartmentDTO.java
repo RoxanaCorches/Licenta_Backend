@@ -30,10 +30,10 @@ public class ResponseApartmentDTO {
         private LocalTime checkOutUntil;
 
         private String imageMain;
-        private String image1;
-        private String image2;
-        private String image3;
-        private String image4;
+        private byte[] image1;
+        private byte[] image2;
+        private byte[] image3;
+        private byte[] image4;
         private String metadataUrl;
         private String tokenId;
         private UUID idApartment;

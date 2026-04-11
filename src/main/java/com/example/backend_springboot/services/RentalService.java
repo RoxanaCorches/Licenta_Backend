@@ -12,6 +12,7 @@ import com.example.backend_springboot.repositories.RentalRepository;
 import com.example.backend_springboot.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -61,8 +62,24 @@ public class RentalService {
     }
      */
 
+    boolean isAvailabilityForRent(UUID idApartment, LocalDate startDate, LocalDate endDate) {
+        List<RentalEntity> rentals = rentalRepository.findByApartment_IdApartment(idApartment);
+        for(RentalEntity rental : rentals) {
+            if(rental.getStatus() == RentalStatus.CANCELLED) {
+                continue;
+            }
+            if(!startDate.isAfter(rental.getEndDate()) && !endDate.isBefore(rental.getStartDate())) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public CreateRentalDTO createRental(CreateRentalDTO rentalDTO) {
+        if(!isAvailabilityForRent(rentalDTO.getApartmentId(), rentalDTO.getStartDate(), rentalDTO.getEndDate())) {
+            throw new RuntimeException("Rental is not available for this apartment");
+        }
+
         UserEntity user = userRepository.findByIdUser(rentalDTO.getUserId()).orElseGet(() -> {
                     UserEntity userEntity = new UserEntity();
                     userEntity.setIdUser(rentalDTO.getUserId());
@@ -74,6 +91,9 @@ public class RentalService {
 
         ApartmentEntity apartment = apartmentRepository.findById(rentalDTO.getApartmentId()).orElseThrow(() ->
                 new RuntimeException("Apartment with id:" + rentalDTO.getApartmentId() + " not found"));
+
+        apartment.setAvailability(false);
+        apartmentRepository.save(apartment);
 
         System.out.println("User with id:" + rentalDTO.getUserId());
         System.out.println("Apartment with id:" + rentalDTO.getApartmentId());
@@ -89,11 +109,33 @@ public class RentalService {
         return RentalBuilder.toCreateRentalDTO(savedRental);
     }
 
+    public GetRentalDTO checkInRental(UUID idRental) {
+        RentalEntity rental = rentalRepository.findByIdRental(idRental).orElseThrow(() ->
+                new RuntimeException("Rental with id:" + rentalRepository.findByIdRental(idRental) + " not found"));
+        rental.setStatus(RentalStatus.IN_PROGRESS);
+        rentalRepository.save(rental);
+        return RentalBuilder.toGetRentalDTO(rental);
+    }
+
+    public GetRentalDTO checkOutRental(UUID idRental) {
+        RentalEntity rental = rentalRepository.findByIdRental(idRental).orElseThrow(() ->
+                new RuntimeException("Rental with id:" + rentalRepository.findByIdRental(idRental) + " not found"));
+        rental.setStatus(RentalStatus.COMPLETED);
+        rentalRepository.save(rental);
+        return RentalBuilder.toGetRentalDTO(rental);
+    }
+
     public GetRentalDTO cancelRental(UUID idRental) throws Exception{
        RentalEntity rental = rentalRepository.findByIdRental(idRental).orElseThrow(() ->
                 new RuntimeException("Rental with id:" + rentalRepository.findByIdRental(idRental) + " not found"));
 
-        System.out.println("User with id:" + rentalRepository.findByIdRental(idRental));
+        ApartmentEntity apartment = apartmentRepository.findById(rental.getApartment().getIdApartment()).orElseThrow(() ->
+                new RuntimeException("Apartment not found"));
+
+        apartment.setAvailability(false);
+        apartmentRepository.save(apartment);
+
+        System.out.println("Rental with id:" + rentalRepository.findByIdRental(idRental));
 
         rental.setStatus(RentalStatus.CANCELLED);
 
@@ -102,7 +144,6 @@ public class RentalService {
         RentalEntity savedRental = rentalRepository.save(rental);
         return RentalBuilder.toGetRentalDTO(savedRental);
     }
-
 
     /*
     public CreateRentalDTO createRental(CreateRentalDTO rentalDTO) {

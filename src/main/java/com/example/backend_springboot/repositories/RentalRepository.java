@@ -11,4 +11,5 @@ import java.util.UUID;
 public interface RentalRepository extends JpaRepository<RentalEntity, UUID> {
     Optional<RentalEntity> findByIdRental(UUID idRental);
     List<RentalEntity> findByUserIdUserAndStatus(UUID idUser, RentalStatus status);
+    List<RentalEntity> findByApartment_IdApartment(UUID idApartment);
 }

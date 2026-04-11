@@ -136,22 +136,26 @@ public class ApartmentEntity implements Serializable {
     private LocalTime checkOutUntil;
 
     @Column(name = "availability")
-    private boolean availability;
+    private boolean availability = true;
 
     @Column(name = "image_main")
     private String imageMain;
 
+    @Lob
     @Column(name = "image_1")
-    private String image1;
+    private byte[] image1;
 
+    @Lob
     @Column(name = "image_2")
-    private String image2;
+    private byte[] image2;
 
+    @Lob
     @Column(name = "image_3")
-    private String image3;
+    private byte[] image3;
 
+    @Lob
     @Column(name = "image_4")
-    private String image4;;
+    private byte[] image4;;
 
     @Column(name = "metadata_url")
     private String metadataUrl;

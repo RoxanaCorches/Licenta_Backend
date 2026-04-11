@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +26,16 @@ public class ApartmentController {
     @GetMapping("/getAllApartments")
     public List<GetApartmentDTO> getAllApartments(){
         List<GetApartmentDTO> apartments = apartmentService.getAllApartments();
+        return apartments;
+    }
+
+    @GetMapping("/getFilteredApartments")
+    public List<GetApartmentDTO> getFilteredApartments(@RequestParam String location,
+                                                       @RequestParam LocalDate checkIn,
+                                                       @RequestParam LocalDate checkOut,
+                                                       @RequestParam int guests,
+                                                       @RequestParam int rooms){
+        List<GetApartmentDTO> apartments = apartmentService.getFilteredApartments(location, checkIn, checkOut, guests, rooms);
         return apartments;
     }
 
