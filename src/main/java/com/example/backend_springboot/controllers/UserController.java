@@ -8,6 +8,7 @@ import com.example.backend_springboot.entities.UserEntity;
 import com.example.backend_springboot.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -34,15 +35,6 @@ public class UserController {
         return user;
     }
 
-/*
-    @PostMapping("/createUser")
-    public CreateUserDTO createUser(@RequestBody CreateUserDTO user) throws Exception {
-        UserEntity createUser = userService.mintKycForUser(user);
-        return createUser;
-    }
-
- */
-
     @PostMapping("/createUser")
     public CreateUserDTO createUser(@RequestBody CreateUserDTO userDTO) throws Exception {
         UserEntity user = UserBuilder.toUserEntity(userDTO);
@@ -54,6 +46,14 @@ public class UserController {
         UpdateUserDTO updateUser = userService.updateUser(id, updateUserDTO);
         return updateUser;
     }
+
+    @PatchMapping("/updateImageProfile/{id}")
+    public ResponseEntity<String> updateUserProfile(@PathVariable UUID id, @RequestParam("file") MultipartFile file) throws Exception {
+        userService.uploadImageProfile(id, file);
+        return ResponseEntity.ok("Image profile updated");
+    }
+
+
 
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {

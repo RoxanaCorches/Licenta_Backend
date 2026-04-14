@@ -1,10 +1,7 @@
-package com.example.backend_springboot.services;
+package com.example.backend_springboot.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @Setter
 @Getter
@@ -16,6 +13,4 @@ public class ChatBotEntity {
     public ChatBotEntity(String message) {
         this.message = message;
     }
-
-
 }

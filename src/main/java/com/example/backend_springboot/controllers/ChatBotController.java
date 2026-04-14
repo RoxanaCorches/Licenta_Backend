@@ -1,6 +1,6 @@
 package com.example.backend_springboot.controllers;
 
-import com.example.backend_springboot.services.ChatBotEntity;
+import com.example.backend_springboot.entities.ChatBotEntity;
 import com.example.backend_springboot.services.ChatBotService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

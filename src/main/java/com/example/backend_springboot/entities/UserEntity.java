@@ -57,6 +57,10 @@ public class UserEntity implements Serializable {
     @Column(name = "blockchain_address")
     private String blockchainAddress;
 
+    @Lob
+    @Column(name = "image_profile", columnDefinition = "MEDIUMBLOB")
+    private byte[] profileImage;
+
     @Column(name = "status_kyc", nullable = false)
     private boolean statusKyc = false;
 

@@ -26,6 +26,7 @@ public class GetUserDTO {
         private String address;
         private String zipcode;
         private String blockchainAddress;
+        private byte[] profileImage;
         private List<ResponseApartmentDTO> apartmentList;
         private List<GetRentalDTO> rentalList;
         private List<GetReviewForPropertiesUserDTO> reviewList;

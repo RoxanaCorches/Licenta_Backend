@@ -31,6 +31,7 @@ public class UserBuilder {
                 user.getAddress(),
                 user.getZipcode(),
                 user.getBlockchainAddress(),
+                user.getProfileImage(),
                 apartments,
                 rentals,
                 reviews

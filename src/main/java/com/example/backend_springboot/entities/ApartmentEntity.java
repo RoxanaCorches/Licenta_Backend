@@ -142,19 +142,19 @@ public class ApartmentEntity implements Serializable {
     private String imageMain;
 
     @Lob
-    @Column(name = "image_1")
+    @Column(name = "image_1", columnDefinition = "MEDIUMBLOB")
     private byte[] image1;
 
     @Lob
-    @Column(name = "image_2")
+    @Column(name = "image_2", columnDefinition = "MEDIUMBLOB")
     private byte[] image2;
 
     @Lob
-    @Column(name = "image_3")
+    @Column(name = "image_3", columnDefinition = "MEDIUMBLOB")
     private byte[] image3;
 
     @Lob
-    @Column(name = "image_4")
+    @Column(name = "image_4", columnDefinition = "MEDIUMBLOB")
     private byte[] image4;;
 
     @Column(name = "metadata_url")

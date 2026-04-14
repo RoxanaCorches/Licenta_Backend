@@ -5,6 +5,7 @@ import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
 import com.example.backend_springboot.services.ApartmentService;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,8 @@ public class ApartmentController {
 
     @GetMapping("/getFilteredApartments")
     public List<GetApartmentDTO> getFilteredApartments(@RequestParam String location,
-                                                       @RequestParam LocalDate checkIn,
-                                                       @RequestParam LocalDate checkOut,
+                                                       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
+                                                       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut,
                                                        @RequestParam int guests,
                                                        @RequestParam int rooms){
         List<GetApartmentDTO> apartments = apartmentService.getFilteredApartments(location, checkIn, checkOut, guests, rooms);

@@ -114,22 +114,23 @@ public class ApartmentService {
             System.out.println(file.getOriginalFilename());
         }
 
-        /*
-        //salvare imagini in folder(imaginile secundare ale apartamentului)
         for(int i = 1; i < images.size(); i++) {
-            MultipartFile image = images.get(i);
-            String nameImage = apartment.getIdApartment() + "_" +
-                    apartment.getTitle().replaceAll("\\s+","_") + "_" +
-                    image.getOriginalFilename();
-            String pathFile = Paths.get("images/" + nameImage).toString();
+            if (i == 1) {
 
-            if(i == 1) {  apartment.setImage1("/images/" + nameImage);}
-            if(i == 2) {  apartment.setImage2("/images/" + nameImage);}
-            if(i == 3) {  apartment.setImage3("/images/" + nameImage);}
-            if(i == 4) {  apartment.setImage4("/images/" + nameImage);}
-            Files.write(Path.of(pathFile), image.getBytes());
+                apartment.setImage1(images.get(1).getBytes());
+            }
+            if (i == 2) {
+                apartment.setImage2(images.get(2).getBytes());
+            }
+            if (i == 3) {
+                apartment.setImage3(images.get(3).getBytes());
+            }
+            if (i == 4) {
+                apartment.setImage4(images.get(4).getBytes());
+            }
         }
-        */
+
+        apartmentRepository.save(apartment);
         //upload fisier metadata pe pinata
         String metadataJson = generateMetadataFile(apartment);
 
@@ -146,9 +147,6 @@ public class ApartmentService {
         if(apartmentDTO.getTokenId() != null){
             apartment.setTokenId(apartmentDTO.getTokenId());
         }
-
-        //System.out.println(cidMainImage);
-        //System.out.println(cidMetadata);
 
         ApartmentEntity finalApartment = apartmentRepository.save(apartment);
         PostApartmentDTO response = ApartmentBuilder.topostApartmentDTO(finalApartment);
@@ -174,6 +172,8 @@ public class ApartmentService {
         update.setCheckInUntil(updatedApartment.getCheckInUntil());
         update.setCheckOutFrom(updatedApartment.getCheckOutFrom());
         update.setCheckOutUntil(updatedApartment.getCheckOutUntil());
+
+
 
         return update;
     }

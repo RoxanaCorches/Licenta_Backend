@@ -12,11 +12,10 @@ import com.example.backend_springboot.repositories.ReviewRepository;
 import com.example.backend_springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -170,9 +169,18 @@ public class UserService {
             update.setCity(updatedUser.getCity());
             update.setAddress(updatedUser.getAddress());
             update.setZipcode(updatedUser.getZipcode());
+
             return update;
     }
 
+    public void uploadImageProfile(UUID id, MultipartFile image) throws IOException {
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        if (image != null || image.isEmpty())
+            user.setProfileImage(image.getBytes());
+
+        userRepository.save(user);
+    }
 
     public boolean deleteUser(UUID id) {
         Optional<UserEntity> user = userRepository.findByIdUser(id);
