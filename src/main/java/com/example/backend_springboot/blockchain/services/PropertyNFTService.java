@@ -11,11 +11,4 @@ public class PropertyNFTService {
     public PropertyNFTService(PropertyNFT propertyNFT) {
         this.propertyNFT = propertyNFT;
     }
-/*
-    public String mint(String tokenURI) throws Exception {
-        var resp = propertyNFT.mint(tokenURI,).send();
-        return resp.getTransactionHash();
-    }
-
- */
 }

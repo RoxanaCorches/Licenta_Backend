@@ -134,10 +134,6 @@ public class ApartmentBuilder {
                 apartment.getCheckOutFrom(),
                 apartment.getCheckOutUntil(),
                 apartment.getImageMain(),
-                //apartment.getImage1(),
-                //apartment.getImage2(),
-                //apartment.getImage3(),
-                //apartment.getImage4(),
                 apartment.getMetadataUrl(),
                 apartment.getTokenId()
         );
@@ -196,52 +192,8 @@ public class ApartmentBuilder {
         apartment.setCheckOutUntil(postApartmentDTO.getCheckOutUntil());
 
         apartment.setImageMain(postApartmentDTO.getImageMain());
-        //apartment.setImage1(postApartmentDTO.getImage1());
-       // apartment.setImage2(postApartmentDTO.getImage2());
-        //apartment.setImage3(postApartmentDTO.getImage3());
-       // apartment.setImage4(postApartmentDTO.getImage4());
         apartment.setMetadataUrl(postApartmentDTO.getMetadataUrl());
         apartment.setTokenId(postApartmentDTO.getTokenId());
         return apartment;
     }
 }
-/*
-
-      public static GetApartmentDTO toGetApartmentDTO(ApartmentEntity apartment) {
-        GetApartmentDTO getApartmentDTO = new GetApartmentDTO(
-                apartment.getIdApartment(),
-                apartment.getName(),
-                apartment.getLocation(),
-                apartment.getDescription(),
-                apartment.getPricePerNight(),
-                apartment.isAvailability(),
-                apartment.getImage()
-        );
-        return getApartmentDTO;
-    }
-
-    public static UpdateApartmentDTO toUpdateApartmentDTO(ApartmentEntity apartment) {
-        UpdateApartmentDTO updateApartmentDTO = new UpdateApartmentDTO(
-                apartment.getDescription(),
-                apartment.getPricePerNight(),
-                apartment.getImage()
-        );
-        return updateApartmentDTO;
-    }
-
-    public static ResponseApartmentDTO toResponseDTO(ApartmentEntity apartment) {
-        ResponseApartmentDTO responseApartmentDTO = new ResponseApartmentDTO();
-        responseApartmentDTO.setIdApartment(apartment.getIdApartment());
-        responseApartmentDTO.setName(apartment.getName());
-        responseApartmentDTO.setLocation(apartment.getLocation());
-        responseApartmentDTO.setDescription(apartment.getDescription());
-        responseApartmentDTO.setPricePerNight(apartment.getPricePerNight());
-        responseApartmentDTO.setAvailability(apartment.isAvailability());
-        responseApartmentDTO.setImage(apartment.getImage());
-        responseApartmentDTO.setIdOwner(apartment.getUser().getIdUser()
-        );
-        return responseApartmentDTO;
-    }
-
-
-}*/

@@ -6,7 +6,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ChatBotEntity {
-   // private UUID idUser;
     private String message;
 
     private ChatBotEntity() {}

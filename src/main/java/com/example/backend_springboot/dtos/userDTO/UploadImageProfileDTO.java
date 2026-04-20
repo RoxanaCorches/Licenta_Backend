@@ -11,5 +11,4 @@ public class UploadImageProfileDTO {
     public UploadImageProfileDTO(MultipartFile file) {
         this.file = file;
     }
-
 }

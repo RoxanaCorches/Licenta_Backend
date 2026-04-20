@@ -42,7 +42,6 @@ public class PinataService {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         ResponseEntity<Map> response = restTemplate.postForEntity(url, requestEntity, Map.class);
 
-        // Pinata returnează JSON cu IpfsHash
         return response.getBody().get("IpfsHash").toString();
     }
 
@@ -62,7 +61,6 @@ public class PinataService {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         ResponseEntity<Map> response = restTemplate.postForEntity(url, requestEntity, Map.class);
 
-        // Pinata returnează JSON cu IpfsHash
         return response.getBody().get("IpfsHash").toString();
     }
 

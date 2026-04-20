@@ -22,16 +22,6 @@ public class KycNftService {
         }
     }
 
-     /*
-     public boolean hasKYCNFT(String walletAddress) throws Exception {
-         if(kycNft.balanceOf(walletAddress).send().compareTo(BigInteger.ZERO) > 0) {
-            return true;
-         }
-         else {
-             return false;
-         }
-     }
-      */
     public String mintKycNft(String to) throws Exception {
         boolean alreadyMinted = kycNft.hasMinted(to).send();
         if (alreadyMinted) {

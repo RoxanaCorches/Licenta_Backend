@@ -171,9 +171,6 @@ public class ApartmentEntity implements Serializable {
     @OneToMany(mappedBy = "apartment", cascade = CascadeType.ALL)
     private List<RentalEntity> rentals;
 
-    //@OneToMany(mappedBy = "apartment", cascade = CascadeType.ALL)
-    //private List<Review> reviews;
-
     public ApartmentEntity() {}
 
     public void setHotTub(boolean hotTub) {

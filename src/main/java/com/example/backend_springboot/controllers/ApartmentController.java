@@ -48,17 +48,8 @@ public class ApartmentController {
 
     @PostMapping(value = "/createApartment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public PostApartmentDTO createApartment(@RequestPart("information") PostApartmentDTO apartment, @RequestPart("images") List<MultipartFile> images) throws Exception {
-        //ApartmentEntity createApartment =  ApartmentBuilder.toApartmentEntity(apartment);
         return apartmentService.createApartment(apartment, images);
     }
-
-    /*
-    @PostMapping("/createApartment")
-    public PostApartmentDTO createApartment(@RequestBody PostApartmentDTO apartment) throws Exception {
-        //ApartmentEntity createApartment =  ApartmentBuilder.toApartmentEntity(apartment);
-        return apartmentService.createApartment(apartment);
-    }
-     */
 
     @PutMapping("/updateApartment/{id}")
     public ResponseEntity<UpdateApartmentDTO> updateApartment(@PathVariable UUID id, @RequestBody UpdateApartmentDTO updateApartmentDTO){

@@ -10,9 +10,6 @@ public class RentalBuilder {
     public RentalBuilder() {}
 
     public static CreateRentalDTO toCreateRentalDTO(RentalEntity rental) {
-        //UserEntity userEntity = RentalBuilder.toCreateRentalDTO(rental).getUser();
-        //ApartmentEntity apartmentEntity = RentalBuilder.toCreateRentalDTO(rental).getApartment();
-
         CreateRentalDTO createRentalDTO = new CreateRentalDTO(
                 rental.getStartDate(),
                 rental.getEndDate(),
@@ -29,9 +26,6 @@ public class RentalBuilder {
     }
 
     public static GetRentalDTO toGetRentalDTO(RentalEntity rental) {
-        //UserEntity userEntity = RentalBuilder.toCreateRentalDTO(rental).getUser();
-        //ApartmentEntity apartmentEntity = RentalBuilder.toCreateRentalDTO(rental).getApartment();
-
         GetRentalDTO getRentalDTO = new GetRentalDTO(
                 rental.getIdRental(),
                 rental.getUser().getIdUser(),
@@ -53,24 +47,6 @@ public class RentalBuilder {
         );
         return getRentalDTO;
     }
-
-    /*
-    public static CreateRentalDTO toCreateRentalDTO(RentalEntity rental) {
-        UserEntity userEntity = RentalBuilder.toCreateRentalDTO(rental).getUser();
-        ApartmentEntity apartmentEntity = RentalBuilder.toCreateRentalDTO(rental).getApartment();
-
-        CreateRentalDTO createRentalDTO = new CreateRentalDTO(
-                rental.getStartDate(),
-                rental.getEndDate(),
-                rental.getTotalPrice(),
-                rental.getTransactionHash(),
-                userEntity,
-                apartmentEntity
-        );
-        return createRentalDTO;
-    }
-
-     */
 
     public static RentalEntity toRentalEntity(CreateRentalDTO createRentalDTO) {
         RentalEntity rentalEntity = new RentalEntity();

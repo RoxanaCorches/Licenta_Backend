@@ -76,27 +76,3 @@ public class BlockchainConfiguration {
 }
 
 
-    /*
-    public BlockchainConfig(@Value("${rpcUrl}") String rpcUrl, @Value("${kycNftAddress}") String kycNftAddress, @Value("${privateKey}") String privateKey) throws Exception {
-        this.web3j = Web3j.build(new HttpService(rpcUrl));
-        this.credentials = Credentials.create(privateKey);
-
-        this.kycNft = KYCNFT.load(
-                kycNftAddress,
-                web3j,
-                credentials,
-                new DefaultGasProvider()
-        );
-        System.out.println("Contract owner = " + kycNft.owner().send());
-    }
-
-    public String mint(String to) throws Exception {
-        boolean alreadyMinted = kycNft.hasMinted(to).send();
-        if (alreadyMinted) {
-            throw new IllegalStateException("A fost mintat deja la adresa:" + to);
-        }
-        var resp = kycNft.mint(to).send();
-        return resp.getTransactionHash();
-    }
-}
-     */

@@ -31,13 +31,6 @@ public class RentalController {
         return rental;
     }
 
-    /*
-        @GetMapping("/getRentalById/{id}")
-        public GetRentalDTO getRentalById(@PathVariable UUID id){
-            GetRentalDTO rental = rentalService.getRentalById(id);
-            return rental;
-        }
-    */
     @PostMapping("/createRental")
     public CreateRentalDTO createRental(@RequestBody CreateRentalDTO rentalDTO) throws Exception {
         return rentalService.createRental(rentalDTO);

@@ -15,7 +15,6 @@ public class UpdateApartmentDTO {
     private LocalTime checkInUntil;
     private LocalTime checkOutFrom;
     private LocalTime checkOutUntil;
-    //private boolean availability;
 
     public UpdateApartmentDTO() {}
 }

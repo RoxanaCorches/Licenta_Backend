@@ -52,16 +52,8 @@ public class PostApartmentDTO {
     private LocalTime checkOutUntil;
 
     private String imageMain;
-    //private byte[] image1;
-    //private byte[] image2;
-   // private byte[] image3;
-    //private byte[] image4;
     private String metadataUrl;
     private String tokenId;
 
-
     public PostApartmentDTO() {}
-
-
-
 }

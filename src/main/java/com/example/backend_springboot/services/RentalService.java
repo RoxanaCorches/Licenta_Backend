@@ -49,19 +49,6 @@ public class RentalService {
         return rentals.stream().map(RentalBuilder::toGetRentalDTO).collect(Collectors.toList());
     }
 
-    /*
-    public GetRentalDTO getRentalById(UUID id) {
-        Optional<RentalEntity> rental = rentalRepository.findById(id);
-        if (rental.isPresent()) {
-            System.out.println("Rental with id:" + id + " found in database");
-            return RentalBuilder.toGetRentalDTO(rental.get());
-        } else {
-            System.out.println("Rental with id:" + id + " not found in database");
-            return null;
-        }
-    }
-     */
-
     boolean isAvailabilityForRent(UUID idApartment, LocalDate startDate, LocalDate endDate) {
         List<RentalEntity> rentals = rentalRepository.findByApartment_IdApartment(idApartment);
         for(RentalEntity rental : rentals) {
@@ -145,28 +132,4 @@ public class RentalService {
         RentalEntity savedRental = rentalRepository.save(rental);
         return RentalBuilder.toGetRentalDTO(savedRental);
     }
-
-    /*
-    public CreateRentalDTO createRental(CreateRentalDTO rentalDTO) {
-        UserEntity user = userRepository.findByBlockchainAddress(rentalDTO.getUser().getBlockchainAddress()).orElseThrow(() ->
-                new RuntimeException("User with id:" + rentalDTO.getUser().getBlockchainAddress() + " not found"));
-
-        ApartmentEntity apartment = apartmentRepository.findById(rentalDTO.getApartment().getIdApartment()).orElseThrow(() ->
-                new RuntimeException("Apartment with id:" + rentalDTO.getApartment().getIdApartment() + " not found"));
-
-        System.out.println("User with id:" + rentalDTO.getUser().getBlockchainAddress());
-        System.out.println("Apartment with id:" + rentalDTO.getApartment().getIdApartment());
-
-        RentalEntity rental = RentalBuilder.toRentalEntity(rentalDTO);
-        rental.setUser(user);
-        rental.setApartment(apartment);
-
-        System.out.println(rental);
-
-        RentalEntity savedRental = rentalRepository.save(rental);
-        return RentalBuilder.toCreateRentalDTO(savedRental);
-    }
-
-     */
-
 }

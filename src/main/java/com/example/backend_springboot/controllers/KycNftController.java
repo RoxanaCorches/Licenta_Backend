@@ -19,22 +19,6 @@ public class KycNftController {
         this.kycNftService = kycNftService;
     }
 
-    /*
-    @GetMapping("/mint")
-    public ResponseEntity<String> mint(@RequestParam String to) {
-        try {
-            String txHash = blockchainConfig.mint(to);
-            return ResponseEntity.ok("Token mintuit! TxHash: " + txHash);
-        } catch (Exception e) {
-            String msg = e.getMessage() == null ? "" : e.getMessage();
-            if (msg.contains("Already minted")) {
-                return ResponseEntity.badRequest().body("Adresa a primit deja NFT (Already minted).");
-            }
-            return ResponseEntity.status(500).body("Eroare la mint: " + msg);
-        }
-    }
-     */
-
     @GetMapping("/kyc/status")
     public Map<String, Object> kycStatus(@RequestParam String walletAddress) throws Exception {
         Map<String, Object> result = new HashMap<>();

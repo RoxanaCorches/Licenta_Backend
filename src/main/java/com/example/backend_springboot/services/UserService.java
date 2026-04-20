@@ -74,20 +74,6 @@ public class UserService {
         return null;
     }
 
-
-    /*
-    public GetUserDTO getUserById(UUID id) {
-        Optional<UserEntity> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            System.out.println("User with id:" + id + " found in database");
-            return UserBuilder.toGetUserDTO(user.get());
-        } else {
-            System.out.println("User with id:" + id + " not found in database");
-            return null;
-        }
-    }
-     */
-
     public CreateUserDTO mintKycForUser(UserEntity user) throws Exception {
         Optional<UserEntity> userExist = userRepository.findByBlockchainAddress(user.getBlockchainAddress());
         if(userExist.isPresent()) {
@@ -111,42 +97,7 @@ public class UserService {
         return UserBuilder.toCreateUserDTO(updatedUser);
     }
 
-    /*
-    public CreateUserDTO mintKycForUser(UserEntity user) throws Exception {
-
-        Optional<UserEntity> existingUser =
-                userRepository.findByBlockchainAddress(user.getBlockchainAddress());
-
-        if (existingUser.isPresent()) {
-            throw new IllegalStateException("User already exists for this wallet");
-        }
-
-        boolean hasKyc = kycNftService.hasKycNft(user.getBlockchainAddress());
-
-        if (hasKyc) {
-            throw new IllegalStateException("KYC NFT already exists for this wallet");
-        }
-
-        user.setStatusKyc(false);
-
-        UserEntity createdUser = userRepository.save(user);
-
-        String transactionHash = kycNftService.mintKycNft(user.getBlockchainAddress());
-        System.out.println("Transaction Hash: " + transactionHash);
-
-        createdUser.setStatusKyc(true);
-
-        UserEntity updatedUser = userRepository.save(createdUser);
-
-        return UserBuilder.toCreateUserDTO(updatedUser);
-    }
-
-     */
-
-
-
     public UpdateUserDTO updateUser(UUID id, UpdateUserDTO updateUserDTO) {
-        //Optional<User> user = userRepository.findById(id);
         UserEntity user = userRepository.findById(id)
                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
             if (updateUserDTO.getUsername() != null) user.setUsername(updateUserDTO.getUsername());
