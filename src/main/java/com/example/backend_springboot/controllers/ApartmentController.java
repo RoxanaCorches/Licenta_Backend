@@ -61,9 +61,9 @@ public class ApartmentController {
      */
 
     @PutMapping("/updateApartment/{id}")
-    public UpdateApartmentDTO updateApartment(@PathVariable UUID id, @RequestBody UpdateApartmentDTO updateApartmentDTO){
+    public ResponseEntity<UpdateApartmentDTO> updateApartment(@PathVariable UUID id, @RequestBody UpdateApartmentDTO updateApartmentDTO){
         UpdateApartmentDTO update = apartmentService.updateApartment(id, updateApartmentDTO);
-        return update;
+        return ResponseEntity.ok(update);
     }
 
     @DeleteMapping("/deleteApartment/{id}")

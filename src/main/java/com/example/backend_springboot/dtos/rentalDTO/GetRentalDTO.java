@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Getter
@@ -18,6 +19,10 @@ public class GetRentalDTO {
     private String tokenId;
     private LocalDate startDate;
     private LocalDate endDate;
+    private LocalTime checkInFrom;
+    private LocalTime checkInUntil;
+    private LocalTime checkOutFrom;
+    private LocalTime checkOutUntil;
     private LocalDate rentalDate;
     private Double totalPrice;
     private String title;
@@ -25,6 +30,7 @@ public class GetRentalDTO {
     private String country;
     private RentalStatus status;
     private String imageMainUrl;
+
 
     public GetRentalDTO() {}
 }

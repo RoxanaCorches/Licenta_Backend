@@ -68,7 +68,8 @@ public class RentalService {
             if(rental.getStatus() == RentalStatus.CANCELLED) {
                 continue;
             }
-            if(!startDate.isAfter(rental.getEndDate()) && !endDate.isBefore(rental.getStartDate())) {
+
+            if(startDate.isBefore(rental.getEndDate()) && endDate.isAfter(rental.getStartDate())) {
                 return false;
             }
         }

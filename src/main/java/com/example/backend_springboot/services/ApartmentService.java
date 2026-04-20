@@ -172,9 +172,6 @@ public class ApartmentService {
         update.setCheckInUntil(updatedApartment.getCheckInUntil());
         update.setCheckOutFrom(updatedApartment.getCheckOutFrom());
         update.setCheckOutUntil(updatedApartment.getCheckOutUntil());
-
-
-
         return update;
     }
 
