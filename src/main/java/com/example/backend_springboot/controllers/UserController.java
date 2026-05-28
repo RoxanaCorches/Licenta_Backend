@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping("/createUser")
     public CreateUserDTO createUser(@RequestBody CreateUserDTO userDTO) throws Exception {
         UserEntity user = UserBuilder.toUserEntity(userDTO);
-        return userService.mintKycForUser(user);
+        return userService.mintKycForUser(user); 
     }
 
     @PutMapping("/updateUser/{id}")
@@ -53,8 +53,7 @@ public class UserController {
         return ResponseEntity.ok("Image profile updated");
     }
 
-
-
+    
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         boolean deleted = userService.deleteUser(id);

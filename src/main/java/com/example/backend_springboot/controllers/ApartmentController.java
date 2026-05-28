@@ -2,6 +2,7 @@ package com.example.backend_springboot.controllers;
 
 import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
+import com.example.backend_springboot.dtos.apartmentDTO.PriceConvertRequestDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
 import com.example.backend_springboot.services.ApartmentService;
 
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -41,7 +44,7 @@ public class ApartmentController {
     }
 
     @GetMapping("/getApartmentById/{id}")
-    public GetApartmentDTO getUserById(@PathVariable UUID id){
+    public GetApartmentDTO getApartmentById(@PathVariable UUID id){
         GetApartmentDTO apartment = apartmentService.getApartmentById(id);
         return apartment;
     }
@@ -49,6 +52,16 @@ public class ApartmentController {
     @PostMapping(value = "/createApartment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public PostApartmentDTO createApartment(@RequestPart("information") PostApartmentDTO apartment, @RequestPart("images") List<MultipartFile> images) throws Exception {
         return apartmentService.createApartment(apartment, images);
+    }
+
+    @PostMapping("/convertPrice")
+    public Map<String, Object> convertPrice(@RequestBody PriceConvertRequestDTO apartmentDTO){
+        Double eurPrice = apartmentDTO.getPricePerNight();
+        Double ethPrice = apartmentService.convertApartmentPrice(eurPrice);
+        Map<String, Object> result = new HashMap<>();
+        result.put("eurPrice", eurPrice);
+        result.put("ethPrice", String.format("%.8f", ethPrice));
+        return result;
     }
 
     @PutMapping("/updateApartment/{id}")

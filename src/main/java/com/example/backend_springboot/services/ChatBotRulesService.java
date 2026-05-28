@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ChatBotService {
+public class ChatBotRulesService {
     private final Map<List<String>, String> rules = new HashMap<>();
 
 
-    public ChatBotService() {
+    public ChatBotRulesService() {
         rules.put(List.of("hello", "hi"), "How can I help you?");
         rules.put(List.of("payment", "history", "Where to pay?"), "To make a payment, you need to connect your wallet to the platform. Once connected, you will be able to complete transactions securely.");
         rules.put(List.of("my rent", "booking", "I can't find my booking"), "You can only view your reservations after connecting your wallet. After logging in, you will find them in the ‘My Rentals’ section of your account.");

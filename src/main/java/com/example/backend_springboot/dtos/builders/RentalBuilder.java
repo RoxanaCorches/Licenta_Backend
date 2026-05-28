@@ -2,6 +2,7 @@ package com.example.backend_springboot.dtos.builders;
 
 import com.example.backend_springboot.dtos.rentalDTO.CreateRentalDTO;
 import com.example.backend_springboot.dtos.rentalDTO.GetRentalDTO;
+import com.example.backend_springboot.dtos.rentalDTO.ResponseRentalDTO;
 import com.example.backend_springboot.entities.RentalEntity;
 
 
@@ -33,6 +34,30 @@ public class RentalBuilder {
                 rental.getApartment().getTokenId(),
                 rental.getStartDate(),
                 rental.getEndDate(),
+                rental.getApartment().getCheckInFrom(),
+                rental.getApartment().getCheckInUntil(),
+                rental.getApartment().getCheckOutFrom(),
+                rental.getApartment().getCheckOutUntil(),
+                rental.getCreateRental(),
+                rental.getTotalPrice(),
+                rental.getApartment().getTitle(),
+                rental.getApartment().getCity(),
+                rental.getApartment().getCountry(),
+                rental.getStatus(),
+                rental.getApartment().getImageMain()
+        );
+        return getRentalDTO;
+    }
+
+    public static ResponseRentalDTO toResponseRentalDTO(RentalEntity rental, boolean existReview) {
+        ResponseRentalDTO getRentalDTO = new ResponseRentalDTO(
+                rental.getIdRental(),
+                rental.getUser().getIdUser(),
+                rental.getApartment().getIdApartment(),
+                rental.getApartment().getTokenId(),
+                rental.getStartDate(),
+                rental.getEndDate(),
+                existReview,
                 rental.getApartment().getCheckInFrom(),
                 rental.getApartment().getCheckInUntil(),
                 rental.getApartment().getCheckOutFrom(),

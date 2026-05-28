@@ -12,6 +12,7 @@ import com.example.backend_springboot.repositories.RentalRepository;
 import com.example.backend_springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import tools.jackson.databind.ObjectMapper;
 
@@ -25,6 +26,7 @@ public class ApartmentService {
     private final UserRepository userRepository;
     private final RentalRepository rentalRepository;
     private final PinataService pinataService;
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
     public ApartmentService(ApartmentRepository apartmentRepository, UserRepository userRepository, RentalRepository rentalRepository, PinataService pinataService) {
@@ -184,6 +186,19 @@ public class ApartmentService {
         }
     }
 
+    public Double convertApartmentPrice(Double priceEur) {
+        String baseUrl = "https://api.coingecko.com/api/v3";
+        String url = baseUrl + "/simple/price?ids=ethereum&vs_currencies=eur";
+        Map priceMap = restTemplate.getForObject(url, Map.class);
+        Map ethereum = (Map) priceMap.get("ethereum");
+
+        Double priceEth = Double.valueOf(ethereum.get("eur").toString());
+        return priceEur / priceEth;
+    }
+
+
+
+
     public String generateMetadataFile(ApartmentEntity apartment) {
         Map<String, Object> metadataFile = new HashMap<>();
         metadataFile.put("name", apartment.getTitle());
@@ -192,7 +207,6 @@ public class ApartmentService {
 
         List<Map<String, Object>> attributes = new ArrayList<>();
         attributes.add(Map.of("trait_type", "Area", "value", apartment.getArea()));
-        attributes.add(Map.of("trait_type", "Price per night", "value", apartment.getPricePerNight()));
         attributes.add(Map.of("trait_type", "Country", "value", apartment.getCountry()));
         attributes.add(Map.of("trait_type", "Floor", "value", apartment.getFloor()));
         attributes.add(Map.of("trait_type", "Street", "value", apartment.getStreet()));
@@ -224,10 +238,10 @@ public class ApartmentService {
         attributes.add(Map.of("trait_type", "Smoking allowed?", "value", apartment.isSmokingAllowed()));
         attributes.add(Map.of("trait_type", "Parties or events allowed?", "value", apartment.isPartiesAllowed()));
 
-        attributes.add(Map.of("trait_type", "Check-in From", "value", apartment.getCheckInFrom()));
-        attributes.add(Map.of("trait_type", "Check-in Until", "value", apartment.getCheckInUntil()));
-        attributes.add(Map.of("trait_type", "Check-out From", "value", apartment.getCheckOutFrom()));
-        attributes.add(Map.of("trait_type", "Check-out Until", "value", apartment.getCheckOutUntil()));
+        //attributes.add(Map.of("trait_type", "Check-in From", "value", apartment.getCheckInFrom()));
+        //attributes.add(Map.of("trait_type", "Check-in Until", "value", apartment.getCheckInUntil()));
+        //attributes.add(Map.of("trait_type", "Check-out From", "value", apartment.getCheckOutFrom()));
+        //attributes.add(Map.of("trait_type", "Check-out Until", "value", apartment.getCheckOutUntil()));
 
         metadataFile.put("attributes", attributes);
         ObjectMapper mapper = new ObjectMapper();

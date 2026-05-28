@@ -1,7 +1,7 @@
 package com.example.backend_springboot.controllers;
 
 import com.example.backend_springboot.entities.ChatBotEntity;
-import com.example.backend_springboot.services.ChatBotService;
+import com.example.backend_springboot.services.ChatBotRulesService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/support")
 public class ChatBotController {
-    private final ChatBotService chatBotService;
+    private final ChatBotRulesService chatBotService;
 
-    public ChatBotController(ChatBotService chatBotService) {
+    public ChatBotController(ChatBotRulesService chatBotService) {
         this.chatBotService = chatBotService;
     }
     @PostMapping("/chatBot")

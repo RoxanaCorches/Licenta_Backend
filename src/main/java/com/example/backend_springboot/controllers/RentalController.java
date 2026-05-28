@@ -2,6 +2,7 @@ package com.example.backend_springboot.controllers;
 
 import com.example.backend_springboot.dtos.rentalDTO.CreateRentalDTO;
 import com.example.backend_springboot.dtos.rentalDTO.GetRentalDTO;
+import com.example.backend_springboot.dtos.rentalDTO.ResponseRentalDTO;
 import com.example.backend_springboot.entities.RentalStatus;
 import com.example.backend_springboot.services.RentalService;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,8 @@ public class RentalController {
     }
 
     @GetMapping("/getRentalsForUserById/{id}")
-    public List<GetRentalDTO> getAllRentalsForUser(@PathVariable UUID id, @PathVariable(required = false) RentalStatus rentalStatus) {
-        List<GetRentalDTO> rental = rentalService.getAllRentalsForUser(id, rentalStatus);
+    public List<ResponseRentalDTO> getAllRentalsForUser(@PathVariable UUID id, @PathVariable(required = false) RentalStatus rentalStatus) {
+        List<ResponseRentalDTO> rental = rentalService.getAllRentalsForUser(id, rentalStatus);
         return rental;
     }
 

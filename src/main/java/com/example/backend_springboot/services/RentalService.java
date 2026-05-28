@@ -3,12 +3,14 @@ package com.example.backend_springboot.services;
 import com.example.backend_springboot.dtos.builders.RentalBuilder;
 import com.example.backend_springboot.dtos.rentalDTO.CreateRentalDTO;
 import com.example.backend_springboot.dtos.rentalDTO.GetRentalDTO;
+import com.example.backend_springboot.dtos.rentalDTO.ResponseRentalDTO;
 import com.example.backend_springboot.entities.ApartmentEntity;
 import com.example.backend_springboot.entities.RentalEntity;
 import com.example.backend_springboot.entities.RentalStatus;
 import com.example.backend_springboot.entities.UserEntity;
 import com.example.backend_springboot.repositories.ApartmentRepository;
 import com.example.backend_springboot.repositories.RentalRepository;
+import com.example.backend_springboot.repositories.ReviewRepository;
 import com.example.backend_springboot.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +25,13 @@ public class RentalService {
     private RentalRepository rentalRepository;
     private UserRepository userRepository;
     private ApartmentRepository apartmentRepository;
+    private ReviewRepository reviewRepository;
 
-    public RentalService(RentalRepository rentalRepository, UserRepository userRepository, ApartmentRepository apartmentRepository) {
+    public RentalService(RentalRepository rentalRepository, UserRepository userRepository, ApartmentRepository apartmentRepository, ReviewRepository reviewRepository) {
         this.rentalRepository = rentalRepository;
         this.userRepository = userRepository;
         this.apartmentRepository = apartmentRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     public List<GetRentalDTO> getAllRentals() {
@@ -39,14 +43,22 @@ public class RentalService {
         return rentalDTOS;
     }
 
-    public List<GetRentalDTO> getAllRentalsForUser(UUID userId, RentalStatus rentalStatus) {
+    public List<ResponseRentalDTO> getAllRentalsForUser(UUID userId, RentalStatus rentalStatus) {
         List<RentalEntity> rentals;
         if(rentalStatus != null) {
             rentals = rentalRepository.findByUserIdUserAndStatus(userId, rentalStatus);
         }else {
             rentals = rentalRepository.findAll();
         }
-        return rentals.stream().map(RentalBuilder::toGetRentalDTO).collect(Collectors.toList());
+        return rentals.stream()
+                .map(rental -> {
+                    boolean existReview = reviewRepository.existsByRental_IdRental(
+                            rental.getIdRental()
+                    );
+
+                    return RentalBuilder.toResponseRentalDTO(rental, existReview);
+                })
+                .collect(Collectors.toList());
     }
 
     boolean isAvailabilityForRent(UUID idApartment, LocalDate startDate, LocalDate endDate) {
