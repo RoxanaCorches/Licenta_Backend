@@ -17,6 +17,7 @@ public class ResponseRentalDTO  {
     private UUID userId;
     private UUID apartmentId;
     private String tokenId;
+    private Integer rentalIdContract;
     private LocalDate startDate;
     private LocalDate endDate;
     private boolean existReview;

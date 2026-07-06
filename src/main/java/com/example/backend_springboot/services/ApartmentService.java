@@ -196,9 +196,6 @@ public class ApartmentService {
         return priceEur / priceEth;
     }
 
-
-
-
     public String generateMetadataFile(ApartmentEntity apartment) {
         Map<String, Object> metadataFile = new HashMap<>();
         metadataFile.put("name", apartment.getTitle());

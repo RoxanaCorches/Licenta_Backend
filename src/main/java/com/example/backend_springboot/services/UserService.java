@@ -87,9 +87,16 @@ public class UserService {
         }
         user.setStatusKyc(false);
         UserEntity createdUser = userRepository.save(user);
+        long start = System.nanoTime();
 
         String transactionHash = kycNftService.mintKycNft(user.getBlockchainAddress());
         System.out.println("Transaction Hash: " + transactionHash);
+        long end = System.nanoTime();
+
+        double timeElapsed = (end - start) / 1000000.0;
+        System.out.println("Time elapsed: " + timeElapsed);
+
+
         createdUser.setStatusKyc(true);
 
         UserEntity updatedUser = userRepository.save(createdUser);

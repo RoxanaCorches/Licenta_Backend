@@ -16,6 +16,7 @@ public class RentalBuilder {
                 rental.getEndDate(),
                 rental.getTotalPrice(),
                 rental.getTransactionHash(),
+                rental.getRentalIdContract(),
                 rental.getCreateRental(),
                 rental.getUser().getIdUser(),
                 rental.getUser().getFirstName(),
@@ -55,6 +56,7 @@ public class RentalBuilder {
                 rental.getUser().getIdUser(),
                 rental.getApartment().getIdApartment(),
                 rental.getApartment().getTokenId(),
+                rental.getRentalIdContract(),
                 rental.getStartDate(),
                 rental.getEndDate(),
                 existReview,
@@ -79,6 +81,7 @@ public class RentalBuilder {
         rentalEntity.setEndDate(createRentalDTO.getEndDate());
         rentalEntity.setTotalPrice(createRentalDTO.getTotalPrice());
         rentalEntity.setTransactionHash(createRentalDTO.getTransactionHash());
+        rentalEntity.setRentalIdContract(createRentalDTO.getRentalIdContract());
         rentalEntity.setCreateRental(createRentalDTO.getRentalDate());
 
         return rentalEntity;

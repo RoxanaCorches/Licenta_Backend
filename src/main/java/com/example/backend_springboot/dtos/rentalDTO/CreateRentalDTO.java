@@ -15,6 +15,7 @@ public class CreateRentalDTO {
     private LocalDate endDate;
     private Double totalPrice;
     private String transactionHash;
+    private Integer rentalIdContract;
     private LocalDate rentalDate;
     private UUID userId;
     private String firstName;

@@ -37,6 +37,9 @@ public class RentalEntity implements Serializable {
     @Column(name = "transaction_hash")
     private String transactionHash;
 
+    @Column(name = "rental_id_contract")
+    private Integer rentalIdContract;
+
     @Column (name = "create_rental")
     private LocalDate createRental;
 
