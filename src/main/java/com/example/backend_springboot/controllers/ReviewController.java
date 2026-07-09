@@ -5,7 +5,6 @@ import com.example.backend_springboot.dtos.reviewDTO.GetReviewForPropertiesUserD
 import com.example.backend_springboot.dtos.reviewDTO.GetReviewForUserDTO;
 import com.example.backend_springboot.dtos.reviewDTO.PostReviewDTO;
 import com.example.backend_springboot.services.ReviewService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,16 +40,5 @@ public class ReviewController {
     @PostMapping("/createReview")
     public PostReviewDTO createReview(@RequestBody PostReviewDTO reviewDTO) throws Exception {
         return reviewService.createReview(reviewDTO);
-    }
-
-    @DeleteMapping("/deleteReview/{id}")
-    public ResponseEntity<Void> deleteReview(@PathVariable UUID id) {
-        boolean deleted = reviewService.deleteReview(id);
-        System.out.println(deleted);
-        if(deleted) {
-            return ResponseEntity.noContent().build();
-        }else {
-            return ResponseEntity.notFound().build();
-        }
     }
 }

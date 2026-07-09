@@ -10,7 +10,6 @@ import java.util.Map;
 public class ChatBotRulesService {
     private final Map<List<String>, String> rules = new HashMap<>();
 
-
     public ChatBotRulesService() {
         rules.put(List.of("hello", "hi"), "How can I help you?");
         rules.put(List.of("payment", "history", "Where to pay?"), "To make a payment, you need to connect your wallet to the platform. Once connected, you will be able to complete transactions securely.");

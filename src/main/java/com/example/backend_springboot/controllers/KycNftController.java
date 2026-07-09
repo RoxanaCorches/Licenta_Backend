@@ -28,10 +28,4 @@ public class KycNftController {
         result.put("hasKycNft", hasKycNft);
         return result;
     }
-
-    @GetMapping("/mint")
-    public String mint(@RequestParam String to) throws Exception {
-        String txHash = kycNftService.mintKycNft(to);
-        return "Token minted! Transaction Hash: " + txHash;
-    }
 }

@@ -3,7 +3,6 @@ package com.example.backend_springboot.dtos.builders;
 import com.example.backend_springboot.dtos.apartmentDTO.GetApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.PostApartmentDTO;
 import com.example.backend_springboot.dtos.apartmentDTO.ResponseApartmentDTO;
-import com.example.backend_springboot.dtos.apartmentDTO.UpdateApartmentDTO;
 import com.example.backend_springboot.entities.ApartmentEntity;
 
 
@@ -138,17 +137,6 @@ public class ApartmentBuilder {
                 apartment.getTokenId()
         );
         return postApartmentDTO;
-    }
-
-    public static UpdateApartmentDTO toUpdateApartmentDTO(ApartmentEntity apartment) {
-        UpdateApartmentDTO updateApartmentDTO = new UpdateApartmentDTO(
-                apartment.getPricePerNight(),
-                apartment.getCheckInFrom(),
-                apartment.getCheckInUntil(),
-                apartment.getCheckOutFrom(),
-                apartment.getCheckOutUntil()
-        );
-        return updateApartmentDTO;
     }
 
     public static ApartmentEntity toApartmentEntity(PostApartmentDTO postApartmentDTO) {

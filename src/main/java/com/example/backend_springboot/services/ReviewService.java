@@ -9,11 +9,9 @@ import com.example.backend_springboot.entities.*;
 import com.example.backend_springboot.repositories.RentalRepository;
 import com.example.backend_springboot.repositories.ReviewRepository;
 import com.example.backend_springboot.repositories.UserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -69,9 +67,6 @@ public class ReviewService {
             throw new RuntimeException("You cannot review this rental, rental is uncompleted");
         }
 
-        //System.out.println("User with id:" + reviewDTO.getIdUser() );
-        //System.out.println("Rental with id:" + reviewDTO.getIdRental());
-
         boolean reviewExists = reviewRepository.existsByRentalIdRental(reviewDTO.getIdRental());
 
         if(reviewExists){
@@ -85,25 +80,5 @@ public class ReviewService {
 
         ReviewEntity saveReview = reviewRepository.save(review);
         return ReviewBuilder.toPostReviewDTO(saveReview);
-    }
-
-    @Transactional
-    public boolean deleteReview(UUID id) {
-        Optional<ReviewEntity> review = reviewRepository.findById(id);
-        System.out.println("Review with id:" + id);
-        System.out.println("Review found in database:" + review.isPresent());
-
-        if (review.isPresent()) {
-            RentalEntity rental = review.get().getRental();
-            if(rental != null){
-                rental.setReview(null);
-            }
-            reviewRepository.delete(review.get());
-            System.out.println("Review with id:" + id + " deleted from database");
-            return true;
-        }else {
-            System.out.println("Review with id:" + id + " not found in database");
-            return false;
-        }
     }
 }

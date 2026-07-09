@@ -1,9 +1,7 @@
 package com.example.backend_springboot.blockchain.services;
 
 import com.example.backend_springboot.blockchain.contracts.KYCNFT;
-import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class KycNftService {
@@ -29,10 +27,5 @@ public class KycNftService {
         }
         var resp = kycNft.mint(to).send();
         return resp.getTransactionHash();
-    }
-
-    @PostConstruct
-    public void owner ()  throws Exception {
-       System.out.println("Owner:" + kycNft.owner().send());
     }
 }

@@ -38,6 +38,5 @@ public class ResponseApartmentDTO {
         private String tokenId;
         private UUID idApartment;
 
-
         public ResponseApartmentDTO() {}
     }

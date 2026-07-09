@@ -82,6 +82,5 @@ public class PinataService {
         public long contentLength() throws IOException {
             return -1;
         }
-
     }
 }

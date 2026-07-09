@@ -5,7 +5,6 @@ import com.example.backend_springboot.dtos.rentalDTO.GetRentalDTO;
 import com.example.backend_springboot.dtos.reviewDTO.GetReviewForPropertiesUserDTO;
 import com.example.backend_springboot.dtos.userDTO.CreateUserDTO;
 import com.example.backend_springboot.dtos.userDTO.GetUserDTO;
-import com.example.backend_springboot.dtos.userDTO.UpdateUserDTO;
 import com.example.backend_springboot.entities.UserEntity;
 
 import java.util.List;
@@ -57,20 +56,6 @@ public class UserBuilder {
         return createUserDTO;
     }
 
-    public static UpdateUserDTO toUpdateUserDTO(UserEntity user) {
-        UpdateUserDTO updateUserDTO = new UpdateUserDTO(
-                user.getUsername(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getPhoneNumber(),
-                user.getNationality(),
-                user.getCity(),
-                user.getAddress(),
-                user.getZipcode()
-        );
-        return updateUserDTO;
-    }
-
     public static UserEntity toUserEntity(CreateUserDTO createUserDTO) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(createUserDTO.getUsername());
@@ -83,6 +68,7 @@ public class UserBuilder {
         userEntity.setAddress(createUserDTO.getAddress());
         userEntity.setZipcode(createUserDTO.getZipcode());
         userEntity.setBlockchainAddress(createUserDTO.getBlockchainAddress());
+
         return userEntity;
     }
 }

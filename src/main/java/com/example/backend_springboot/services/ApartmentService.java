@@ -89,7 +89,6 @@ public class ApartmentService {
         } else {
             apartment = ApartmentBuilder.toApartmentEntity(apartmentDTO);
             apartment.setUser(user);
-
             apartment = apartmentRepository.saveAndFlush(apartment);
         }
 
@@ -105,17 +104,11 @@ public class ApartmentService {
         System.out.println("Name image on pinata:" + nameImageOnPinata);
 
         String cidMainImage = pinataService.uploadFile(mainImage, nameImageOnPinata);
+        System.out.println("imagine principala incarcata pe pinata:"+ cidMainImage);
         apartment.setImageMain("https://gateway.pinata.cloud/ipfs/" + cidMainImage);
-
-
-        System.out.println("Number of images received: " + images.size());
-        for (MultipartFile file : images) {
-            System.out.println(file.getOriginalFilename());
-        }
 
         for(int i = 1; i < images.size(); i++) {
             if (i == 1) {
-
                 apartment.setImage1(images.get(1).getBytes());
             }
             if (i == 2) {
@@ -130,6 +123,7 @@ public class ApartmentService {
         }
 
         apartmentRepository.save(apartment);
+
         //upload fisier metadata pe pinata
         String metadataJson = generateMetadataFile(apartment);
 
@@ -139,9 +133,6 @@ public class ApartmentService {
         String cidMetadata = pinataService.uploadMetadata(metadataJson.getBytes(StandardCharsets.UTF_8), metadataFileOnPinata);
         String metadataIpfsUrl = "https://gateway.pinata.cloud/ipfs/" + cidMetadata;
         apartment.setMetadataUrl(metadataIpfsUrl);
-
-        String walletAddress = apartment.getUser().getBlockchainAddress();
-        System.out.println("Wallet Address:" + walletAddress);
 
         if(apartmentDTO.getTokenId() != null){
             apartment.setTokenId(apartmentDTO.getTokenId());
@@ -157,6 +148,7 @@ public class ApartmentService {
     public UpdateApartmentDTO updateApartment(UUID id, UpdateApartmentDTO updateApartmentDTO) {
         ApartmentEntity apartment = apartmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Apartment not found with id: " + id));
+
         if (updateApartmentDTO.getPricePerNight() != null) apartment.setPricePerNight(updateApartmentDTO.getPricePerNight());
         if (updateApartmentDTO.getCheckInFrom() != null) apartment.setCheckInFrom(updateApartmentDTO.getCheckInFrom());
         if (updateApartmentDTO.getCheckInUntil() != null) apartment.setCheckInUntil(updateApartmentDTO.getCheckInUntil());
@@ -171,11 +163,13 @@ public class ApartmentService {
         update.setCheckInUntil(updatedApartment.getCheckInUntil());
         update.setCheckOutFrom(updatedApartment.getCheckOutFrom());
         update.setCheckOutUntil(updatedApartment.getCheckOutUntil());
+
         return update;
     }
 
     public boolean deleteApartment(UUID id) {
         Optional<ApartmentEntity> apartment = apartmentRepository.findById(id);
+
         if (apartment.isPresent()) {
             apartmentRepository.delete(apartment.get());
             System.out.println("Apartment with id:" + id + " deleted from database");
@@ -234,11 +228,6 @@ public class ApartmentService {
         attributes.add(Map.of("trait_type", "Pets allowed?", "value", apartment.isPetsAllowed()));
         attributes.add(Map.of("trait_type", "Smoking allowed?", "value", apartment.isSmokingAllowed()));
         attributes.add(Map.of("trait_type", "Parties or events allowed?", "value", apartment.isPartiesAllowed()));
-
-        //attributes.add(Map.of("trait_type", "Check-in From", "value", apartment.getCheckInFrom()));
-        //attributes.add(Map.of("trait_type", "Check-in Until", "value", apartment.getCheckInUntil()));
-        //attributes.add(Map.of("trait_type", "Check-out From", "value", apartment.getCheckOutFrom()));
-        //attributes.add(Map.of("trait_type", "Check-out Until", "value", apartment.getCheckOutUntil()));
 
         metadataFile.put("attributes", attributes);
         ObjectMapper mapper = new ObjectMapper();

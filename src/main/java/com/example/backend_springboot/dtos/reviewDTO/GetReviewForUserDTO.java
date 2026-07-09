@@ -1,6 +1,5 @@
 package com.example.backend_springboot.dtos.reviewDTO;
 
-import jnr.ffi.annotations.In;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

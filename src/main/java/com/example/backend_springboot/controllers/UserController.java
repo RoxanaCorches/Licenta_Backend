@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,13 +20,6 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    @GetMapping("/getAllUsers")
-    public List<GetUserDTO> getAllUsers(){
-        List<GetUserDTO> users = userService.getAllUsers();
-        return users;
-    }
-
 
     @GetMapping("/getUserById/{walletAddress}")
     public GetUserDTO getUserById(@PathVariable String walletAddress){
@@ -51,16 +43,5 @@ public class UserController {
     public ResponseEntity<String> updateUserProfile(@PathVariable UUID id, @RequestParam("file") MultipartFile file) throws Exception {
         userService.uploadImageProfile(id, file);
         return ResponseEntity.ok("Image profile updated");
-    }
-
-    
-    @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
-        boolean deleted = userService.deleteUser(id);
-        if(deleted) {
-            return ResponseEntity.noContent().build();
-        }else {
-            return ResponseEntity.notFound().build();
-        }
     }
 }

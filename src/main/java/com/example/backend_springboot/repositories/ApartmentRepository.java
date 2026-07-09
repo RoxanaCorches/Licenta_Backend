@@ -7,6 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ApartmentRepository extends JpaRepository<ApartmentEntity, UUID> {
-    public List<ApartmentEntity> findByTitle(String title);
     public List<ApartmentEntity> findByCityAndGuestsAndBedrooms(String city, int guest, int rooms);
 }

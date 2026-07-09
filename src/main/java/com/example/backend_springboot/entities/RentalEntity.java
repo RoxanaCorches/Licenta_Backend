@@ -47,7 +47,6 @@ public class RentalEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private RentalStatus status;
 
-
     @ManyToOne
     @JoinColumn(name = "id_renter", nullable = false)
     private UserEntity user;

@@ -31,15 +31,6 @@ public class UserService {
         this.reviewRepository = reviewRepository;
     }
 
-    public List<GetUserDTO> getAllUsers() {
-        List<UserEntity> users = userRepository.findAll();
-        List<GetUserDTO> userDTOS = new ArrayList<>();
-        for (UserEntity user : users) {
-            userDTOS.add(UserBuilder.toGetUserDTO(user));
-        }
-        return userDTOS;
-    }
-
     public GetUserDTO getUserByWalletAddress(String walletAddress) {
         Optional<UserEntity> userOptional = userRepository.findByBlockchainAddress(walletAddress);
 
@@ -47,26 +38,24 @@ public class UserService {
             UserEntity user = userOptional.get();
             GetUserDTO userDTO = UserBuilder.toGetUserDTO(user);
 
-            // 1. Luăm review-urile pe care utilizatorul LE-A SCRIS (deja există în user.getReviewList())
+            //review-urile care apartin utilizatorului, pe care el le a scris
             List<GetReviewForPropertiesUserDTO> reviewsGiven = user.getReviews().stream()
                     .map(ReviewBuilder::toGetReviewForPropertiesUserDTO)
                     .collect(Collectors.toList());
 
-            System.out.println(reviewsGiven);
 
-            // 2. Luăm review-urile pe care utilizatorul LE-A PRIMIT (pentru proprietățile lui)
-            // Trebuie să apelezi o metodă nouă din ReviewRepository
+            //review-urile care apartin unei proprietati a utilizatorului, pe care le a primit
             List<GetReviewForPropertiesUserDTO> reviewsReceived = reviewRepository
                     .findAllReceivedReviewsByOwnerId(user.getIdUser()).stream()
                     .map(ReviewBuilder::toGetReviewForPropertiesUserDTO)
                     .collect(Collectors.toList());
 
-            // 3. Combinăm cele două liste în DTO
-            List<GetReviewForPropertiesUserDTO> allReviews = new ArrayList<>();
-            allReviews.addAll(reviewsGiven);
-            allReviews.addAll(reviewsReceived);
+            // review-uri primite + oferite
+            List<GetReviewForPropertiesUserDTO> reviews = new ArrayList<>();
+            reviews.addAll(reviewsGiven);
+            reviews.addAll(reviewsReceived);
 
-            userDTO.setReviewList(allReviews);
+            userDTO.setReviewList(reviews);
 
             return userDTO;
         }
@@ -87,15 +76,9 @@ public class UserService {
         }
         user.setStatusKyc(false);
         UserEntity createdUser = userRepository.save(user);
-        long start = System.nanoTime();
 
         String transactionHash = kycNftService.mintKycNft(user.getBlockchainAddress());
         System.out.println("Transaction Hash: " + transactionHash);
-        long end = System.nanoTime();
-
-        double timeElapsed = (end - start) / 1000000.0;
-        System.out.println("Time elapsed: " + timeElapsed);
-
 
         createdUser.setStatusKyc(true);
 
@@ -138,18 +121,5 @@ public class UserService {
             user.setProfileImage(image.getBytes());
 
         userRepository.save(user);
-    }
-
-    public boolean deleteUser(UUID id) {
-        Optional<UserEntity> user = userRepository.findByIdUser(id);
-        System.out.println("User found in database:" + user.isPresent());
-        if (user.isPresent()) {
-            userRepository.delete(user.get());
-            System.out.println("User with id:" + id + " deleted from database");
-            return true;
-        }else {
-            System.out.println("User with id:" + id + " not found in database");
-            return false;
-        }
     }
 }

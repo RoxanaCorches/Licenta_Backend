@@ -35,6 +35,7 @@
 			<artifactId>core</artifactId>
 			<version>4.10.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
@@ -113,8 +114,6 @@
 								<directory>src/main/resources/abi</directory>
 								<includes>
 									<include>KYCNFT.abi</include>
-									<include>PropertyNFT.abi</include>
-									<include>Marketplace.abi</include>
 								</includes>
 							</abiSourceFiles>
 						</configuration>

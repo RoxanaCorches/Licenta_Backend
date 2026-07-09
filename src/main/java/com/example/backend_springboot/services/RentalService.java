@@ -103,8 +103,6 @@ public class RentalService {
         rental.setApartment(apartment);
         rental.setStatus(RentalStatus.UPCOMING);
 
-        System.out.println(rental);
-
         RentalEntity savedRental = rentalRepository.save(rental);
         return RentalBuilder.toCreateRentalDTO(savedRental);
     }
